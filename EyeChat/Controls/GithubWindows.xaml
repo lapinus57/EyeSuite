@@ -1,0 +1,89 @@
+﻿<UserControl x:Class="Controls.GithubWindows"
+              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"		 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+			 xmlns:dia="http://metro.mahapps.com/winfx/xaml/controls/dialogs"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"			
+             xmlns:local="clr-namespace:EyeChat"
+             xmlns:Viewmodel="clr-namespace:EyeChat.ViewModel"
+             xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro" 
+             d:DataContext="{d:DesignInstance Type=Viewmodel:SettingsViewModel}"
+             Dialog:DialogParticipation.Register="{Binding}"            
+             mc:Ignorable="d" 
+             d:DesignHeight="800" d:DesignWidth="500">
+
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Dictionary/DictionaryGitHubWindows.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                  HorizontalScrollBarVisibility="Hidden">
+        <StackPanel>
+            <GroupBox Header="{StaticResource GroupeBoxHeader1}"
+                      BorderThickness="0">
+                <StackPanel>
+                    <Button Content="{StaticResource HomePageButtonContent}" Margin="10" HorizontalAlignment="Left" Click="HomePageButton_Click" FontSize="{Binding AppSizeDisplay}"/>
+                    <Button Content="{StaticResource WikiButtonContent}" Margin="10" HorizontalAlignment="Left" Click="WikiButton_Click" FontSize="{Binding AppSizeDisplay}"/>
+                    <TextBlock Text="{StaticResource ChangeLogLabel}" Margin="10,0,0,0" FontSize="{Binding AppSizeDisplay}"/>
+                    <TextBox x:Name="ChangeLogTextBox" Margin="10,0,10,10" Height="100" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" FontSize="{Binding AppSizeDisplay}"/>
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Header="{StaticResource GroupeBoxHeader2}"
+                      BorderThickness="0">
+                <StackPanel>
+                    <mah:MetroHeader Header="{StaticResource OpenTicketHeaderText}">
+                        <StackPanel>
+                            <TextBlock Text="{StaticResource CategoryLabel}" Margin="10,0,0,0" FontSize="{Binding AppSizeDisplay}"/>
+                            <ComboBox Margin="10,0,0,0" Width="200" HorizontalAlignment="Left" x:Name="categoryComboBox" SelectedIndex="0" FontSize="{Binding AppSizeDisplay}">
+                                <ComboBoxItem Content="{StaticResource ProblemCategory}" Tag="problem" />
+                                <ComboBoxItem Content="{StaticResource IdeaCategory}" Tag="idea" />
+                            </ComboBox>
+                            <TextBlock Text="{StaticResource MessageLabel}" Margin="10,10,0,0" FontSize="{Binding AppSizeDisplay}"/>
+                            <TextBox x:Name="DescriptionTextBox" Margin="10,0,10,0" Height="60" Width="460" HorizontalAlignment="Left" AcceptsReturn="True" TextWrapping="Wrap" MaxLength="200" VerticalScrollBarVisibility="Visible" FontSize="{Binding AppSizeDisplay}"/>
+                            <TextBlock Text="{Binding ElementName=DescriptionTextBox, Path=Text.Length, StringFormat='Caractères saisis : {0}/200'}"
+                               HorizontalAlignment="Right" Margin="0,0,10,0" FontSize="{Binding AppSizeDisplay}"/>
+                            <Button Content="{StaticResource SendButtonContent}" Margin="50,5,50,10" Click="SendReport_Click" FontSize="{Binding AppSizeDisplay}"/>
+                        </StackPanel>
+                    </mah:MetroHeader>
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Header="{StaticResource GroupeBoxHeader3}"
+					 BorderThickness="0">
+                <StackPanel>
+                    <TextBlock x:Name="AboutTextBlock" Margin="10,10">
+						<Run FontWeight="Bold" Text="{Binding Title}" />
+						<LineBreak />
+						<Run Text="{StaticResource VersionText}" />
+						<Run FontWeight="Bold" Text="{Binding AssemblyVersion}" />
+						<LineBreak />
+						<Run Text="FileVersionText}" />
+						<Run FontWeight="Bold" Text="{Binding FileVersion}" />
+						<LineBreak />
+                        <Run FontWeight="Bold" Text="{Binding Description}" />
+                        <LineBreak />
+                        <Run Text="{StaticResource DevelopedByText}" />
+                        <Run FontWeight="Bold" Text="{Binding Company}" />
+                        <LineBreak />
+                        <Run Text="{Binding Copyright}" />
+                        <LineBreak />
+                        <Run Text="{Binding Trademark}" />
+                    </TextBlock>
+                </StackPanel>
+            </GroupBox>
+        </StackPanel>
+
+    </ScrollViewer>
+
+
+</UserControl>
+

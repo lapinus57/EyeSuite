@@ -1,0 +1,171 @@
+Private Sub MessageReceived(ByVal receivedMessage As String)
+    ' Traitez le message reçu en fonction du code
+    Dim messageCode As String = receivedMessage.Substring(0, 5)
+
+
+
+    Select Case messageCode
+
+        ' Section pour les messages type "USR"
+        ' Les messages de type "USR" sont utilisés pour gérer les utilisateurs
+       
+
+
+
+
+
+       
+       
+
+        Case "SYS02"
+            ' Code pour déconnecter l'utilisateur à distance
+            ' Exemple du message envoyé : "SYS02|IdentifiantPC(cible)|IdentifiantPC(auteur)"
+
+            Try
+                Dim messageContent As String = receivedMessage.Substring(5)
+                Dim parts As String() = messageContent.Split("|"c)
+                Dim targetPC As String = parts(0)
+                Dim authorPC As String = parts(1)
+                If targetPC = My.Settings.UniqueId Then
+                    logger.Debug("Réception d'un message SYS02 pour déconnexion à distance.")
+                    Message.SaveMessagesToJson(MainWindow.Messages)
+                    User.SaveUsersToJson(MainWindow.Users)
+                    MainWindow.SelectedUserMessages.Clear()
+                    MainWindow.Users.Clear()
+                End If
+            Catch ex As Exception
+                logger.Error("Erreur lors de la déconnexion à distance : " & ex.Message)
+            End Try
+
+
+
+        ' Section pour les messages de type "MSG"
+        ' Les messages MSG sont utilisés pour gérer les messages
+        Case "MSG01"
+
+            'Ajouter un message
+            'Exemple du message envoyé : "MSG01{My.Settings.UserName}|{selectedUser.Name}|{Message}|{Avatar}"
+            Try
+
+                Dim messageContent As String = receivedMessage.Substring(5)
+                Dim parts As String() = messageContent.Split("|"c)
+                Dim author As String = parts(0)
+                Dim destinataire As String = parts(1)
+                Dim room As String = parts(2)
+                Dim message As String = parts(3)
+                Dim avatarPath As String = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Avatar", parts(4))
+
+
+                Dim messageAdded As Boolean = False ' Variable pour suivre si un message a été ajouté
+
+                Select Case destinataire
+                    Case "A Tous"
+                        If author = My.Settings.UserName Then
+                            ' Auteur envoie un message "A Tous"
+                            mainWindow.AddMessage("A Tous", author, room, message, True, avatarPath)
+                            mainWindow.SelectUserByName("A Tous")
+                            messageAdded = True
+                        Else
+                            ' Autre utilisateur envoie un message "A Tous"
+                            mainWindow.AddMessage("A Tous", author, room, message, False, avatarPath)
+                            mainWindow.SelectUserByName("A Tous")
+                            messageAdded = True
+                        End If
+
+                    Case "Secrétariat"
+                        If author = My.Settings.UserName Then
+                            ' Auteur envoie un message à "Secrétaria"
+                            mainWindow.AddMessage("Secrétariat", author, room, message, True, avatarPath)
+                            mainWindow.SelectUserByName("Secrétariat")
+                            messageAdded = True
+                        End If
+
+                        If My.Settings.SecretaryMode = True Then
+                            ' Secrétaria mode est activé
+                            mainWindow.AddMessage("Secrétariat", author, room, message, False, avatarPath)
+                            mainWindow.AddMessage(author, author, room, message, False, avatarPath)
+                            mainWindow.SelectUserByName(author)
+                            messageAdded = True
+                        End If
+
+                    Case Else
+                        If author = My.Settings.UserName Then
+                            ' Auteur envoie un message à "quelqu'un"
+                            mainWindow.AddMessage(destinataire, author, room, message, True, avatarPath)
+                            mainWindow.SelectUserByName(destinataire)
+                            messageAdded = True
+                        End If
+
+                        If destinataire = My.Settings.UserName Then
+                            ' Destinataire est l'auteur
+                            mainWindow.AddMessage(author, author, room, message, False, avatarPath)
+                            mainWindow.SelectUserByName(author)
+                            messageAdded = True
+                        End If
+                End Select
+
+                ' Mettre à jour la fenêtre si un message a été ajouté
+                If messageAdded Then
+                    dispatcher.Invoke(Sub()
+                                          mainWindow.WindowState = WindowState.Normal
+                                          mainWindow.Topmost = True
+                                          mainWindow.Focus()
+                                      End Sub)
+                End If
+
+
+
+
+            Catch ex As Exception
+                logger.Error("Erreur de réception d'un message MSG01 " & ex.Message)
+            End Try
+
+        Case "MSG02"
+            'Pour supprimer un message
+
+
+        ' Section pour les messages de type "SLN"
+        ' Les messages SLN sont utilisés pour gérer les salons
+        Case "SLN01"
+            'création d'un salon
+        Case "SLN02"
+            'invatition a un salon
+        Case "SLN03"
+            'suppresion d'un salon 
+
+
+        ' Section pour les messages de type "DBG"
+        ' Les messages DBG sont utilisés pour le débogage
+        Case "DBG01"
+            'Code pour envoyer l'ID du PC au autres application
+            Try
+                Dim localIPAddress As IPAddress = FilesTransferManager.GetLocalIPAddress()
+                SendManager.SendMessageWithCode("DBG02", My.Settings.UniqueId & "|" & Environment.UserName & "|" & localIPAddress.ToString)
+                logger.Debug("Envoi de l'ID du PC aux autres applications")
+            Catch ex As Exception
+                logger.Error("Erreur lors de l'envoi de l'ID du PC aux autres applications : " & ex.Message)
+            End Try
+
+
+        Case "DBG02"
+            'Code pour enregistrer l'ID des autre PC dans la collection computer
+            Try
+                Dim messageContent As String = receivedMessage.Substring(5)
+                Dim parts As String() = messageContent.Split("|"c)
+                Dim ComputerID As String = parts(0)
+                Dim ComputerUser As String = parts(1)
+                Dim ComputerIP As String = parts(2)
+                If Not MainWindow.Computers.Any(Function(c) c.ComputerID = ComputerID) Then
+                    MainWindow.Computers.Add(New Computer With {.ComputerID = ComputerID, .ComputerUser = ComputerUser, .ComputerIp = ComputerIP})
+                    logger.Debug("Ajout d'un PC à la liste des PC : " & ComputerID)
+                End If
+                Computer.SaveComputersToJson() ' Sauvegarder la liste mise à jour dans le fichier JSON
+            Catch ex As Exception
+                logger.Error("Erreur lors de la réception de l'ID des autres PC : " & ex.Message)
+            End Try
+
+        Case Else
+            ' Code pour les messages non reconnus
+            ' ...
+    End Select
+End Sub

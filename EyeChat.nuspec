@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+	<metadata>
+		<id>EyeChat</id>
+		<version>1.0.0</version>
+		<title>EyeChat</title>
+		<authors>MULLER</authors>
+		<owners>MULLER</owners>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<license type="expression">MIT</license>
+		<projectUrl>https://github.com/lapinus57/EyeChat</projectUrl>
+		<icon>chat.png</icon>
+		<description>EyeChat - Une application de chat performante et sécurisée.</description>
+		<releaseNotes>Version 1.0.0 - Initial release with basic chat features.</releaseNotes>
+		<tags>chat communication messaging</tags>
+
+		<!-- Dépendances pour le framework cible -->
+		<dependencies>
+			<group targetFramework=".NETFramework4.7">
+				<dependency id="CommonServiceLocator" version="2.0.7" />
+				<dependency id="ControlzEx" version="5.0.2" />
+				<dependency id="DeltaCompressionDotNet" version="1.1.0" />
+				<dependency id="Emoji.Wpf" version="0.3.4" />
+				<dependency id="JeremyAnsel.HLSL.Targets" version="2.0.26" />
+				<dependency id="JetBrains.Annotations" version="2024.3.0" />
+				<dependency id="log4net" version="3.0.2" />
+				<dependency id="MahApps.Metro" version="2.4.10" />
+				<dependency id="MahApps.Metro.IconPacks.Core" version="5.1.0" />
+				<dependency id="MahApps.Metro.IconPacks.Modern" version="5.1.0" />
+				<dependency id="MahApps.Metro.SimpleChildWindow" version="2.2.1" />
+				<dependency id="MaterialDesignColors" version="3.1.0" />
+				<dependency id="MaterialDesignThemes" version="5.1.0" />
+				<dependency id="Microsoft.Xaml.Behaviors.Wpf" version="1.1.135" />
+				<dependency id="Mono.Cecil" version="0.11.2" />
+				<dependency id="Newtonsoft.Json" version="13.0.3" />
+				<dependency id="NuGet.Versioning" version="6.11.1" />
+				<dependency id="Octokit" version="13.0.1" />
+				<dependency id="SharpCompress" version="0.17.1" />
+				<dependency id="squirrel.windows" version="2.0.1" />
+				<dependency id="Stfu" version="0.1.10" />
+				<dependency id="System.ValueTuple" version="4.5.0" />
+			</group>
+		</dependencies>
+	</metadata>
+
+	<files>
+		<file src="Assets/Content/chat.png" target="" />
+		<!-- Inclure les fichiers binaires -->
+		<file src="bin/Release/*.dll" target="lib/net47" />
+		<file src="bin/Release/*.exe" target="lib/net47" />
+
+		<!-- Inclure des fichiers de configuration et ressources supplémentaires -->
+		<file src="Assets/Config/**" target="content/Config" />
+		<file src="Assets/Content/**" target="content/Content" />
+		<!-- Inclure les dépendances -->
+		<file src="packages/CommonServiceLocator.2.0.7/lib/net47/CommonServiceLocator.dll" target="lib/net47" />
+		<!-- Ajoutez des lignes similaires pour les autres dépendances -->
+	</files>
+</package>
