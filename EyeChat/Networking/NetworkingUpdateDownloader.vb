@@ -17,19 +17,20 @@ Namespace Networking
             Dim webClient As New WebClient()
 
             Try
-                Await webClient.DownloadFileTaskAsync(New Uri(updateUrl), downloadPath)
-                logger.Info($"Mise à jour téléchargée avec succès : {downloadPath}")
-                Console.WriteLine($"Mise à jour téléchargée avec succès : {downloadPath}")
-                Return downloadPath
-            Catch ex As WebException
-                logger.Error($"Erreur réseau lors du téléchargement de la mise à jour : {ex.Status} - {ex.Message}")
-                Console.WriteLine($"Erreur réseau : {ex.Status} - {ex.Message}")
-                Return Nothing
-            Catch ex As Exception
-                logger.Error($"Erreur inattendue lors du téléchargement de la mise à jour : {ex.Message}")
-                Console.WriteLine($"Erreur inattendue : {ex.Message}")
-                Return Nothing
-            End Try
+                Try
+                    Await webClient.DownloadFileTaskAsync(New Uri(updateUrl), downloadPath)
+                    logger.Info($"Mise à jour téléchargée avec succès : {downloadPath}")
+                    Console.WriteLine($"Mise à jour téléchargée avec succès : {downloadPath}")
+                    Return downloadPath
+                Catch ex As WebException
+                    logger.Error($"Erreur réseau lors du téléchargement de la mise à jour : {ex.Status} - {ex.Message}")
+                    Console.WriteLine($"Erreur réseau : {ex.Status} - {ex.Message}")
+                    Return Nothing
+                Catch ex As Exception
+                    logger.Error($"Erreur inattendue lors du téléchargement de la mise à jour : {ex.Message}")
+                    Console.WriteLine($"Erreur inattendue : {ex.Message}")
+                    Return Nothing
+                End Try
         End Function
 
         Private Async Function GetUpdateUrl(channel As String) As Task(Of String)

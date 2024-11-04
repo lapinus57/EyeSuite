@@ -4,12 +4,15 @@ Imports EyeChat.Networking
 Imports EyeChat.Utilities
 
 Namespace EyeChat
+
     Class MainWindow
 
         Private dialogHelper As DialogHelper
         Public Sub New()
 
+            ' Cet appel est requis par le concepteur.
             InitializeComponent()
+            Console.WriteLine("Hello World!")
             CheckAndUpdate()
             ' Instancier la classe DialogHelper
             dialogHelper = New DialogHelper(Me)

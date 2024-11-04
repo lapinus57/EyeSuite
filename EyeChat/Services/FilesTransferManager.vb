@@ -1,16 +1,16 @@
-﻿Imports System.IO
+﻿Imports EyeChat.EyeChat
+Imports EyeChat.Models
+Imports EyeChat.Networking
+Imports log4net
+Imports Microsoft.VisualBasic.Devices
 Imports System.Net
 Imports System.Net.NetworkInformation
 Imports System.Net.Sockets
-Imports EyeChat.Models
-Imports log4net
-Imports log4net.Repository.Hierarchy
 
-Namespace Networking
-    Public Class NetworkingFileSender
+Namespace Services
+    Public Class FilesTransferManager
         Private Shared ReadOnly logger As ILog = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType)
 
-        ' Méthode pour envoyer un fichier sur le réseau
         Public Shared Sub SendFileOverNetwork(folder As String, fileToSend As String, Optional user As String = "")
             logger.Info("Envoi du fichier sur le réseau")
             Try
@@ -21,75 +21,81 @@ Namespace Networking
                         ' Assurez-vous de ne pas vous envoyer un message à vous-même
                         If computer.ComputerID <> My.Settings.UniqueId Then
                             Dim message As String = $"SYS20{computer.ComputerID}|{My.Settings.UniqueId}|{folder}|{fileToSend}"
-                            SendManager.SendMessage(message)
-                            SendFile(fileToSend, computer.ComputerIp, 12345)
+                            ' Envoyer le message
+                            'SendManager.SendMessage(message)
+                            ' Envoyer le fichier à l'ordinateur actuel
+                            Dim senderFile As New NetworkingFileSender()
+                            Dim filePath As String = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Core", fileToSend)
+                            Dim ipAddress As String = computer.ComputerIp ' Remplacez par l'adresse IP du destinataire
+                            Dim port As Integer = 12345 ' Remplacez par le port que vous souhaitez utiliser
+                            senderFile.SendFile(filePath, ipAddress, port)
                             logger.Info($"Fichier envoyé à l'ordinateur {computer.ComputerID}")
                         End If
                     Next
                 Else
                     ' Un utilisateur a été spécifié, envoyez le message uniquement à cet utilisateur
-                    Dim targetComputer As ComputerModels = ComputersList.FirstOrDefault(Function(comp) comp.ComputerUser = user)
+                    Dim targetComputer As ComputerModel = ComputersList.FirstOrDefault(Function(comp) comp.ComputerUser = user)
                     If targetComputer IsNot Nothing Then
                         Dim message As String = $"SYS20{targetComputer.ComputerID}|{My.Settings.UniqueId}|{folder}|{fileToSend}"
-                        SendManager.SendMessage(message)
-                        SendFile(fileToSend, targetComputer.ComputerIp, 12345)
+                        ' Envoyer le message à l'utilisateur spécifié
+                        'SendManager.SendMessage(message)
+                        ' Envoyer le fichier à l'utilisateur spécifié
+                        Dim senderFile As New NetworkingFileSender()
+                        Dim filePath As String = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Core", fileToSend)
+                        Dim ipAddress As String = targetComputer.ComputerIp ' Remplacez par l'adresse IP du destinataire
+                        Dim port As Integer = 12345 ' Remplacez par le port que vous souhaitez utiliser
+                        senderFile.SendFile(filePath, ipAddress, port)
                         logger.Info($"Fichier envoyé à l'ordinateur {targetComputer.ComputerID}")
                     Else
+                        ' Gérer le cas où l'utilisateur spécifié n'existe pas
                         logger.Error("L'utilisateur spécifié n'existe pas.")
                     End If
                 End If
             Catch ex As Exception
                 logger.Error("Erreur lors de l'envoi du fichier : " & ex.Message)
             End Try
+
         End Sub
 
-        ' Méthode pour envoyer un fichier à un ordinateur spécifique
-        Public Shared Sub SendFile(filePath As String, ipAddress As String, port As Integer)
-            Try
-                Dim client As New TcpClient(ipAddress, port)
-                Dim data As Byte() = File.ReadAllBytes(filePath)
-
-                Using stream As NetworkStream = client.GetStream()
-                stream.Write(data, 0, data.Length)
-                stream.Close()
-            End Using
-
-            client.Close()
-            Catch ex As Exception
-                logger.Error("Erreur lors de l'envoi du fichier : " & ex.Message)
-            End Try
-        End Sub
-
-        ' Méthode pour créer un fichier texte
-        Public Shared Sub CreateTextFile(ByVal folder As String, ByVal fileName As String, ByVal content As String)
-            Dim filePath As String = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, folder, fileName)
-            File.WriteAllText(filePath, content)
-            logger.Info($"Fichier texte créé : {filePath}")
-        End Sub
-
-        ' Méthode pour obtenir l'adresse IP locale
         Public Shared Function GetLocalIPAddress() As IPAddress
             logger.Info("Obtention de l'adresse IP locale")
             Try
+                ' Récupère toutes les interfaces réseau disponibles sur la machine de l'utilisateur
                 Dim networkInterfaces As NetworkInterface() = NetworkInterface.GetAllNetworkInterfaces()
+
+                ' Itère à travers chaque interface réseau
                 For Each networkInterface As NetworkInterface In networkInterfaces
+                    ' Vérifie si l'interface réseau est opérationnelle (en état de fonctionnement)
                     If networkInterface.OperationalStatus = OperationalStatus.Up Then
+                        ' Obtient les propriétés IP de l'interface réseau
                         Dim ipProperties As IPInterfaceProperties = networkInterface.GetIPProperties()
+
+                        ' Récupère la collection des adresses IP unicast associées à cette interface réseau
                         Dim unicastIPAddresses As UnicastIPAddressInformationCollection = ipProperties.UnicastAddresses
+
+                        ' Itère à travers chaque adresse IP unicast
                         For Each ipAddressInfo As UnicastIPAddressInformation In unicastIPAddresses
+                            ' Vérifie si l'adresse IP est de type IPv4 (InterNetwork)
                             If ipAddressInfo.Address.AddressFamily = AddressFamily.InterNetwork Then
-                                logger.Debug("L'adresse IP de l'utilisateur est : " & ipAddressInfo.Address.ToString())
+                                ' Enregistre un message de débogage indiquant l'adresse IP trouvée
+                                logger.Debug("L'adresse IP de l'utilisateur est : " & ipAddressInfo.Address.ToString)
+
+                                ' Renvoie l'adresse IP trouvée
                                 Return ipAddressInfo.Address
                             End If
                         Next
                     End If
                 Next
+
+                ' Si aucune adresse IPv4 n'est trouvée dans aucune interface réseau, renvoie Nothing
                 Return Nothing
             Catch ex As Exception
+                ' En cas d'erreur lors de l'exécution du code, capture l'exception
                 logger.Error("Erreur sur GetLocalIPAddress : " & ex.Message)
+
+                ' Renvoie également Nothing en cas d'exception
                 Return Nothing
             End Try
         End Function
     End Class
 End Namespace
-

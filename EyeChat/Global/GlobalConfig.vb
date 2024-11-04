@@ -38,6 +38,7 @@ Module GlobalConfig
     Public Property ComputersList As ObservableCollection(Of ComputerModels)
     Public Property UsersList As ObservableCollection(Of UserModels)
 
+    ' Déclare la collection de phrases d'oeuf en tant que propriété statique partagée
     Public EggPhrasesList As EggPhrasesModels
 
 
@@ -46,6 +47,8 @@ Module GlobalConfig
 
     Public ReadOnly logger As ILog = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType)
 
+    ' Déclare la collection d'options d'examen en tant que propriété statique partagée
+    Public Property ExamOptionsList As New ObservableCollection(Of ExamOptionModels)()
 
     Public UserSettingsList As UserSettingsModels
 
