@@ -4,26 +4,29 @@ Imports EyeChat.Networking
 Imports EyeChat.Utilities
 
 Namespace EyeChat
+
     Class MainWindow
 
         Private dialogHelper As DialogHelper
         Public Sub New()
 
+            ' Cet appel est requis par le concepteur.
             InitializeComponent()
-            CheckAndUpdate()
+            Console.WriteLine("Hello World!")
+            'CheckAndUpdate()
             ' Instancier la classe DialogHelper
             dialogHelper = New DialogHelper(Me)
         End Sub
 
 
-        Public Sub initUDP()
+        Public Sub InitUDP()
 
             ' Initialisation de SendManager
             SendManager.InitializeSender()
 
         End Sub
 
-        Public Sub closeUDP()
+        Public Sub CloseUDP()
 
             ' Fermeture de SendManager
             SendManager.CloseSender()
@@ -46,7 +49,7 @@ Namespace EyeChat
             Dim isUpdateAvailable As Boolean = Await updateChecker.CheckForUpdates("v0.0.1")
             If isUpdateAvailable Then
                 Dim updateDownloader As New NetworkingUpdateDownloader()
-                Dim downloadPath As String = Await updateDownloader.DownloadUpdate("beta")
+                Dim downloadPath As String = Await updateDownloader.DownloadUpdate()
                 If Not String.IsNullOrEmpty(downloadPath) Then
                     Dim updateInstaller As New NetworkingUpdateInstaller()
                     updateInstaller.InstallUpdate(downloadPath)

@@ -7,6 +7,7 @@ Imports Newtonsoft.Json
 
 Namespace Models
     Public Class EggPhrasesModels
+        Private Shared ReadOnly logger As ILog = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType)
         Public Property MarvinPhrases As List(Of String)
         Public Property JoyPhrases As List(Of String)
 
@@ -18,7 +19,7 @@ Namespace Models
                     Dim jsonData As String = File.ReadAllText(filePath)
                     EggPhrasesList = JsonConvert.DeserializeObject(Of EggPhrasesModels)(jsonData)
                 Else
-                    EggPhrasesList = New EggPhrasesModels
+                EggPhrasesList = New EggPhrasesModels
                 End If
             Catch ex As Exception
                 logger.Error("Erreur lors du chargement des phrases d'oeuf : ", ex)

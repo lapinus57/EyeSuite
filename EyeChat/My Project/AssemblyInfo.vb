@@ -17,7 +17,7 @@ Imports System.Windows
 <Assembly: AssemblyProduct("EyeChat")>
 <Assembly: AssemblyCopyright("Copyright ©  2024")>
 <Assembly: AssemblyTrademark("")>
-<Assembly: ComVisible(false)>
+<Assembly: ComVisible(False)>
 
 'Pour commencer à générer des applications localisables, définissez
 '<UICulture>CultureUtiliséePourCoder</UICulture> dans votre fichier .vbproj,

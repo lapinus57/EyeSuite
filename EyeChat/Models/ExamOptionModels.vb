@@ -8,10 +8,11 @@ Imports Newtonsoft.Json
 Namespace Models
     Public Class ExamOptionModels
         Implements INotifyPropertyChanged
+        Private Shared ReadOnly logger As ILog = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType)
 
         ' Propriétés de l'option d'examen
         Private _index As Integer
-        Public Property index As Integer
+        Public Property Index As Integer
             Get
                 Return _index
             End Get
@@ -96,6 +97,7 @@ Namespace Models
                     Dim json As String = File.ReadAllText(filePath)
                     ExamOptionsList = JsonConvert.DeserializeObject(Of ObservableCollection(Of ExamOptionModels))(json)
                 Else
+                    ' Crée une collection vide si le fichier n'existe pas
                     ExamOptionsList = New ObservableCollection(Of ExamOptionModels)()
                     SaveExamOptionsToJson()
                 End If

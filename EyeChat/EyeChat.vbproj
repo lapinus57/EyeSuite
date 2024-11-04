@@ -213,6 +213,7 @@
     <Compile Include="Utilities\DialogHelper.vb" />
     <Compile Include="Utilities\PatientStringHelper.vb" />
     <Compile Include="Utilities\UIDManager.vb" />
+    <Compile Include="ViewModel\GitHubViewModel.vb" />
     <Compile Include="Views\InfoPatient.xaml.vb">
       <DependentUpon>InfoPatient.xaml</DependentUpon>
     </Compile>
@@ -239,6 +240,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\UsersBubbleCtrl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dictionary\DictionaryGitHubWindows.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -284,6 +289,7 @@
     <Import Include="System.Windows" />
     <Import Include="System.Windows.Controls" />
     <Import Include="System.Windows.Data" />
+    <Import Include="System.Windows.Documents" />
     <Import Include="System.Windows.Input" />
     <Import Include="System.Windows.Shapes" />
     <Import Include="System.Windows.Media" />
@@ -351,9 +357,8 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewModel\" />
-  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <Import Project="..\packages\JeremyAnsel.HLSL.Targets.2.0.26\build\JeremyAnsel.HLSL.Targets.targets" Condition="Exists('..\packages\JeremyAnsel.HLSL.Targets.2.0.26\build\JeremyAnsel.HLSL.Targets.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

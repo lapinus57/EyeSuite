@@ -6,8 +6,8 @@ Namespace Networking
     Public Class NetworkingUpdateDownloader
         Private Shared ReadOnly logger As ILog = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType)
 
-        Public Async Function DownloadUpdate(channel As String) As Task(Of String)
-            Dim updateUrl As String = Await GetUpdateUrl(channel)
+        Public Async Function DownloadUpdate() As Task(Of String)
+            Dim updateUrl As String = Await GetUpdateUrl()
             If String.IsNullOrEmpty(updateUrl) Then
                 logger.Error("L'URL de mise à jour est introuvable.")
                 Return Nothing
@@ -32,7 +32,7 @@ Namespace Networking
             End Try
         End Function
 
-        Private Async Function GetUpdateUrl(channel As String) As Task(Of String)
+        Private Async Function GetUpdateUrl() As Task(Of String)
             Try
                 Dim apiUrl As String = $"https://api.github.com/repos/{GlobalConfig.RepoOwner}/{GlobalConfig.RepoName}/releases/latest"
                 Dim webClient As New WebClient()
