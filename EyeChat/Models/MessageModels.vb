@@ -46,17 +46,17 @@ Namespace Models
                 Dim filepath = AppConfig.messagesFilePath
                 If File.Exists(filepath) Then
                     Dim json As String = File.ReadAllText(filepath)
-                    MessagesList = JsonConvert.DeserializeObject(Of ObservableCollection(Of MessageModels))(json)
-                    For Each message In MessagesList
+                    MessagesListGlobal = JsonConvert.DeserializeObject(Of ObservableCollection(Of MessageModels))(json)
+                    For Each message In MessagesListGlobal
                         message.IsAlignedRight = (message.Sender = GlobalConfig.UserSettingsList.UserName)
                     Next
                 Else
-                    MessagesList = New ObservableCollection(Of MessageModels)()
+                    MessagesListGlobal = New ObservableCollection(Of MessageModels)()
                     SaveMessagesToJson()
                 End If
             Catch ex As Exception
                 logger.Error($"Erreur lors du chargement des messages : {ex.Message}")
-                MessagesList = New ObservableCollection(Of MessageModels)()
+                MessagesListGlobal = New ObservableCollection(Of MessageModels)()
                 SaveMessagesToJson()
             End Try
         End Sub
@@ -68,7 +68,7 @@ Namespace Models
                 If Not Directory.Exists(dossier) Then
                     Directory.CreateDirectory(dossier)
                 End If
-                Dim serializedMessages As String = JsonConvert.SerializeObject(MessagesList, Formatting.Indented)
+                Dim serializedMessages As String = JsonConvert.SerializeObject(MessagesListGlobal, Formatting.Indented)
                 File.WriteAllText(AppConfig.messagesFilePath, serializedMessages)
             Catch ex As Exception
                 logger.Error($"Erreur lors de la sauvegarde des messages : {ex.Message}")
@@ -76,8 +76,8 @@ Namespace Models
         End Sub
 
         Public Shared Sub AddMessage(ByVal name As String, ByVal sender As String, ByVal room As String, ByVal content As String, ByVal isAlignedRight As Boolean, ByVal avatar As String)
-            If MessagesList IsNot Nothing Then
-                MessagesList.Add(New MessageModels With {.Name = name, .Sender = sender, .Room = room, .Content = content, .IsAlignedRight = isAlignedRight, .Timestamp = DateTime.Now, .Avatar = avatar})
+            If MessagesListGlobal IsNot Nothing Then
+                MessagesListGlobal.Add(New MessageModels With {.Name = name, .Sender = sender, .Room = room, .Content = content, .IsAlignedRight = isAlignedRight, .Timestamp = DateTime.Now, .Avatar = avatar})
                 SaveMessagesToJson()
             End If
         End Sub

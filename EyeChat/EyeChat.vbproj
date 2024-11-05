@@ -188,15 +188,21 @@
     <Compile Include="Controls\PatientBubbleCtrl.xaml.vb">
       <DependentUpon>PatientBubbleCtrl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\SettingsWindows.xaml.vb">
+      <DependentUpon>SettingsWindows.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\UsersBubbleCtrl.xaml.vb">
       <DependentUpon>UsersBubbleCtrl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\BoolToVisibilityConverter.vb" />
     <Compile Include="Global\GlobalConfig.vb" />
     <Compile Include="Input\CommandHandler.vb" />
     <Compile Include="Input\HotKeyManager.vb" />
+    <Compile Include="Models\AvatarItemModels.vb" />
     <Compile Include="Models\EggPhrasesModels.vb" />
     <Compile Include="Models\MessageModels.vb" />
     <Compile Include="Models\PatientModels.vb" />
+    <Compile Include="Models\PlanningModels.vb" />
     <Compile Include="Models\SpeedMessageModules.vb" />
     <Compile Include="Models\UserModels.vb" />
     <Compile Include="Models\UserSettingsModels.vb" />
@@ -213,7 +219,10 @@
     <Compile Include="Utilities\DialogHelper.vb" />
     <Compile Include="Utilities\PatientStringHelper.vb" />
     <Compile Include="Utilities\UIDManager.vb" />
+    <Compile Include="ViewModel\ColorItemViewModel.vb" />
     <Compile Include="ViewModel\GitHubViewModel.vb" />
+    <Compile Include="ViewModel\MainWindowsViewModels.vb" />
+    <Compile Include="ViewModel\SettingsViewModel.vb" />
     <Compile Include="Views\InfoPatient.xaml.vb">
       <DependentUpon>InfoPatient.xaml</DependentUpon>
     </Compile>
@@ -239,11 +248,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\SettingsWindows.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\UsersBubbleCtrl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dictionary\DictionaryGitHubWindows.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dictionary\DictionarySettingsWindows.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -328,6 +345,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="EyeChat.nuspec" />
+    <Content Include="log4net.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="My Project\app.manifest" />
     <None Include="My Project\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -339,23 +359,23 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\Content\atous.png">
+    <None Include="Assets\Content\atous.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Assets\Content\joy.png">
+    </None>
+    <None Include="Assets\Content\joy.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Assets\Content\secrétaria.png">
+    </None>
+    <None Include="Assets\Content\secrétaria.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Assets\Content\marvin.png">
+    </None>
+    <None Include="Assets\Content\marvin.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\Content\chat.png">
+    <None Include="Assets\Content\chat.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    </None>
   </ItemGroup>
   <ItemGroup />
   <ItemGroup />

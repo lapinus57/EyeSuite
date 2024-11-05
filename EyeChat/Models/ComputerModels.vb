@@ -23,7 +23,7 @@ Namespace Models
                 If Not Directory.Exists(dossier) Then
                     Directory.CreateDirectory(dossier)
                 End If
-                Dim json As String = JsonConvert.SerializeObject(ComputersList, Formatting.Indented)
+                Dim json As String = JsonConvert.SerializeObject(ComputersListGlobal, Formatting.Indented)
                 File.WriteAllText(AppConfig.ComputerListPath, json)
             Catch ex As Exception
                 logger.Error("Erreur lors de la sauvegarde de la collection des ordinateurs : ", ex)
@@ -36,14 +36,14 @@ Namespace Models
                 Dim filePath = AppConfig.ComputerListPath
                 If File.Exists(filePath) Then
                     Dim json As String = File.ReadAllText(filePath)
-                    ComputersList = JsonConvert.DeserializeObject(Of ObservableCollection(Of ComputerModels))(json)
+                    ComputersListGlobal = JsonConvert.DeserializeObject(Of ObservableCollection(Of ComputerModels))(json)
                 Else
-                    ComputersList = New ObservableCollection(Of ComputerModels)()
+                    ComputersListGlobal = New ObservableCollection(Of ComputerModels)()
                     SaveComputersToJson()
                 End If
             Catch ex As Exception
                 logger.Error("Erreur lors du chargement de la collection des ordinateurs", ex)
-                ComputersList = New ObservableCollection(Of ComputerModels)()
+                ComputersListGlobal = New ObservableCollection(Of ComputerModels)()
                 SaveComputersToJson()
             End Try
         End Sub

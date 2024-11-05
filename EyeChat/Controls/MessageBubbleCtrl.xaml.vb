@@ -63,10 +63,10 @@ Namespace Controls
             Dim message As MessageModels = DirectCast(DataContext, MessageModels)
             If message IsNot Nothing Then
 
-                Dim messageToRemove As MessageModels = MessagesList.FirstOrDefault(Function(m) m.Name = message.Name AndAlso m.Sender = message.Sender AndAlso m.Content = message.Content AndAlso m.Timestamp = message.Timestamp)
+                Dim messageToRemove As MessageModels = MessagesListGlobal.FirstOrDefault(Function(m) m.Name = message.Name AndAlso m.Sender = message.Sender AndAlso m.Content = message.Content AndAlso m.Timestamp = message.Timestamp)
 
                 If messageToRemove IsNot Nothing Then
-                    MessagesList.Remove(messageToRemove)
+                    MessagesListGlobal.Remove(messageToRemove)
                     MessageModels.SaveMessagesToJson()
                     ''SelectUser(selectedUserName)
                 End If

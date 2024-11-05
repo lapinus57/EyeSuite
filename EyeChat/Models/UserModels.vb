@@ -15,7 +15,7 @@ Namespace Models
         Public Shared ReadOnly StatusProperty As DependencyProperty = DependencyProperty.Register("Status", GetType(String), GetType(UserModels))
         Public Shared ReadOnly AvatarProperty As DependencyProperty = DependencyProperty.Register("Avatar", GetType(String), GetType(UserModels))
         Public Shared ReadOnly ColorUserProperty As DependencyProperty = DependencyProperty.Register("ColorUser", GetType(Color), GetType(UserModels))
-        Public Shared ReadOnly AuxiliaireTitleProperty As DependencyProperty = DependencyProperty.Register("AuxiliaireTitle", GetType(String), GetType(UserModels))
+        Public Shared ReadOnly AuxiliaireTilteProperty As DependencyProperty = DependencyProperty.Register("AuxiliaireTilte", GetType(String), GetType(UserModels))
         Public Shared ReadOnly InitialsProperty As DependencyProperty = DependencyProperty.Register("Initials", GetType(String), GetType(UserModels))
         Public Shared ReadOnly UUIDProperty As DependencyProperty = DependencyProperty.Register("UUID", GetType(String), GetType(UserModels))
 
@@ -61,12 +61,12 @@ Namespace Models
         End Property
 
         <JsonProperty("AuxiliaireTilte")>
-        Public Property AuxiliaireTitle As String
+        Public Property AuxiliaireTilte As String
             Get
-                Return GetValue(AuxiliaireTitleProperty)
+                Return GetValue(AuxiliaireTilteProperty)
             End Get
             Set(value As String)
-                SetValue(AuxiliaireTitleProperty, value)
+                SetValue(AuxiliaireTilteProperty, value)
             End Set
         End Property
 
@@ -92,52 +92,63 @@ Namespace Models
 
         Public Sub New()
             Avatar = "/Avatar/avataaars.png"
-            AuxiliaireTitle = String.Empty
+            AuxiliaireTilte = String.Empty
             ColorUser = System.Windows.Media.Colors.White
             Status = "Offline"
             Initials = String.Empty
             UUID = String.Empty
         End Sub
 
-        Public Shared Sub LoadUsersFromJson(Optional userNameToExclude As String = Nothing)
+        Public Shared Function LoadUsersFromJson(Optional userNameToExclude As String = Nothing) As ObservableCollection(Of UserModels)
+            Dim usersList As ObservableCollection(Of UserModels) = Nothing
             Try
                 Dim filepath = AppConfig.UsersFilePath
                 If File.Exists(filepath) Then
                     Dim json As String = File.ReadAllText(filepath)
-                    UsersList = JsonConvert.DeserializeObject(Of ObservableCollection(Of UserModels))(json)
+                    usersList = JsonConvert.DeserializeObject(Of ObservableCollection(Of UserModels))(json)
                     If Not String.IsNullOrEmpty(userNameToExclude) Then
-                        Dim userToRemove As UserModels = UsersList.FirstOrDefault(Function(user) user.Name = userNameToExclude)
+                        Dim userToRemove As UserModels = usersList.FirstOrDefault(Function(user) user.Name = userNameToExclude)
                         If userToRemove IsNot Nothing Then
-                            UsersList.Remove(userToRemove)
+                            usersList.Remove(userToRemove)
                         End If
                     End If
                 Else
-                    UsersList = New ObservableCollection(Of UserModels)()
-                    If UsersList.Count = 0 Then
-                        UsersList.Add(New UserModels With {.Name = "A Tous", .Avatar = AppConfig.AvatarAtous, .Status = "0"})
-                        UsersList.Add(New UserModels With {.Name = "Secrétariat", .Avatar = AppConfig.AvatarSecretariat, .Status = "0"})
-                        UserModels.SaveUsersToJson()
-                    End If
+                    ' Initialise une nouvelle liste si le fichier n'existe pas
+                    usersList = New ObservableCollection(Of UserModels) From {
+                New UserModels With {.Name = "A Tous", .Avatar = AppConfig.AvatarAtous, .Status = "0"},
+                New UserModels With {.Name = "Secrétariat", .Avatar = AppConfig.AvatarSecretariat, .Status = "0"}
+            }
+                    SaveUsersToJson(usersList)
                 End If
             Catch ex As Exception
                 logger.Error("Erreur lors du chargement des utilisateurs : " & ex.Message)
-                UsersList = New ObservableCollection(Of UserModels)()
-                If UsersList.Count = 0 Then
-                    UsersList.Add(New UserModels With {.Name = "A Tous", .Avatar = AppConfig.AvatarAtous, .Status = "0"})
-                    UsersList.Add(New UserModels With {.Name = "Secrétariat", .Avatar = AppConfig.AvatarSecretariat, .Status = "0"})
-                    UserModels.SaveUsersToJson()
-                End If
+                usersList = New ObservableCollection(Of UserModels) From {
+            New UserModels With {.Name = "A Tous", .Avatar = AppConfig.AvatarAtous, .Status = "0"},
+            New UserModels With {.Name = "Secrétariat", .Avatar = AppConfig.AvatarSecretariat, .Status = "0"}
+        }
+                SaveUsersToJson(usersList)
             End Try
+            Return usersList
+        End Function
 
-        End Sub
-
-        Public Shared Sub SaveUsersToJson()
+        Public Shared Sub SaveUsersToJson(ByVal usersList As ObservableCollection(Of UserModels))
             Try
                 Dim dossier As String = Path.GetDirectoryName(AppConfig.UsersFilePath)
                 If Not Directory.Exists(dossier) Then
                     Directory.CreateDirectory(dossier)
                 End If
-                Dim serializedUsers As String = JsonConvert.SerializeObject(UsersList, Formatting.Indented)
+
+                ' Sérialiser uniquement les propriétés souhaitées
+                Dim simplifiedUsers = usersList.Select(Function(m) New With {
+            .Name = m.Name,
+            .AuxiliaireTilte = m.AuxiliaireTilte,
+            .Status = m.Status,
+            .Avatar = m.Avatar,
+            .Initials = m.Initials,
+            .UUID = m.UUID
+        })
+
+                Dim serializedUsers As String = JsonConvert.SerializeObject(simplifiedUsers, Formatting.Indented)
                 File.WriteAllText(AppConfig.UsersFilePath, serializedUsers)
             Catch ex As Exception
                 logger.Error("Erreur lors de la sauvegarde des utilisateurs : " & ex.Message)

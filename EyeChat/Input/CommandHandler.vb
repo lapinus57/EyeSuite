@@ -19,9 +19,9 @@ Namespace Input
                 Case "/DEBUG"
                     logger.Info("Commande /DEBUG exécutée")
                     Try
-                        Dim userToAdd As UserModels = UsersList.FirstOrDefault(Function(user) user.Name = "Marvin")
+                        Dim userToAdd As UserModels = UsersListGlobal.FirstOrDefault(Function(user) user.Name = "Marvin")
                         If userToAdd Is Nothing Then
-                            UsersList.Add(New UserModels With {.Name = "Marvin", .Avatar = AppConfig.AvatarPathMarvin, .Status = "Don't Panic"})
+                            UsersListGlobal.Add(New UserModels With {.Name = "Marvin", .Avatar = AppConfig.AvatarPathMarvin, .Status = "Don't Panic"})
                             logger.Debug("Utilisateur Marvin ajouté")
                         End If
                         ''mainWindow.UsersDialogBox.SetCurrentValue(ChildWindow.IsOpenProperty, True)
@@ -32,10 +32,10 @@ Namespace Input
                 Case "/ENDDEBUG"
                     logger.Info("Commande /ENDDEBUG exécutée")
                     Try
-                        Dim userToRemove As UserModels = UsersList.FirstOrDefault(Function(user) user.Name = "Marvin")
+                        Dim userToRemove As UserModels = UsersListGlobal.FirstOrDefault(Function(user) user.Name = "Marvin")
                         If userToRemove IsNot Nothing Then
-                            UsersList.Remove(userToRemove)
-                            UserModels.SaveUsersToJson()
+                            UsersListGlobal.Remove(userToRemove)
+                            UserModels.SaveUsersToJson(UsersListGlobal)
                             logger.Debug("Utilisateur Marvin supprimé")
                         End If
                     Catch ex As Exception
@@ -56,12 +56,12 @@ Namespace Input
                     Try
                         Dim computerString As New StringBuilder()
                         computerString.AppendLine("Actuellement il y a :")
-                        For Each computer In ComputersList
+                        For Each computer In ComputersListGlobal
                             computerString.AppendLine($"{computer.ComputerUser} {computer.ComputerIp}")
                         Next
-                        Dim userToAdd As UserModels = UsersList.FirstOrDefault(Function(user) user.Name = "Marvin")
+                        Dim userToAdd As UserModels = UsersListGlobal.FirstOrDefault(Function(user) user.Name = "Marvin")
                         If userToAdd Is Nothing Then
-                            UsersList.Add(New UserModels With {.Name = "Marvin", .Avatar = AppConfig.AvatarPathMarvin, .Status = "Don't Panic"})
+                            UsersListGlobal.Add(New UserModels With {.Name = "Marvin", .Avatar = AppConfig.AvatarPathMarvin, .Status = "Don't Panic"})
                             logger.Debug("Utilisateur Marvin ajouté")
 
                         End If
@@ -80,7 +80,7 @@ Namespace Input
                         Dim otherInfo As String = $"RDC|System|{DateTime.Now:yyyy-MM-ddTHH:mm:ss.fff}"
                         Dim random As New Random()
 
-                        For Each optionCode As ExamOptionModels In ExamOptionsList
+                        For Each optionCode As ExamOptionModels In ExamOptionsListGlobal
                             Dim code As String = optionCode.Name
                             Dim testPrenom As String = testPrenoms(random.Next(testPrenoms.Length))
                             Dim testNom As String = testNoms(random.Next(testNoms.Length))
@@ -127,7 +127,7 @@ Namespace Input
 
                     Try
                         ' Recherche d'un code MSG dans la liste des options d'examen
-                        For Each examOption As ExamOptionModels In ExamOptionsList
+                        For Each examOption As ExamOptionModels In ExamOptionsListGlobal
                             If command.StartsWith(examOption.CodeMSG) Then
                                 startsWithCodeMSG = True
                                 matchedOption = examOption

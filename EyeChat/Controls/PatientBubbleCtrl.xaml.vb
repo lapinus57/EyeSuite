@@ -113,13 +113,13 @@ Namespace Controls
 
         Private Sub MenuItem_upClick(sender As Object, e As RoutedEventArgs)
             Try
-                PatientsALLList = New ObservableCollection(Of PatientModels)(PatientsALLList.OrderBy(Function(p) p.Hold_Time))
+                PatientsALLListGlobal = New ObservableCollection(Of PatientModels)(PatientsALLListGlobal.OrderBy(Function(p) p.Hold_Time))
                 Dim patient = GetPatientFromMenuItem(sender)
                 If patient Is Nothing Then Exit Sub
 
-                Dim index As Integer = PatientsALLList.IndexOf(patient)
+                Dim index As Integer = PatientsALLListGlobal.IndexOf(patient)
                 Dim patientN1 As PatientModels = FindAdjacentPatient(index - 1, patient.Position, -1)
-                Dim patientN2 As PatientModels = If(patientN1 IsNot Nothing, FindAdjacentPatient(PatientsALLList.IndexOf(patientN1) - 1, patient.Position, -1), Nothing)
+                Dim patientN2 As PatientModels = If(patientN1 IsNot Nothing, FindAdjacentPatient(PatientsALLListGlobal.IndexOf(patientN1) - 1, patient.Position, -1), Nothing)
 
                 If patientN1 IsNot Nothing AndAlso patientN2 IsNot Nothing Then
                     Dim timeDiffN1N2 As TimeSpan = patientN1.Hold_Time.Subtract(patientN2.Hold_Time)
@@ -135,13 +135,13 @@ Namespace Controls
 
         Private Sub MenuItem_downClick(sender As Object, e As RoutedEventArgs)
             Try
-                PatientsALLList = New ObservableCollection(Of PatientModels)(PatientsALLList.OrderBy(Function(p) p.Hold_Time))
+                PatientsALLListGlobal = New ObservableCollection(Of PatientModels)(PatientsALLListGlobal.OrderBy(Function(p) p.Hold_Time))
                 Dim patient = GetPatientFromMenuItem(sender)
                 If patient Is Nothing Then Exit Sub
 
-                Dim index As Integer = PatientsALLList.IndexOf(patient)
+                Dim index As Integer = PatientsALLListGlobal.IndexOf(patient)
                 Dim patientN1 As PatientModels = FindAdjacentPatient(index + 1, patient.Position, 1)
-                Dim patientN2 As PatientModels = If(patientN1 IsNot Nothing, FindAdjacentPatient(PatientsALLList.IndexOf(patientN1) + 1, patient.Position, 1), Nothing)
+                Dim patientN2 As PatientModels = If(patientN1 IsNot Nothing, FindAdjacentPatient(PatientsALLListGlobal.IndexOf(patientN1) + 1, patient.Position, 1), Nothing)
 
                 If patientN1 IsNot Nothing AndAlso patientN2 IsNot Nothing Then
                     Dim timeDiffN1N2 As TimeSpan = patientN2.Hold_Time.Subtract(patientN1.Hold_Time)
@@ -166,9 +166,9 @@ Namespace Controls
 
         Private Function FindAdjacentPatient(startIndex As Integer, position As String, stepValue As Integer) As PatientModels
             Try
-                For i As Integer = startIndex To If(stepValue > 0, PatientsALLList.Count - 1, 0) Step stepValue
-                    If PatientsALLList(i).Position = position Then
-                        Return PatientsALLList(i)
+                For i As Integer = startIndex To If(stepValue > 0, PatientsALLListGlobal.Count - 1, 0) Step stepValue
+                    If PatientsALLListGlobal(i).Position = position Then
+                        Return PatientsALLListGlobal(i)
                     End If
                 Next
             Catch ex As Exception
@@ -187,15 +187,15 @@ Namespace Controls
         End Sub
 
         Private Sub MenuItem_TopClick(sender As Object, e As RoutedEventArgs)
-            PatientsALLList = New ObservableCollection(Of PatientModels)(PatientsALLList.OrderBy(Function(p) p.Hold_Time))
+            PatientsALLListGlobal = New ObservableCollection(Of PatientModels)(PatientsALLListGlobal.OrderBy(Function(p) p.Hold_Time))
             If TypeOf sender Is MenuItem Then
                 Dim menuItem As MenuItem = DirectCast(sender, MenuItem)
                 Dim patient As PatientModels = DirectCast(menuItem.DataContext, PatientModels)
 
                 ' Obtenir le premier patient non pris au même étage (position)
-                Dim firstAvailablePatient As PatientModels = PatientsALLList.FirstOrDefault(Function(p) p.Position = patient.Position AndAlso Not p.IsTaken)
+                Dim firstAvailablePatient As PatientModels = PatientsALLListGlobal.FirstOrDefault(Function(p) p.Position = patient.Position AndAlso Not p.IsTaken)
                 ' Obtenir le dernier patient pris au même étage (position)
-                Dim lastAvailablePatient As PatientModels = PatientsALLList.LastOrDefault(Function(p) p.Position = patient.Position AndAlso p.IsTaken)
+                Dim lastAvailablePatient As PatientModels = PatientsALLListGlobal.LastOrDefault(Function(p) p.Position = patient.Position AndAlso p.IsTaken)
 
                 If firstAvailablePatient IsNot Nothing AndAlso lastAvailablePatient Is Nothing Then
                     Dim random As New Random()

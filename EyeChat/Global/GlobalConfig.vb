@@ -29,14 +29,15 @@ Module GlobalConfig
     Public Const Port As Integer = 50545 ' Utilise la constante de port partagée
 
 
-    Public Property PatientsRDCList As ObservableCollection(Of PatientModels)
-    Public Property Patients1erList As ObservableCollection(Of PatientModels)
-    Public Property PatientsALLList As ObservableCollection(Of PatientModels)
-    Public Property MessagesList As ObservableCollection(Of MessageModels)
-    Public Property speedMessagesList As New List(Of SpeedMessageModels)()
-    Public Property ExamOptionsList As New ObservableCollection(Of ExamOptionModels)()
-    Public Property ComputersList As ObservableCollection(Of ComputerModels)
-    Public Property UsersList As ObservableCollection(Of UserModels)
+    Public Property PatientsRDCListGlobal As ObservableCollection(Of PatientModels)
+    Public Property Patients1erListGlobal As ObservableCollection(Of PatientModels)
+    Public Property PatientsALLListGlobal As ObservableCollection(Of PatientModels)
+    Public Property MessagesListGlobal As ObservableCollection(Of MessageModels)
+    Public Property SpeedMessagesListGlobal As New List(Of SpeedMessageModels)()
+    Public Property ExamOptionsListGlobal As New ObservableCollection(Of ExamOptionModels)()
+    Public Property ComputersListGlobal As ObservableCollection(Of ComputerModels)
+    Public Property UsersListGlobal As ObservableCollection(Of UserModels)
+    Public Property PlanningListGlobal As ObservableCollection(Of PlanningModels)
 
     ' Déclare la collection de phrases d'oeuf en tant que propriété statique partagée
     Public EggPhrasesList As EggPhrasesModels

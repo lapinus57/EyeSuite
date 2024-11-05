@@ -1,12 +1,330 @@
-﻿<Window x:Class="EyeChat.MainWindow"
+﻿<mah:MetroWindow x:Class="EyeChat.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-       
+xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro" 
+xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+xmlns:emoji="clr-namespace:Emoji.Wpf;assembly=Emoji.Wpf" 
+xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+xmlns:MyControls="clr-namespace:EyeChat.Controls"
+xmlns:ViewModel="clr-namespace:EyeChat.ViewModel"
+xmlns:local="clr-namespace:EyeChat"
+mc:Ignorable="d"
+Title="EyeChat" 
+Height="600" 
+Width="1350"
+GlowBrush="{DynamicResource MahApps.Brushes.Accent}"
+WindowStartupLocation="CenterScreen"
+ShowIconOnTitleBar="True"
+ShowCloseButton="False"
+xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro" 
+xmlns:simpleChildWindow="http://metro.mahapps.com/winfx/xaml/simplechildwindow"
+xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+xmlns:vm="clr-namespace:EyeChat.ViewModel"
+Dialog:DialogParticipation.Register="{Binding}">
 
+    <mah:MetroWindow.DataContext>
+        <vm:MainWindowsViewModels/>
+    </mah:MetroWindow.DataContext>
+
+    <mah:MetroWindow.Flyouts>
+        <mah:FlyoutsControl>
+
+            <mah:Flyout Header="Paramètres" 
+                        IsOpen="{Binding ElementName=ToggleButtonOpenSettings, Path=IsChecked, Mode=TwoWay}" 
+                        Position="Right" 
+                        Theme="Adapt"
+                        Width="1000">
+
+                <MyControls:SettingsWindows />
+
+
+                <!-- The content goes here -->
+            </mah:Flyout>
+
+            <mah:Flyout Header="Github / A Propos" 
+                        IsOpen="{Binding ElementName=ToggleButtonOpenGithub, Path=IsChecked, Mode=TwoWay}" 
+                        Position="Right" 
+                        Width="600">
+
+                <!-- The content goes here -->
+
+
+                <MyControls:GithubWindows />
+            </mah:Flyout>
+
+        </mah:FlyoutsControl>
+    </mah:MetroWindow.Flyouts>
+
+
+
+    <mah:MetroWindow.IconTemplate>
+        <DataTemplate>
+            <iconPacks:PackIconModern Kind="Chat" 
+                                       Width="22" 
+                                       Height="22"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Margin="4"
+                                       Foreground="{DynamicResource MahApps.Brushes.IdealForeground}"/>
+        </DataTemplate>
+    </mah:MetroWindow.IconTemplate>
+
+    <mah:MetroWindow.RightWindowCommands>
+        <mah:WindowCommands>
+            <ToggleButton x:Name="ToggleButtonOpenSettings" 
+                          Content="{iconPacks:Modern Kind=Settings}" 
+                          ToolTip="Ouvrir les paramètres"
+                          Foreground="{DynamicResource MahApps.Brushes.IdealForeground}"/>
+            <ToggleButton x:Name="ToggleButtonOpenGithub" 
+                          Content="{iconPacks:Modern Kind=SocialGithubOctocat}" 
+                          ToolTip="Ouvrir les paramètres"
+                          Foreground="{DynamicResource MahApps.Brushes.IdealForeground}"/>
+            <Button x:Name="ConnectionButon"
+                    Content="Connection"
+                    Click="ConnectionButon_Click"
+                    />
+        </mah:WindowCommands>
+    </mah:MetroWindow.RightWindowCommands>
+
+    <Grid x:Name="RootGrid">
+
+
+        <simpleChildWindow:ChildWindow x:Name="UsersDialogBox"
+                                       IsModal="True" 
+                                       Title="Gestion des utilisateur"
+                                       AllowMove="False" 
+                                       CloseOnOverlay="False" 
+                                       EnableDropShadow="False"
+                                       Padding="15"
+                                       OverlayBrush="Transparent"
+                                       BorderThickness="2"
+                                       BorderBrush="{DynamicResource MahApps.Brushes.Accent}"
+                                       HorizontalContentAlignment="Stretch"
+                                       VerticalAlignment="Center">
+
+
+        </simpleChildWindow:ChildWindow>
+
+
+
+        <simpleChildWindow:ChildWindow x:Name="CustomDialogBox" 
+                                       IsModal="True" 
+                                       Title="Ajout d'un patient"
+                                       AllowMove="False" 
+                                       CloseOnOverlay="False" 
+                                       EnableDropShadow="False"
+                                       Padding="15"
+                                       OverlayBrush="Transparent"
+                                       BorderThickness="2"
+                                       BorderBrush="{DynamicResource MahApps.Brushes.Accent}"
+                                       HorizontalContentAlignment="Stretch"
+                                       VerticalAlignment="Center">
+
+            <!-- Add your custom content here -->
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="20"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+
+                <StackPanel Grid.Column="1" Grid.Row="1">
+                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                        <Label Margin="10,5">Nom du patient :</Label>
+                        <TextBox x:Name="PatientNameBox"  AcceptsReturn="True" Margin="10,5" Width="400" mah:TextBoxHelper.Watermark="Aucun patient trouvé"/>
+                    </StackPanel>
+                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                        <Label Margin="12,5">Examen :</Label>
+                        <ComboBox x:Name="PatientExamSelect"  Margin="12,5" Width="75" HorizontalContentAlignment="Center"
+                      ItemsSource="{Binding ExamOptions}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <Label Margin="12,5">Oeil/Yeux :</Label>
+                        <ComboBox x:Name="PatientEyeSelect" Margin="12,5" Width="75" HorizontalContentAlignment="Center">
+                            <ComboBoxItem Content="ODG"></ComboBoxItem>
+                            <ComboBoxItem Content="OD"></ComboBoxItem>
+                            <ComboBoxItem Content="OG"></ComboBoxItem>
+                        </ComboBox>
+                        <Label Margin="12,5">Etage :</Label>
+                        <ComboBox x:Name="PatientFloorSelect"  Margin="12,5" Width="75" HorizontalContentAlignment="Center">
+                            <ComboBoxItem Content="RDC"></ComboBoxItem>
+                            <ComboBoxItem Content="1er"></ComboBoxItem>
+                        </ComboBox>
+                    </StackPanel>
+                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                        <Label Margin="10,5">Commentaire :</Label>
+                        <TextBox x:Name="PatientCommentBox" Margin="10,5" Width="400" mah:TextBoxHelper.Watermark="optionnelle"/>
+                    </StackPanel>
+                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                        <Button Content="Valider"  Click="ValidPatientBox_OnClick"  Margin="20,5"/>
+                        <Button Content="Annuler"  Click="ClosePatientBox_OnClick" Margin="20,5"/>
+                    </StackPanel>
+                    <!-- Other controls -->
+
+                </StackPanel>
+            </Grid>
+
+        </simpleChildWindow:ChildWindow>
+
+
+        <Grid>
+
+
+
+            <Grid.RenderTransform>
+                <TranslateTransform Y="0.5" />
+            </Grid.RenderTransform>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="485*"/>
+                <RowDefinition Height="30*"/>
+            </Grid.RowDefinitions>
+
+
+            
+
+            <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+              Background="{DynamicResource MahApps.Brushes.Accent}"
+              Foreground="{DynamicResource MahApps.Brushes.Text}" />
+
+            <GridSplitter Grid.Column="3" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                          Background="{DynamicResource MahApps.Brushes.Accent}"
+                          Foreground="{DynamicResource MahApps.Brushes.Text}" />
+
+            <Grid  Grid.Column="4" >
+                <ListBox ItemsSource="{Binding UsersMain}" 
+                     SelectedItem="{Binding SelectedListUser, Mode=TwoWay}"                       
+                     ScrollViewer.HorizontalScrollBarVisibility="Hidden"                   
+                     x:Name="ListUseres" HorizontalAlignment="Left" Width="268">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <local:UsersBubbleCtrl x:Name="ListUsersBubble">
+
+                            </local:UsersBubbleCtrl>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+            <Grid Grid.Row="1" Grid.Column="2">
+                <TextBox x:Name="SendTextBox" 
+                 mah:TextBoxHelper.Watermark="Message"               
+                 Height="auto" 
+                 Margin="3"
+                     >
+                    <TextBox.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Messages"
+                      ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=SpeedMessages}">
+                                <MenuItem.ItemContainerStyle>
+                                    <Style TargetType="MenuItem">
+                                        <Setter Property="Header" Value="{Binding Title}" />
+                                        <Setter Property="Command" Value="{Binding Path=DataContext.MessageMenuItemCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                                        <Setter Property="CommandParameter" Value="{Binding}" />
+                                    </Style>
+                                </MenuItem.ItemContainerStyle>
+                            </MenuItem>
+                        </ContextMenu>
+                    </TextBox.ContextMenu>
+                </TextBox>
+
+            </Grid>
+
+
+
+
+            <mah:MetroTabControl Grid.Column="0" 
+                             mah:HeaderedControlHelper.HeaderFontSize="{Binding AppSizeDisplayMain}"
+                             mah:HeaderedControlHelper.HeaderFontWeight="Bold"
+                             x:Name="PatientTabCtrl" >
+                <TabItem Header="RDC"  >
+                    <ListBox x:Name="PatientListRDC" ScrollViewer.VerticalScrollBarVisibility="Visible">
+                        <ListBox.Resources>
+                            <CollectionViewSource x:Key="SortedPatientsRDC" Source="{Binding PatientsRDC}">
+                                <CollectionViewSource.SortDescriptions>
+                                    <scm:SortDescription PropertyName="IsTaken" Direction="Descending"/>
+                                    <scm:SortDescription PropertyName="Pick_up_Time" Direction="Ascending" />
+                                    <scm:SortDescription PropertyName="Hold_Time" Direction="Ascending" />
+                                </CollectionViewSource.SortDescriptions>
+                            </CollectionViewSource>
+                        </ListBox.Resources>
+                        <ListBox.ItemsSource>
+                            <Binding Source="{StaticResource SortedPatientsRDC}"/>
+                        </ListBox.ItemsSource>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <MyControls:PatientBubbleCtrl>
+
+                                </MyControls:PatientBubbleCtrl>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+
+                </TabItem>
+                <TabItem Header="1er" >
+                    <ListBox x:Name="PatientList1er" ScrollViewer.VerticalScrollBarVisibility="Visible">
+                        <ListBox.Resources>
+                            <CollectionViewSource x:Key="SortedPatients1er" Source="{Binding Patients1er}">
+                                <CollectionViewSource.SortDescriptions>
+                                    <scm:SortDescription PropertyName="IsTaken" Direction="Descending"/>
+                                    <scm:SortDescription PropertyName="Pick_up_Time" Direction="Ascending" />
+                                    <scm:SortDescription PropertyName="Hold_Time" Direction="Ascending" />
+                                </CollectionViewSource.SortDescriptions>
+                            </CollectionViewSource>
+                        </ListBox.Resources>
+                        <ListBox.ItemsSource>
+                            <Binding Source="{StaticResource SortedPatients1er}"/>
+                        </ListBox.ItemsSource>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <MyControls:PatientBubbleCtrl />
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </TabItem>
+                <TabItem Header="Tous" >
+                    <ListBox x:Name="PatientListAll" ScrollViewer.VerticalScrollBarVisibility="Visible">
+                        <ListBox.Resources>
+                            <CollectionViewSource x:Key="SortedPatientsALL" Source="{Binding PatientsALL}">
+                                <CollectionViewSource.SortDescriptions>
+                                    <scm:SortDescription PropertyName="IsTaken" Direction="Descending"/>
+                                    <scm:SortDescription PropertyName="Pick_up_Time" Direction="Ascending" />
+                                    <scm:SortDescription PropertyName="Hold_Time" Direction="Ascending" />
+                                </CollectionViewSource.SortDescriptions>
+                            </CollectionViewSource>
+                        </ListBox.Resources>
+                        <ListBox.ItemsSource>
+                            <Binding Source="{StaticResource SortedPatientsALL}"/>
+                        </ListBox.ItemsSource>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <MyControls:PatientBubbleCtrl />
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </TabItem>
+            </mah:MetroTabControl>
+        </Grid>
     </Grid>
-</Window>
+    <!-- Déclarez un contrôle DialogHost pour afficher le dialogue -->
+
+
+</mah:MetroWindow>
+

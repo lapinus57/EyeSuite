@@ -12,7 +12,7 @@ Namespace Services
 
         Public Shared Sub PatientAdd(ByVal title As String, ByVal lastName As String, ByVal firstName As String, ByVal exams As String, ByVal annotation As String, ByVal position As String, ByVal examinator As String, ByVal holdTime As String)
             Try
-                Dim examOption As ExamOptionModels = ExamOptionsList.FirstOrDefault(Function(opt) opt.Name = exams)
+                Dim examOption As ExamOptionModels = ExamOptionsListGlobal.FirstOrDefault(Function(opt) opt.Name = exams)
                 If examOption IsNot Nothing Then
                     Dim patientColor As String = examOption.Color
                     Dim newPatient As New PatientModels With {
@@ -88,7 +88,7 @@ Namespace Services
                         .OperatorName = Nothing
                         .Pick_up_Time = Nothing
                         .Time_Order = Nothing
-                        .Colors = ExamOptionsList.FirstOrDefault(Function(opt) opt.Name = .Exams)?.Color
+                        .Colors = ExamOptionsListGlobal.FirstOrDefault(Function(opt) opt.Name = .Exams)?.Color
                     End With
 
                     ' Mise à jour des listes
@@ -106,27 +106,27 @@ Namespace Services
 
         ' Méthodes d'aide pour ajouter et retirer des patients des listes appropriées
         Private Shared Sub AddPatientToList(ByVal patient As PatientModels)
-            PatientsALLList.Add(patient)
+            PatientsALLListGlobal.Add(patient)
             If patient.Position = "RDC" Then
-                PatientsRDCList.Add(patient)
+                PatientsRDCListGlobal.Add(patient)
             ElseIf patient.Position = "1er" Then
-                Patients1erList.Add(patient)
+                Patients1erListGlobal.Add(patient)
             End If
         End Sub
 
         Private Shared Sub RemovePatientFromList(ByVal patient As PatientModels)
-            PatientsALLList.Remove(patient)
+            PatientsALLListGlobal.Remove(patient)
             If patient.Position = "RDC" Then
-                PatientsRDCList.Remove(patient)
+                PatientsRDCListGlobal.Remove(patient)
             ElseIf patient.Position = "1er" Then
-                Patients1erList.Remove(patient)
+                Patients1erListGlobal.Remove(patient)
             End If
         End Sub
 
         Private Shared Function FindPatient(ByVal title As String, ByVal lastName As String, ByVal firstName As String, ByVal exams As String, ByVal annotation As String, ByVal floor As String, ByVal examinator As String, ByVal holdTime As String) As PatientModels
             Dim holdTimeDateTime As DateTime
             If DateTime.TryParseExact(holdTime, "yyyy-MM-ddTHH:mm:ss.fff", CultureInfo.InvariantCulture, DateTimeStyles.None, holdTimeDateTime) Then
-                Return PatientsALLList.FirstOrDefault(Function(patient) patient.Title = title AndAlso
+                Return PatientsALLListGlobal.FirstOrDefault(Function(patient) patient.Title = title AndAlso
                     patient.LastName = lastName AndAlso patient.FirstName = firstName AndAlso
                     patient.Exams = exams AndAlso patient.Annotation = annotation AndAlso
                     patient.Position = floor AndAlso patient.Examinator = examinator AndAlso

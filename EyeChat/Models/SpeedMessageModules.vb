@@ -98,14 +98,14 @@ Namespace Models
                 Dim filePath = AppConfig.SpeedMessageFilePath
                 If File.Exists(filePath) Then
                     Dim json As String = File.ReadAllText(filePath)
-                    speedMessagesList = JsonConvert.DeserializeObject(Of List(Of SpeedMessageModels))(json)
+                    SpeedMessagesListGlobal = JsonConvert.DeserializeObject(Of List(Of SpeedMessageModels))(json)
                 Else
-                    speedMessagesList = New List(Of SpeedMessageModels)()
+                    SpeedMessagesListGlobal = New List(Of SpeedMessageModels)()
                     SaveSpeedMessageToJson()
                 End If
             Catch ex As Exception
                 logger.Error("Erreur lors du chargement des messages de vitesse : " & ex.Message)
-                speedMessagesList = New List(Of SpeedMessageModels)()
+                SpeedMessagesListGlobal = New List(Of SpeedMessageModels)()
                 SaveSpeedMessageToJson()
             End Try
         End Sub
@@ -116,7 +116,7 @@ Namespace Models
                 If Not Directory.Exists(dossier) Then
                     Directory.CreateDirectory(dossier)
                 End If
-                Dim optionsJson As String = JsonConvert.SerializeObject(speedMessagesList, Formatting.Indented)
+                Dim optionsJson As String = JsonConvert.SerializeObject(SpeedMessagesListGlobal, Formatting.Indented)
                 File.WriteAllText(AppConfig.SpeedMessageFilePath, optionsJson)
             Catch ex As Exception
                 logger.Error($"Erreur lors de la sauvegarde des SpeedMessage : {ex.Message}")

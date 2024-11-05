@@ -1,15 +1,18 @@
 ﻿
+Imports System.ComponentModel
 Imports System.Net.Http
 Imports System.Reflection
 Imports System.Text
 Imports EyeChat.Controls
 Imports EyeChat.EyeChat
+Imports EyeChat.Models
 Imports log4net
 Imports MahApps.Metro.Controls.Dialogs
 Imports Newtonsoft.Json.Linq
 
 Namespace ViewModel
     Public Class GitHubViewModel
+        Implements INotifyPropertyChanged
 
         Private ReadOnly dialogCoordinator As IDialogCoordinator
         Public Property Title As String
@@ -24,6 +27,11 @@ Namespace ViewModel
 
         Private Shared ReadOnly logger As ILog = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType)
 
+        Public Event PropertyChanged As PropertyChangedEventHandler Implements INotifyPropertyChanged.PropertyChanged
+
+        Protected Sub NotifyPropertyChanged(ByVal propertyName As String)
+            RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(propertyName))
+        End Sub
         Public Sub New(dialogCoordinator As IDialogCoordinator)
             Me.dialogCoordinator = dialogCoordinator
             GetAssemblyInfos()
@@ -33,15 +41,26 @@ Namespace ViewModel
             Await dialogCoordinator.ShowMessageAsync(Me, title, message)
         End Function
 
-        Public ReadOnly Property AppSizeDisplay As Integer
+        Public Property AppSizeDisplay As Double
             Get
                 Try
+                    logger.Info("Accès à la propriété AppSizeDisplay")
                     Return UserSettingsList.AppSizeDisplay
                 Catch ex As Exception
                     logger.Error($"Erreur lors de la lecture de la propriété AppSizeDisplay : {ex.Message}")
-                    Return 14 ' Retourne un entier cohérent avec le type de la propriété
+                    Return 1.0 ' Valeur par défaut en cas d'erreur
                 End Try
             End Get
+            Set(ByVal value As Double)
+                Try
+                    If UserSettingsList.AppSizeDisplay <> value Then
+                        UserSettingsList.AppSizeDisplay = value
+                        NotifyPropertyChanged("AppSizeDisplay")
+                    End If
+                Catch ex As Exception
+                    logger.Error($"Erreur lors de la modification de la propriété AppSizeDisplay : {ex.Message}")
+                End Try
+            End Set
         End Property
 
         Public ReadOnly Property ArrowSize As Double

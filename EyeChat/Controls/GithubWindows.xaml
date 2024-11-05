@@ -17,7 +17,7 @@
             </ResourceDictionary.MergedDictionaries>
             
             <Style TargetType="TextBlock">
-                <Setter Property="FontSize" Value="{Binding Size, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                <Setter Property="FontSize" Value="{Binding AppSizeDisplay}" />
                 <Setter Property="Foreground" Value="Black"/>
             </Style>
         </ResourceDictionary>

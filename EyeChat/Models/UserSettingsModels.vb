@@ -1,5 +1,6 @@
 ﻿Imports EyeChat.Utilities
 Imports Newtonsoft.Json
+Imports NuGet
 Imports System.ComponentModel
 Imports System.IO
 
@@ -102,20 +103,6 @@ Namespace Models
                 If _appSizeDisplay <> value Then
                     _appSizeDisplay = value
                     NotifyPropertyChanged(NameOf(AppSizeDisplay))
-                End If
-            End Set
-        End Property
-
-        Private _debugLevel As String = "ERROR"
-        <JsonProperty("DebugLevel")>
-        Public Property DebugLevel As String
-            Get
-                Return _debugLevel
-            End Get
-            Set(value As String)
-                If _debugLevel <> value Then
-                    _debugLevel = value
-                    NotifyPropertyChanged(NameOf(DebugLevel))
                 End If
             End Set
         End Property
@@ -987,7 +974,6 @@ Namespace Models
                 End If
             End Set
         End Property
-
         Private _nfcMode As Boolean = False
         <JsonProperty("NFCMode")>
         Public Property NFCMode As Boolean
@@ -1010,13 +996,17 @@ Namespace Models
             End Get
             Set(value As Boolean)
                 If _roomDisplay <> value Then
+                    If value = True Then
+                        RoomDisplayStr = "Visible"
+                    Else
+                        RoomDisplayStr = "Collapsed"
+                    End If
                     _roomDisplay = value
                     NotifyPropertyChanged(NameOf(RoomDisplay))
                 End If
             End Set
         End Property
-
-        Private _roomDisplayStr As String = "True"
+        Private _roomDisplayStr As String = "Visible"
         <JsonProperty("RoomDisplayStr")>
         Public Property RoomDisplayStr As String
             Get
@@ -1029,12 +1019,18 @@ Namespace Models
                 End If
             End Set
         End Property
+        Public ReadOnly Property ComputerName As String
+            Get
+                Return Environment.MachineName
+            End Get
+        End Property
 
 
         Public Event PropertyChanged As PropertyChangedEventHandler Implements INotifyPropertyChanged.PropertyChanged
 
         Protected Sub NotifyPropertyChanged(ByVal propertyName As String)
             RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(propertyName))
+            SaveUserSettingsToJson(UserName)
         End Sub
 
         ' Charger les paramètres pour un utilisateur spécifique

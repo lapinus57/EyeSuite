@@ -54,20 +54,20 @@ Namespace Models
                 Dim filePath = AppConfig.PatientFilePath
                 If File.Exists(filePath) Then
                     Dim json As String = File.ReadAllText(filePath)
-                    PatientsALLList = JsonConvert.DeserializeObject(Of ObservableCollection(Of PatientModels))(json)
-                    PatientsRDCList = New ObservableCollection(Of PatientModels)(PatientsALLList.Where(Function(p) p.Position = "RDC"))
-                    Patients1erList = New ObservableCollection(Of PatientModels)(PatientsALLList.Where(Function(p) p.Position = "1er"))
+                    PatientsALLListGlobal = JsonConvert.DeserializeObject(Of ObservableCollection(Of PatientModels))(json)
+                    PatientsRDCListGlobal = New ObservableCollection(Of PatientModels)(PatientsALLListGlobal.Where(Function(p) p.Position = "RDC"))
+                    Patients1erListGlobal = New ObservableCollection(Of PatientModels)(PatientsALLListGlobal.Where(Function(p) p.Position = "1er"))
                 Else
-                    PatientsALLList = New ObservableCollection(Of PatientModels)()
-                    PatientsRDCList = New ObservableCollection(Of PatientModels)()
-                    Patients1erList = New ObservableCollection(Of PatientModels)()
+                    PatientsALLListGlobal = New ObservableCollection(Of PatientModels)()
+                    PatientsRDCListGlobal = New ObservableCollection(Of PatientModels)()
+                    Patients1erListGlobal = New ObservableCollection(Of PatientModels)()
                     SavePatientsToJson()
                 End If
             Catch ex As Exception
                 Console.WriteLine($"Erreur lors du chargement et de l'organisation des patients : {ex.Message}")
-                PatientsALLList = New ObservableCollection(Of PatientModels)()
-                PatientsRDCList = New ObservableCollection(Of PatientModels)()
-                Patients1erList = New ObservableCollection(Of PatientModels)()
+                PatientsALLListGlobal = New ObservableCollection(Of PatientModels)()
+                PatientsRDCListGlobal = New ObservableCollection(Of PatientModels)()
+                Patients1erListGlobal = New ObservableCollection(Of PatientModels)()
                 SavePatientsToJson()
             End Try
         End Sub
@@ -80,7 +80,7 @@ Namespace Models
                 If Not Directory.Exists(dossier) Then
                     Directory.CreateDirectory(dossier)
                 End If
-                Dim serializedPatients As String = JsonConvert.SerializeObject(PatientsALLList, Formatting.Indented)
+                Dim serializedPatients As String = JsonConvert.SerializeObject(PatientsALLListGlobal, Formatting.Indented)
                 File.WriteAllText(AppConfig.PatientFilePath, serializedPatients)
             Catch ex As Exception
                 ' Gérer les exceptions et journaliser l'erreur si nécessaire

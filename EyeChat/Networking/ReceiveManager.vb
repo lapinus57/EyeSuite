@@ -11,6 +11,7 @@ Imports EyeChat.EyeChat
 Imports EyeChat.Networking
 Imports EyeChat.Services
 Imports EyeChat.Models
+Imports EyeChat.Utilities
 
 Public Class ReceiveManager
 
@@ -142,13 +143,13 @@ Public Class ReceiveManager
             Dim identifiantPC As String = parts(1)
 
             ' Rechercher l'utilisateur par nom
-            Dim userToUpdate As UserModels = UsersList.FirstOrDefault(Function(user) user.Name = userName)
+            Dim userToUpdate As UserModels = UsersListGlobal.FirstOrDefault(Function(user) user.Name = userName)
 
             ' Si l'utilisateur n'existe pas, l'ajouter
             If userToUpdate Is Nothing Then
 
-                UsersList.Add(New UserModels With {.Name = userName})
-                userToUpdate = UsersList.FirstOrDefault(Function(user) user.Name = userName)
+                UsersListGlobal.Add(New UserModels With {.Name = userName})
+                userToUpdate = UsersListGlobal.FirstOrDefault(Function(user) user.Name = userName)
                 If userToUpdate Is Nothing Then
                     logger.Error("Impossible d'ajouter l'utilisateur.")
                     Return
@@ -181,7 +182,7 @@ Public Class ReceiveManager
             Dim userName As String = parts(0)
             Dim identifiantPC As String = parts(1)
 
-            Dim userToUpdate As UserModels = UsersList.FirstOrDefault(Function(user) user.Name = userName)
+            Dim userToUpdate As UserModels = UsersListGlobal.FirstOrDefault(Function(user) user.Name = userName)
             If userToUpdate IsNot Nothing Then
                 UpdateUserStatus(userToUpdate, identifiantPC, False) ' isConnection = False
                 SaveAndRefreshUsers()
@@ -202,7 +203,7 @@ Public Class ReceiveManager
             Dim oldUserName As String = parts(0)
             Dim newUserName As String = parts(1)
 
-            Dim userToUpdate As UserModels = UsersList.FirstOrDefault(Function(user) user.Name = oldUserName)
+            Dim userToUpdate As UserModels = UsersListGlobal.FirstOrDefault(Function(user) user.Name = oldUserName)
             If userToUpdate IsNot Nothing Then
                 userToUpdate.Name = newUserName
                 SaveAndRefreshUsers()
@@ -227,7 +228,7 @@ Public Class ReceiveManager
             Dim drawingColor As System.Drawing.Color = ColorTranslator.FromHtml(newColorString)
             Dim mediaColor As System.Windows.Media.Color = System.Windows.Media.Color.FromArgb(drawingColor.A, drawingColor.R, drawingColor.G, drawingColor.B)
 
-            Dim userToUpdate As UserModels = UsersList.FirstOrDefault(Function(user) user.Name = userName)
+            Dim userToUpdate As UserModels = UsersListGlobal.FirstOrDefault(Function(user) user.Name = userName)
             If userToUpdate IsNot Nothing Then
                 userToUpdate.ColorUser = mediaColor
                 SaveAndRefreshUsers()
@@ -249,7 +250,7 @@ Public Class ReceiveManager
             Dim userName As String = parts(0)
             Dim avatarTag As String = parts(1)
 
-            Dim userToUpdate As UserModels = UsersList.FirstOrDefault(Function(user) user.Name = userName)
+            Dim userToUpdate As UserModels = UsersListGlobal.FirstOrDefault(Function(user) user.Name = userName)
             If userToUpdate IsNot Nothing Then
                 userToUpdate.Avatar = avatarTag
                 SaveAndRefreshUsers()
@@ -276,12 +277,12 @@ Public Class ReceiveManager
             Dim userAvatar As String = parts(2)
 
             ' Rechercher l'utilisateur par nom
-            Dim userToUpdate As UserModels = UsersList.FirstOrDefault(Function(user) user.Name = userName)
+            Dim userToUpdate As UserModels = UsersListGlobal.FirstOrDefault(Function(user) user.Name = userName)
 
             ' Si l'utilisateur n'existe pas, l'ajouter
             If userToUpdate Is Nothing Then
-                UsersList.Add(New UserModels With {.Name = userName})
-                userToUpdate = UsersList.FirstOrDefault(Function(user) user.Name = userName)
+                UsersListGlobal.Add(New UserModels With {.Name = userName})
+                userToUpdate = UsersListGlobal.FirstOrDefault(Function(user) user.Name = userName)
                 If userToUpdate Is Nothing Then
                     logger.Error("Impossible d'ajouter l'utilisateur.")
                     Return
@@ -538,10 +539,10 @@ Public Class ReceiveManager
             Dim targetPC As String = parts(0)
             Dim authorPC As String = parts(1)
 
-            If targetPC = My.Settings.UniqueId Then
+            If targetPC = AppConfig.UniqueId Then
                 logger.Debug("Réception d'un message SYS01 pour fermeture à distance.")
                 MessageModels.SaveMessagesToJson()
-                UserModels.SaveUsersToJson()
+                UserModels.SaveUsersToJson(UsersListGlobal)
                 PatientModels.SavePatientsToJson()
                 dispatcher.Invoke(Sub()
                                       mainWindow.Close()
@@ -563,10 +564,10 @@ Public Class ReceiveManager
             Dim targetPC As String = parts(0)
             Dim authorPC As String = parts(1)
 
-            If targetPC = My.Settings.UniqueId Then
+            If targetPC = AppConfig.UniqueId Then
                 logger.Debug("Réception d'un message SYS02 pour déconnexion à distance.")
                 MessageModels.SaveMessagesToJson()
-                UserModels.SaveUsersToJson()
+                UserModels.SaveUsersToJson(UsersListGlobal)
                 PatientModels.SavePatientsToJson()
                 ''mainWindow.SelectedUserMessages.Clear()
                 ''mainWindow.Users.Clear()
@@ -590,7 +591,7 @@ Public Class ReceiveManager
             Dim fileName As String = parts(3)
             Dim port As Integer = 12345 ' Remplacez par le même port que celui utilisé pour l'envoi
 
-            If targetPC = My.Settings.UniqueId And authorPC <> My.Settings.UniqueId Then
+            If targetPC = AppConfig.UniqueId And authorPC <> AppConfig.UniqueId Then
                 ' Mettre le client en réception de fichier
                 Dim receiver As New NetworkingFileReceiver()
                 Dim savePath As String = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, folder, fileName)
@@ -602,7 +603,7 @@ Public Class ReceiveManager
         End Try
     End Sub
 
-    Private Sub handlemessageAddition(ByVal content As String)
+    Private Sub HandlemessageAddition(ByVal content As String)
         Try
             Dim parts As String() = content.Split("|"c)
             If parts.Length < 5 Then
@@ -747,7 +748,7 @@ Public Class ReceiveManager
     Private Sub SendLocalPCInfo()
         Try
             Dim localIPAddress As IPAddress = NetworkingFileSender.GetLocalIPAddress()
-            SendManager.SendMessageWithCode("DBG02", My.Settings.UniqueId & "|" & Environment.UserName & "|" & localIPAddress.ToString)
+            SendManager.SendMessageWithCode("DBG02", AppConfig.UniqueId & "|" & Environment.UserName & "|" & localIPAddress.ToString)
             logger.Debug("Envoi de l'ID du PC aux autres applications")
         Catch ex As Exception
             logger.Error("Erreur lors de l'envoi de l'ID du PC aux autres applications : " & ex.Message)
@@ -792,8 +793,8 @@ Public Class ReceiveManager
     Private Sub SaveAndRefreshUsers()
         ' Stocker l'utilisateur sélectionné
         ''Dim selectedUser As String = mainWindow.GetSelectedUserName()
-        UserModels.SaveUsersToJson()
-        UserModels.LoadUsersFromJson()
+        UserModels.SaveUsersToJson(UsersListGlobal)
+        UsersListGlobal = UserModels.LoadUsersFromJson()
         ''dispatcher.Invoke(Sub() mainWindow.ListUseres.ItemsSource = UsersList)
         ''mainWindow.SelectUserByName(selectedUser)
     End Sub

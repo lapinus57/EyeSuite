@@ -1,21 +1,32 @@
 ﻿
+Imports System.Collections.ObjectModel
+Imports System.ComponentModel
 Imports EyeChat.Input
+Imports EyeChat.Models
 Imports EyeChat.Networking
 Imports EyeChat.Utilities
 
 Namespace EyeChat
-
     Class MainWindow
 
         Private dialogHelper As DialogHelper
-        Public Sub New()
 
+
+
+
+        Public Sub New()
+            ' Charger les paramètres utilisateur si UserSettingsList n'est pas encore initialisé
+            If UserSettingsList Is Nothing Then
+                UserSettingsList = UserSettingsModels.LoadUserSettingsFronJson("Benoti")
+            End If
             ' Cet appel est requis par le concepteur.
             InitializeComponent()
             Console.WriteLine("Hello World!")
+            Me.DataContext = New ViewModel.MainWindowsViewModels()
+
             'CheckAndUpdate()
             ' Instancier la classe DialogHelper
-            dialogHelper = New DialogHelper(Me)
+            'dialogHelper = New DialogHelper(Me)
         End Sub
 
 
@@ -35,7 +46,15 @@ Namespace EyeChat
 
         ' Appeler la méthode SpeedMessageDialog
 
+        Private Sub ClosePatientBox_OnClick(ByVal sender As Object, ByVal e As RoutedEventArgs)
 
+        End Sub
+        Private Sub ValidPatientBox_OnClick(ByVal sender As Object, ByVal e As RoutedEventArgs)
+
+        End Sub
+        Private Function ConnectionButon_Click(sender As Object, e As RoutedEventArgs)
+
+        End Function
 
         Public Async Sub SpeedMessageDialog(userSend As String, message As String, option1 As String, option2 As String, option3 As String)
             Dim selectedOption As String = Await dialogHelper.ShowSpeedMessageDialogAsync(userSend, message, option1, option2, option3)

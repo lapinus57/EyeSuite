@@ -95,15 +95,15 @@ Namespace Models
                 Dim filePath = AppConfig.ExamOptionsPath
                 If File.Exists(filePath) Then
                     Dim json As String = File.ReadAllText(filePath)
-                    ExamOptionsList = JsonConvert.DeserializeObject(Of ObservableCollection(Of ExamOptionModels))(json)
+                    ExamOptionsListGlobal = JsonConvert.DeserializeObject(Of ObservableCollection(Of ExamOptionModels))(json)
                 Else
                     ' Crée une collection vide si le fichier n'existe pas
-                    ExamOptionsList = New ObservableCollection(Of ExamOptionModels)()
+                    ExamOptionsListGlobal = New ObservableCollection(Of ExamOptionModels)()
                     SaveExamOptionsToJson()
                 End If
             Catch ex As Exception
                 logger.Error("Erreur lors du chargement des options d'examen : ", ex)
-                ExamOptionsList = New ObservableCollection(Of ExamOptionModels)()
+                ExamOptionsListGlobal = New ObservableCollection(Of ExamOptionModels)()
                 SaveExamOptionsToJson()
             End Try
         End Sub
@@ -115,7 +115,7 @@ Namespace Models
                 If Not Directory.Exists(dossier) Then
                     Directory.CreateDirectory(dossier)
                 End If
-                Dim optionsJson As String = JsonConvert.SerializeObject(ExamOptionsList, Formatting.Indented)
+                Dim optionsJson As String = JsonConvert.SerializeObject(ExamOptionsListGlobal, Formatting.Indented)
                 File.WriteAllText(AppConfig.ExamOptionsPath, optionsJson)
             Catch ex As Exception
                 logger.Error("Erreur lors de la sauvegarde des ExamOptions : ", ex)

@@ -34,13 +34,13 @@ Namespace Models
 
 
                 ' Vérifie si Marvin est déjà présent dans la liste des utilisateurs
-                If UserModels.IsNameInList(UsersList, "Marvin") Then
+                If UserModels.IsNameInList(UsersListGlobal, "Marvin") Then
                     ' Ajoute les messages de Marvin et Joy
                     MessageModels.AddMessage("Marvin", "Marvin", "Cœur en Or", randomPhraseMarvin, False, AppConfig.AvatarPathMarvin)
                     MessageModels.AddMessage("Marvin", "Joy", "Riley", randomPhraseJoy, False, AppConfig.AvatarPathJoy)
                 Else
                     ' Ajoute Marvin à la liste des utilisateurs puis ajoute les messages
-                    UsersList.Add(New UserModels With {.Name = "Marvin", .Avatar = AppConfig.AvatarPathMarvin, .Status = "Don't Panic"})
+                    UsersListGlobal.Add(New UserModels With {.Name = "Marvin", .Avatar = AppConfig.AvatarPathMarvin, .Status = "Don't Panic"})
                     MessageModels.AddMessage("Marvin", "Marvin", "Cœur en Or", randomPhraseMarvin, False, AppConfig.AvatarPathMarvin)
                     MessageModels.AddMessage("Marvin", "Joy", "Riley", randomPhraseJoy, False, AppConfig.AvatarPathJoy)
                 End If

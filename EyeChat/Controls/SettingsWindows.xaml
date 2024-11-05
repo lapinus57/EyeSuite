@@ -1,0 +1,1267 @@
+﻿<UserControl xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"  
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"  
+             x:Class="Controls.SettingsWindows"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:converters="clr-namespace:EyeChat.Converters"
+             xmlns:SystemColors="clr-namespace:System.Windows;assembly=PresentationFramework"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:local="clr-namespace:EyeChat"                         
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="1000">
+
+
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Dictionary/DictionarySettingsWindows.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <converters:StringToImageSourceConverter x:Key="StringToImageSourceConverter"/>
+            <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        <Style TargetType="TextBlock">
+                <Setter Property="FontSize" Value="{Binding AppSizeDisplay}" />
+                <Setter Property="Foreground" Value="Black"/>
+                <Setter Property="Margin" Value="0"/>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                  HorizontalScrollBarVisibility="Hidden">
+        <StackPanel>
+            <Expander >
+                <Expander.Header>
+                    <TextBlock Text="{StaticResource GeneralSettingsLabel}" 
+                               FontSize="{Binding AppSizeDisplay}" 
+                               VerticalAlignment="Center" />
+                </Expander.Header>
+
+                <Expander.Content>
+
+                    <Grid Margin="10,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0"/>
+                            <ColumnDefinition Width="300"/>
+                            <ColumnDefinition Width="300"/>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="{StaticResource ComputerNameLabel}" 
+                                   FontSize="{Binding AppSizeDisplay}"
+                                   Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"/>
+                        <TextBox Text="{Binding ComputerName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                 Grid.Column="3" Grid.Row="0"
+                                 FontSize="{Binding AppSizeDisplay}"
+                                 IsReadOnly="True"/>
+                        <TextBlock Text="{StaticResource WindowsNameLabel}" 
+                                   Grid.Column="0" Grid.Row="1" 
+                                   FontSize="{Binding AppSizeDisplay}" Grid.ColumnSpan="2"/>
+                        <TextBox Text="{Binding WindowsName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                 Grid.Column="3" Grid.Row="1"
+                                 FontSize="{Binding AppSizeDisplay}"
+                                 IsReadOnly="False"/>
+                        <TextBlock Text="{StaticResource UserNameLabel}" 
+                                   Grid.Column="0" Grid.Row="2" 
+                                   FontSize="{Binding AppSizeDisplay}" Grid.ColumnSpan="2"/>
+                        <TextBox Text="{Binding UserName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                 Grid.Column="3" Grid.Row="2"
+                                 FontSize="{Binding AppSizeDisplay}"/>
+                        <TextBlock Text="{StaticResource AvatarLabel}" 
+                                   Grid.Column="0" Grid.Row="3"
+                                   FontSize="{Binding AppSizeDisplay}" Grid.ColumnSpan="2"/>
+                        <ComboBox x:Name="cboAvatars"
+                                  Grid.Column="3" Grid.Row="3"
+                                  FontSize="{Binding AppSizeDisplay}"
+                                  SelectionChanged="CboAvatars_SelectionChanged">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="{Binding ImagePath, Converter={StaticResource StringToImageSourceConverter}}" Width="{Binding Width}" Height="{Binding Height}"/>
+                                        <TextBlock Text="{Binding Tag}" Margin="10,0,0,0" VerticalAlignment="Center" Foreground="White"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+
+
+                    </Grid>
+
+
+
+
+                </Expander.Content>
+            </Expander>
+
+            <Expander >
+                <Expander.Header>
+
+                    <TextBlock Text="{StaticResource ScreenSettingsLabel}" 
+                               FontSize="{Binding AppSizeDisplay}" 
+                               VerticalAlignment="Center" />
+
+                </Expander.Header>
+                <Expander.Content>
+                    <Grid Margin="10,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="300"/>
+                            <ColumnDefinition Width="300"/>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="{StaticResource AppThemeLabel}" 
+                                   Grid.Column="0" Grid.Row="0"
+                                   FontSize="{Binding AppSizeDisplay}"/>
+                        <ComboBox SelectedValuePath="Content" 
+                                  SelectedValue="{Binding AppTheme, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                  Grid.Column="2" Grid.Row="0"
+                                  SelectionChanged="AppThemeChanged" 
+                                  FontSize="{Binding AppSizeDisplay}">
+                            <ComboBoxItem Content="Clair" />
+                            <ComboBoxItem Content="Sombre" />
+                        </ComboBox>
+
+
+                        <TextBlock Text="{StaticResource AppColorLabel}" 
+                                   Grid.Column="0" Grid.Row="1" 
+                                   FontSize="{Binding AppSizeDisplay}" />
+                        <mah:ColorPicker  DropDownClosed="ColorPicker_DropDownClosed"
+                                          Grid.Column="2" Grid.Row="1"  
+                                          FontSize="{Binding AppSizeDisplay}" 
+                                          LabelColorPreview="Aperçu"
+                                          LabelColorName="Nom"
+                                          ColorPalettesTabHeader="Simple"
+                                          AdvancedTabHeader="Avancée"
+                                          StandardColorPaletteHeader="Standard"
+                                          AvailableColorPaletteHeader="Couleur disponible"
+                                          RecentColorPaletteHeader="Couleur récente"                     
+                                          SelectedColor="{Binding AppColorString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+
+                        <TextBlock Text="{StaticResource AppSizeLabel}" 
+                                   Grid.Column="0" Grid.Row="2"
+                                   FontSize="{Binding AppSizeDisplay}"/>
+                        <ComboBox x:Name="cboSize" 
+                                  Grid.Column="2" Grid.Row="2" 
+                                  SelectedValue="{Binding AppSizeDisplay, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                  SelectedValuePath="Tag"  
+                                  IsEditable="False" 
+                                  SelectionChanged="AppColorChanged" 
+                                  FontSize="{Binding AppSizeDisplay}">
+                            <ComboBox.Items>
+                                <ComboBoxItem Content="Très petit" Tag="12" />
+                                <ComboBoxItem Content="Petit" Tag="14" />
+                                <ComboBoxItem Content="Moyen" Tag="16" />
+                                <ComboBoxItem Content="Grand" Tag="18" />
+                                <ComboBoxItem Content="Très Grand" Tag="20" />
+
+                            </ComboBox.Items>
+                        </ComboBox>
+
+
+
+
+                    </Grid>
+
+
+
+
+                </Expander.Content>
+            </Expander>
+
+            <Expander>
+                <Expander.Header>
+
+                    <TextBlock Text="Raccourcis clavier examens" 
+                               FontSize="{Binding AppSizeDisplay}" 
+                               VerticalAlignment="Center" />
+
+                </Expander.Header>
+                <Expander.Content>
+                    <!-- Contenu collapsible -->
+                    <StackPanel>
+
+                        <Grid Margin="10,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="300"/>
+                                <ColumnDefinition Width="300"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Text="Ctrl + F9" 
+                                       FontSize="{Binding AppSizeDisplay}" 
+                                       Grid.Column="0" Grid.Row="0" 
+                                       VerticalAlignment="Center">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsOn, ElementName=CtrlF9Switch}" Value="False">
+                                                <Setter Property="TextDecorations" Value="Strikethrough"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <mah:ToggleSwitch Grid.Column="1" Grid.Row="0" 
+                                              FontSize="{Binding AppSizeDisplay}" 
+                                              OffContent="{StaticResource OffContent}" 
+                                              OnContent="{StaticResource OnContent}" 
+                                              x:Name="CtrlF9Switch" 
+                                              IsOn= "{Binding CtrlF9Enabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <ComboBox Grid.Column="2" Grid.Row="0"
+                                      ItemsSource="{Binding ExamOptions}" 
+                                      DisplayMemberPath="Name" 
+                                      SelectedValuePath="Name"
+                                      SelectedValue="{Binding CtrlF9, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      IsEnabled="{Binding IsOn, ElementName=CtrlF9Switch}"
+                                      FontSize="{Binding AppSizeDisplay}" />
+
+
+                            <TextBlock Text="Ctrl + F10"  
+                                       FontSize="{Binding AppSizeDisplay}" 
+                                       Grid.Column="0" Grid.Row="1" 
+                                       VerticalAlignment="Center">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsOn, ElementName=CtrlF10Switch}" Value="False">
+                                                <Setter Property="TextDecorations" Value="Strikethrough"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <mah:ToggleSwitch Grid.Column="1" Grid.Row="1" 
+                                              FontSize="{Binding AppSizeDisplay}" 
+                                              OffContent="{StaticResource OffContent}" 
+                                              OnContent="{StaticResource OnContent}" 
+                                              x:Name="CtrlF10Switch" 
+                                              IsOn= "{Binding CtrlF10Enabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <ComboBox Grid.Column="2" Grid.Row="1"
+                                      ItemsSource="{Binding ExamOptions}" 
+                                      DisplayMemberPath="Name" 
+                                      SelectedValuePath="Name"
+                                      SelectedValue="{Binding CtrlF10, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      IsEnabled="{Binding IsOn, ElementName=CtrlF10Switch}"
+                                      FontSize="{Binding AppSizeDisplay}"/>
+
+
+                            <TextBlock Text="Ctrl + F11" 
+                                       FontSize="{Binding AppSizeDisplay}" 
+                                       Grid.Column="0" Grid.Row="2"
+                                       VerticalAlignment="Center">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsOn, ElementName=CtrlF11Switch}" Value="False">
+                                                <Setter Property="TextDecorations" Value="Strikethrough"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <mah:ToggleSwitch Grid.Column="1" Grid.Row="2" 
+                                              FontSize="{Binding AppSizeDisplay}" 
+                                              OffContent="{StaticResource OffContent}" 
+                                              OnContent="{StaticResource OnContent}" 
+                                              x:Name="CtrlF11Switch" 
+                                              IsOn= "{Binding CtrlF11Enabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <ComboBox Grid.Column="2" Grid.Row="2"
+                                      ItemsSource="{Binding ExamOptions}" 
+                                      DisplayMemberPath="Name" 
+                                      SelectedValuePath="Name"
+                                      SelectedValue="{Binding CtrlF11, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      IsEnabled="{Binding IsOn, ElementName=CtrlF11Switch}"
+                                      FontSize="{Binding AppSizeDisplay}"/>
+
+
+                            
+
+
+                            <TextBlock Text="Shift + F9"
+                                       FontSize="{Binding AppSizeDisplay}" 
+                                       Grid.Column="0" Grid.Row="3" 
+                                       VerticalAlignment="Center">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsOn, ElementName=ShiftF9Switch}" Value="False">
+                                                <Setter Property="TextDecorations" Value="Strikethrough"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <mah:ToggleSwitch Grid.Column="1" Grid.Row="3" 
+                                              FontSize="{Binding AppSizeDisplay}" 
+                                              OffContent="{StaticResource OffContent}" 
+                                              OnContent="{StaticResource OnContent}" 
+                                              x:Name="ShiftF9Switch" 
+                                              IsOn= "{Binding ShiftF9Enabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <ComboBox Grid.Column="2" Grid.Row="3"
+                                      ItemsSource="{Binding ExamOptions}" 
+                                      DisplayMemberPath="Name" 
+                                      SelectedValuePath="Name"
+                                      SelectedValue="{Binding ShiftF9, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      IsEnabled="{Binding IsOn, ElementName=ShiftF9Switch}"
+                                      FontSize="{Binding AppSizeDisplay}"/>
+
+
+                            <TextBlock Text="Shift + F10" 
+                                       FontSize="{Binding AppSizeDisplay}" 
+                                       Grid.Column="0" Grid.Row="4" 
+                                       VerticalAlignment="Center">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsOn, ElementName=ShiftF10Switch}" Value="False">
+                                                <Setter Property="TextDecorations" Value="Strikethrough"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <mah:ToggleSwitch Grid.Column="1" Grid.Row="4" 
+                                              FontSize="{Binding AppSizeDisplay}" 
+                                              OffContent="{StaticResource OffContent}" 
+                                              OnContent="{StaticResource OnContent}" 
+                                              x:Name="ShiftF10Switch" 
+                                              IsOn= "{Binding ShiftF10Enabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <ComboBox Grid.Column="2" Grid.Row="4"
+                                      ItemsSource="{Binding ExamOptions}" 
+                                      DisplayMemberPath="Name" 
+                                      SelectedValuePath="Name"
+                                      SelectedValue="{Binding ShiftF10, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      IsEnabled="{Binding IsOn, ElementName=ShiftF10Switch}"
+                                      FontSize="{Binding AppSizeDisplay}"/>
+
+
+                            <TextBlock Text="Shift + F11" 
+                                       FontSize="{Binding AppSizeDisplay}" 
+                                       Grid.Column="0" Grid.Row="5" 
+                                       VerticalAlignment="Center">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsOn, ElementName=ShiftF11Switch}" Value="False">
+                                                <Setter Property="TextDecorations" Value="Strikethrough"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <mah:ToggleSwitch Grid.Column="1" Grid.Row="5" 
+                                              FontSize="{Binding AppSizeDisplay}" 
+                                              OffContent="{StaticResource OffContent}" 
+                                              OnContent="{StaticResource OnContent}" 
+                                              x:Name="ShiftF11Switch" 
+                                              IsOn= "{Binding ShiftF11Enabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <ComboBox Grid.Column="2" Grid.Row="5"
+                                      ItemsSource="{Binding ExamOptions}" 
+                                      DisplayMemberPath="Name" 
+                                      SelectedValuePath="Name"
+                                      SelectedValue="{Binding ShiftF11, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      IsEnabled="{Binding IsOn, ElementName=ShiftF11Switch}"
+                                      FontSize="{Binding AppSizeDisplay}"/>
+
+
+                           
+                        </Grid>
+
+                    </StackPanel>
+
+
+                </Expander.Content>
+            </Expander>
+
+            <Expander>
+                <Expander.Header>
+
+                    <TextBlock Text="Raccourcis clavier consultation" 
+                   FontSize="{Binding AppSizeDisplay}" 
+                   VerticalAlignment="Center" />
+
+                </Expander.Header>
+                <Expander.Content>
+                    <StackPanel>
+                        <Grid Margin="10,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="F5" 
+                                       FontSize="{Binding AppSizeDisplay}" 
+                                       Grid.Column="0" Grid.Row="0" 
+                                       VerticalAlignment="Center">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsOn, ElementName=F5Switch}" Value="False">
+                                                <Setter Property="TextDecorations" Value="Strikethrough"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <mah:ToggleSwitch Grid.Column="1" Grid.Row="0" 
+                                              FontSize="{Binding AppSizeDisplay}" 
+                                              OffContent="{StaticResource OffContent}" 
+                                              OnContent="{StaticResource OnContent}" 
+                                              x:Name="F5Switch" 
+                                              IsOn= "{Binding F5Enabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <TextBlock Text="{StaticResource PageREFRACTION}" 
+                                       Grid.Column="2" Grid.Row="0"
+                                       VerticalAlignment="Center"
+                                       FontSize="{Binding AppSizeDisplay}">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsOn, ElementName=F5Switch}" Value="False">
+                                                <Setter Property="TextDecorations" Value="Strikethrough"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <TextBox Text="{Binding F5Text1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                     Grid.Column="3" Grid.Row="0"
+                                     FontSize="{Binding AppSizeDisplay}"
+                                     IsEnabled="{Binding IsOn, ElementName=F5Switch}"
+                                     IsReadOnly="False"/>
+                            <TextBlock Text="{StaticResource PageLENTILLES}" 
+                                       Grid.Column="2" Grid.Row="1"
+                                       VerticalAlignment="Center"
+                                       FontSize="{Binding AppSizeDisplay}">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsOn, ElementName=F5Switch}" Value="False">
+                                                <Setter Property="TextDecorations" Value="Strikethrough"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <TextBox Text="{Binding F5Text2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                      Grid.Column="3" Grid.Row="1"
+                                      FontSize="{Binding AppSizeDisplay}"
+                                     IsEnabled="{Binding IsOn, ElementName=F5Switch}"
+                                      IsReadOnly="False"/>
+                            <TextBlock Text="{StaticResource PagePATHOLOGIES}" 
+                                       Grid.Column="2" Grid.Row="2"
+                                       VerticalAlignment="Center"
+                                       FontSize="{Binding AppSizeDisplay}">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsOn, ElementName=F5Switch}" Value="False">
+                                                <Setter Property="TextDecorations" Value="Strikethrough"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <TextBox Text="{Binding F5Text3, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                     Grid.Column="3" Grid.Row="2"
+                                      FontSize="{Binding AppSizeDisplay}"
+                                     IsEnabled="{Binding IsOn, ElementName=F5Switch}"
+                                     IsReadOnly="False"/>
+                            <TextBlock Text="{StaticResource PageORTHOPTIE}" 
+                                       Grid.Column="2" Grid.Row="3"
+                                       VerticalAlignment="Center"
+                                       FontSize="{Binding AppSizeDisplay}">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsOn, ElementName=F5Switch}" Value="False">
+                                                <Setter Property="TextDecorations" Value="Strikethrough"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <TextBox Text="{Binding F5Text4, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                     Grid.Column="3" Grid.Row="3"
+                                     FontSize="{Binding AppSizeDisplay}"
+                                     IsEnabled="{Binding IsOn, ElementName=F5Switch}"
+                                     IsReadOnly="False"/>
+                            <TextBlock Text="{StaticResource PageTRAITEMENT}" 
+                                       Grid.Column="2" Grid.Row="4"
+                                       VerticalAlignment="Center"
+                                       FontSize="{Binding AppSizeDisplay}">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsOn, ElementName=F5Switch}" Value="False">
+                                                <Setter Property="TextDecorations" Value="Strikethrough"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <TextBox Text="{Binding F5Text5, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                     Grid.Column="3" Grid.Row="4"
+                                     FontSize="{Binding AppSizeDisplay}"
+                                     IsEnabled="{Binding IsOn, ElementName=F5Switch}"
+                                     IsReadOnly="False"/>
+                        </Grid>
+                        <Grid Margin="10,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="F6" 
+               FontSize="{Binding AppSizeDisplay}" 
+               Grid.Column="0" Grid.Row="0" 
+               VerticalAlignment="Center">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsOn, ElementName=F6Switch}" Value="False">
+                                                <Setter Property="TextDecorations" Value="Strikethrough"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <mah:ToggleSwitch Grid.Column="1" Grid.Row="0" 
+                      FontSize="{Binding AppSizeDisplay}" 
+                      OffContent="{StaticResource OffContent}" 
+                      OnContent="{StaticResource OnContent}" 
+                      x:Name="F6Switch" 
+                      IsOn= "{Binding F6Enabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <TextBlock Text="{StaticResource PageREFRACTION}" 
+               Grid.Column="2" Grid.Row="0"
+               VerticalAlignment="Center"
+               FontSize="{Binding AppSizeDisplay}">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsOn, ElementName=F6Switch}" Value="False">
+                                                <Setter Property="TextDecorations" Value="Strikethrough"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <TextBox Text="{Binding F6Text1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+             Grid.Column="3" Grid.Row="0"
+             FontSize="{Binding AppSizeDisplay}"
+             IsEnabled="{Binding IsOn, ElementName=F6Switch}"
+             IsReadOnly="False"/>
+                            <TextBlock Text="{StaticResource PageLENTILLES}" 
+               Grid.Column="2" Grid.Row="1"
+               VerticalAlignment="Center"
+               FontSize="{Binding AppSizeDisplay}">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsOn, ElementName=F6Switch}" Value="False">
+                                                <Setter Property="TextDecorations" Value="Strikethrough"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <TextBox Text="{Binding F6Text2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+              Grid.Column="3" Grid.Row="1"
+              FontSize="{Binding AppSizeDisplay}"
+             IsEnabled="{Binding IsOn, ElementName=F6Switch}"
+              IsReadOnly="False"/>
+                            <TextBlock Text="{StaticResource PagePATHOLOGIES}" 
+               Grid.Column="2" Grid.Row="2"
+               VerticalAlignment="Center"
+               FontSize="{Binding AppSizeDisplay}">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsOn, ElementName=F6Switch}" Value="False">
+                                                <Setter Property="TextDecorations" Value="Strikethrough"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <TextBox Text="{Binding F6Text3, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+             Grid.Column="3" Grid.Row="2"
+              FontSize="{Binding AppSizeDisplay}"
+             IsEnabled="{Binding IsOn, ElementName=F6Switch}"
+             IsReadOnly="False"/>
+                            <TextBlock Text="{StaticResource PageORTHOPTIE}" 
+               Grid.Column="2" Grid.Row="3"
+               VerticalAlignment="Center"
+               FontSize="{Binding AppSizeDisplay}">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsOn, ElementName=F6Switch}" Value="False">
+                                                <Setter Property="TextDecorations" Value="Strikethrough"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <TextBox Text="{Binding F6Text4, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+             Grid.Column="3" Grid.Row="3"
+             FontSize="{Binding AppSizeDisplay}"
+             IsEnabled="{Binding IsOn, ElementName=F6Switch}"
+             IsReadOnly="False"/>
+                            <TextBlock Text="{StaticResource PageTRAITEMENT}" 
+               Grid.Column="2" Grid.Row="4"
+               VerticalAlignment="Center"
+               FontSize="{Binding AppSizeDisplay}">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsOn, ElementName=F6Switch}" Value="False">
+                                                <Setter Property="TextDecorations" Value="Strikethrough"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <TextBox Text="{Binding F6Text5, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+             Grid.Column="3" Grid.Row="4"
+             FontSize="{Binding AppSizeDisplay}"
+             IsEnabled="{Binding IsOn, ElementName=F6Switch}"
+             IsReadOnly="False"/>
+                        </Grid>
+                        <Grid Margin="10,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="F7" 
+  FontSize="{Binding AppSizeDisplay}" 
+  Grid.Column="0" Grid.Row="0" 
+  VerticalAlignment="Center">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsOn, ElementName=F7Switch}" Value="False">
+                                                <Setter Property="TextDecorations" Value="Strikethrough"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <mah:ToggleSwitch Grid.Column="1" Grid.Row="0" 
+         FontSize="{Binding AppSizeDisplay}" 
+         OffContent="{StaticResource OffContent}" 
+         OnContent="{StaticResource OnContent}" 
+         x:Name="F7Switch" 
+         IsOn= "{Binding F7Enabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <TextBlock Text="{StaticResource PageREFRACTION}" 
+  Grid.Column="2" Grid.Row="0"
+  VerticalAlignment="Center"
+  FontSize="{Binding AppSizeDisplay}">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsOn, ElementName=F7Switch}" Value="False">
+                                                <Setter Property="TextDecorations" Value="Strikethrough"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <TextBox Text="{Binding F7Text1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+Grid.Column="3" Grid.Row="0"
+FontSize="{Binding AppSizeDisplay}"
+IsEnabled="{Binding IsOn, ElementName=F7Switch}"
+IsReadOnly="False"/>
+                            <TextBlock Text="{StaticResource PageLENTILLES}" 
+  Grid.Column="2" Grid.Row="1"
+  VerticalAlignment="Center"
+  FontSize="{Binding AppSizeDisplay}">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsOn, ElementName=F7Switch}" Value="False">
+                                                <Setter Property="TextDecorations" Value="Strikethrough"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <TextBox Text="{Binding F7Text2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+ Grid.Column="3" Grid.Row="1"
+ FontSize="{Binding AppSizeDisplay}"
+IsEnabled="{Binding IsOn, ElementName=F7Switch}"
+ IsReadOnly="False"/>
+                            <TextBlock Text="{StaticResource PagePATHOLOGIES}" 
+  Grid.Column="2" Grid.Row="2"
+  VerticalAlignment="Center"
+  FontSize="{Binding AppSizeDisplay}">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsOn, ElementName=F7Switch}" Value="False">
+                                                <Setter Property="TextDecorations" Value="Strikethrough"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <TextBox Text="{Binding F7Text3, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+Grid.Column="3" Grid.Row="2"
+ FontSize="{Binding AppSizeDisplay}"
+IsEnabled="{Binding IsOn, ElementName=F7Switch}"
+IsReadOnly="False"/>
+                            <TextBlock Text="{StaticResource PageORTHOPTIE}" 
+  Grid.Column="2" Grid.Row="3"
+  VerticalAlignment="Center"
+  FontSize="{Binding AppSizeDisplay}">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsOn, ElementName=F7Switch}" Value="False">
+                                                <Setter Property="TextDecorations" Value="Strikethrough"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <TextBox Text="{Binding F7Text4, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+Grid.Column="3" Grid.Row="3"
+FontSize="{Binding AppSizeDisplay}"
+IsEnabled="{Binding IsOn, ElementName=F7Switch}"
+IsReadOnly="False"/>
+                            <TextBlock Text="{StaticResource PageTRAITEMENT}" 
+  Grid.Column="2" Grid.Row="4"
+  VerticalAlignment="Center"
+  FontSize="{Binding AppSizeDisplay}">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsOn, ElementName=F7Switch}" Value="False">
+                                                <Setter Property="TextDecorations" Value="Strikethrough"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <TextBox Text="{Binding F7Text5, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+Grid.Column="3" Grid.Row="4"
+FontSize="{Binding AppSizeDisplay}"
+IsEnabled="{Binding IsOn, ElementName=F7Switch}"
+IsReadOnly="False"/>
+                        </Grid>
+                        <Grid Margin="10,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="F8" 
+  FontSize="{Binding AppSizeDisplay}" 
+  Grid.Column="0" Grid.Row="0" 
+  VerticalAlignment="Center">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsOn, ElementName=F8Switch}" Value="False">
+                                                <Setter Property="TextDecorations" Value="Strikethrough"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <mah:ToggleSwitch Grid.Column="1" Grid.Row="0" 
+         FontSize="{Binding AppSizeDisplay}" 
+         OffContent="{StaticResource OffContent}" 
+         OnContent="{StaticResource OnContent}" 
+         x:Name="F8Switch" 
+         IsOn= "{Binding F8Enabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <TextBlock Text="{StaticResource PageREFRACTION}" 
+  Grid.Column="2" Grid.Row="0"
+  VerticalAlignment="Center"
+  FontSize="{Binding AppSizeDisplay}">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsOn, ElementName=F8Switch}" Value="False">
+                                                <Setter Property="TextDecorations" Value="Strikethrough"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <TextBox Text="{Binding F8Text1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+Grid.Column="3" Grid.Row="0"
+FontSize="{Binding AppSizeDisplay}"
+IsEnabled="{Binding IsOn, ElementName=F8Switch}"
+IsReadOnly="False"/>
+                            <TextBlock Text="{StaticResource PageLENTILLES}" 
+  Grid.Column="2" Grid.Row="1"
+  VerticalAlignment="Center"
+  FontSize="{Binding AppSizeDisplay}">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsOn, ElementName=F8Switch}" Value="False">
+                                                <Setter Property="TextDecorations" Value="Strikethrough"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <TextBox Text="{Binding F8Text2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+ Grid.Column="3" Grid.Row="1"
+ FontSize="{Binding AppSizeDisplay}"
+IsEnabled="{Binding IsOn, ElementName=F8Switch}"
+ IsReadOnly="False"/>
+                            <TextBlock Text="{StaticResource PagePATHOLOGIES}" 
+  Grid.Column="2" Grid.Row="2"
+  VerticalAlignment="Center"
+  FontSize="{Binding AppSizeDisplay}">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsOn, ElementName=F8Switch}" Value="False">
+                                                <Setter Property="TextDecorations" Value="Strikethrough"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <TextBox Text="{Binding F8Text3, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+Grid.Column="3" Grid.Row="2"
+ FontSize="{Binding AppSizeDisplay}"
+IsEnabled="{Binding IsOn, ElementName=F8Switch}"
+IsReadOnly="False"/>
+                            <TextBlock Text="{StaticResource PageORTHOPTIE}" 
+  Grid.Column="2" Grid.Row="3"
+  VerticalAlignment="Center"
+  FontSize="{Binding AppSizeDisplay}">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsOn, ElementName=F8Switch}" Value="False">
+                                                <Setter Property="TextDecorations" Value="Strikethrough"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <TextBox Text="{Binding F8Text4, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+Grid.Column="3" Grid.Row="3"
+FontSize="{Binding AppSizeDisplay}"
+IsEnabled="{Binding IsOn, ElementName=F8Switch}"
+IsReadOnly="False"/>
+                            <TextBlock Text="{StaticResource PageTRAITEMENT}" 
+  Grid.Column="2" Grid.Row="4"
+  VerticalAlignment="Center"
+  FontSize="{Binding AppSizeDisplay}">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsOn, ElementName=F8Switch}" Value="False">
+                                                <Setter Property="TextDecorations" Value="Strikethrough"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <TextBox Text="{Binding F8Text5, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+Grid.Column="3" Grid.Row="4"
+FontSize="{Binding AppSizeDisplay}"
+IsEnabled="{Binding IsOn, ElementName=F8Switch}"
+IsReadOnly="False"/>
+                        </Grid>
+                    </StackPanel>
+                </Expander.Content>
+            </Expander>
+            <Expander>
+                <Expander.Header>
+                    <TextBlock Text="{StaticResource ExamHeaderLabel}" 
+                               FontSize="{Binding AppSizeDisplay}" 
+                               VerticalAlignment="Center" />
+                </Expander.Header>
+                <Expander.Content>
+                    <Grid Margin="10,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="Avant d'apporter toute modification, il est fortement recommandé de solliciter des conseils ou de consulter la page wiki sur GitHub afin de garantir le bon fonctionnement de la boîte de dialogue. Lorsque vous ajustez les données dans ce tableau, veillez à être attentif, car certaines modifications pourraient perturber son bon fonctionnement. Veuillez noter que toutes les modifications effectuées sur ce tableau seront automatiquement transmises à toutes les autres boîtes de dialogue. En conséquence, soyez particulièrement prudent lors de ces modifications." 
+                                   Grid.Row="0"
+                                   Margin="0,0,0,10"
+                                   MaxWidth="900"
+                                   TextWrapping="Wrap"
+                                   HorizontalAlignment="Left"
+                                   FontSize="{Binding AppSizeDisplay}"/>
+                        <DataGrid x:Name="ExamDataGrid" 
+                                  ItemsSource="{Binding Path=ExamOptions, UpdateSourceTrigger=PropertyChanged}" 
+                                  AutoGenerateColumns="False" 
+                                  Grid.Row="1"
+                                  FontSize="{Binding AppSizeDisplay}">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="N°" Binding="{Binding index}" IsReadOnly="True" />
+                                <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
+                                <DataGridTemplateColumn Header="Color">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <mah:ColorPicker x:Name="ColorExam" SelectedColor="{Binding Color, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                             FontSize="{Binding AppSizeDisplay}" 
+                                                             LabelColorPreview="Aperçu"
+                                                             LabelColorName="Nom"
+                                                             ColorPalettesTabHeader="Simple"
+                                                             AdvancedTabHeader="Avancée"
+                                                             StandardColorPaletteHeader="Standard"
+                                                             AvailableColorPaletteHeader="Couleur disponible"
+                                                            RecentColorPaletteHeader="Couleur récente"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTextColumn Header="CodeMSG" Binding="{Binding CodeMSG}" />
+                                <DataGridTextColumn Header="Annotation" Binding="{Binding Annotation}" />
+                                <DataGridTextColumn Header="Etage" Binding="{Binding Floor}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                        <Button Content="Enregistrer les modifications" 
+                                Click="SaveExamChangesButton_Click"
+                                Grid.Row="2"/>
+
+                    </Grid>
+
+
+
+
+                </Expander.Content>
+            </Expander>
+            <Expander>
+                <Expander.Header>
+                    <TextBlock Text="{StaticResource RoomWaitHeaderLabel}" 
+                               FontSize="{Binding AppSizeDisplay}" 
+                               VerticalAlignment="Center" />
+                </Expander.Header>
+                <Grid Margin="10,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Avant d'apporter toute modification, il est fortement recommandé de solliciter des conseils afin de garantir le bon fonctionnement de la boîte de dialogue. Lorsque vous ajustez les données dans ce tableau, veillez à être attentif, car certaines modifications pourraient perturber son bon fonctionnement. Veuillez noter que toutes les modifications effectuées sur ce tableau seront automatiquement transmises à toutes les autres boîtes de dialogue. En conséquence, soyez particulièrement prudent lors de ces modifications." 
+                               Grid.Row="0"
+                               Margin="0,0,0,10"
+                               MaxWidth="900"
+                               TextWrapping="Wrap"
+                               HorizontalAlignment="Left"
+                               FontSize="{Binding AppSizeDisplay}"/>
+                    <DataGrid x:Name="RoomWaitDataGrid" 
+                              
+                              AutoGenerateColumns="False" 
+                              Grid.Row="1"
+                              FontSize="{Binding AppSizeDisplay}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="N°" Binding="{Binding index}" IsReadOnly="True"  />
+                            <DataGridTextColumn Header="Salle" Binding="{Binding RoomWait}" />
+                            <DataGridTextColumn Header="Description" Binding="{Binding Description}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                </Grid>
+            </Expander>
+            <Expander>
+                <Expander.Header>
+                    <TextBlock Text="{StaticResource SpeedMessageHeaderLabel}" FontSize="{Binding AppSizeDisplay}" VerticalAlignment="Center" />
+                </Expander.Header>
+                <Expander.Content>
+
+                    <Grid Margin="10,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="Avant d'effectuer des modifications, nous vous conseillons vivement de demander des avis ou de consulter la page wiki sur GitHub pour assurer le bon fonctionnement de cette boîte de dialogue. Veuillez noter que ces modifications sont spécifiques à cette boîte de dialogue, mais elles pourraient également entraîner des dysfonctionnements dans d'autres boîtes de dialogue. Soyez prudent lors de vos ajustements."
+                                   Margin="0,10,0,10"
+                                   Grid.Row="0"
+                                   MaxWidth="900"
+                                   TextWrapping="Wrap"
+                                   HorizontalAlignment="Left"
+                                   FontSize="{Binding AppSizeDisplay}"/>
+
+                        <DataGrid x:Name="SpeedMessageDataGrid" 
+                                  ItemsSource="{Binding Path=SpeedMessage, UpdateSourceTrigger=PropertyChanged}"
+                                  AutoGenerateColumns="False" 
+                                  Grid.Row="1"
+                                  FontSize="{Binding AppSizeDisplay}">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="N°" Binding="{Binding Index}" IsReadOnly="True" />
+                                <DataGridTextColumn Header="Titre" Binding="{Binding Title}" />
+                                <DataGridTextColumn Header="Destinataire" Binding="{Binding Destinataire}" />
+                                <DataGridTextColumn Header="Message" Binding="{Binding Message}" />
+                                <DataGridTextColumn Header="Options" Binding="{Binding Options}" />
+                                <DataGridTemplateColumn Header="Chargement">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel>
+                                                <mah:ToggleSwitch OffContent="{StaticResource OffContent}" 
+                                                                  OnContent="{StaticResource OnContent}" 
+                                                                  IsOn="{Binding Load}" />
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                        <Button Content="Enregistrer les modifications" 
+                                Click="SaveSpeedMessageChangesButton_Click"
+                                Grid.Row="2"/>
+                    </Grid>
+                </Expander.Content>
+            </Expander>
+
+
+            <Expander>
+                <Expander.Header>
+                    <TextBlock Text="Planning"
+                   FontSize="{Binding AppSizeDisplay}"
+                   VerticalAlignment="Center" />
+                </Expander.Header>
+                <Grid Margin="10,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Switch pour activer/désactiver le mode planning -->
+                    <Grid Grid.Row="0" Margin="0,0,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="300"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Activer le mode Planning :"
+                       FontSize="{Binding AppSizeDisplay}"
+                       Grid.Column="0"
+                       VerticalAlignment="Center"/>
+                        <mah:ToggleSwitch FontSize="{Binding AppSizeDisplay}"
+                              OffContent="{StaticResource OffContent}"
+                              OnContent="{StaticResource OnContent}"
+                              x:Name="PlanningModeSwitch"
+                              Grid.Column="1"
+                              IsOn="{Binding PlanningMode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    </Grid>
+
+                    <!-- ComboBox pour sélectionner un utilisateur si le mode planning est désactivé -->
+                    <Grid Grid.Row="1" Margin="0,0,0,10"
+              Visibility="{Binding IsOn, ElementName=PlanningModeSwitch, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=False}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="300"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Utilisateur pour la journée :"
+                       FontSize="{Binding AppSizeDisplay}"
+                       Grid.Column="0"
+                       VerticalAlignment="Center"/>
+                        <ComboBox x:Name="PlanningUserComboBox"
+                      Grid.Column="1"
+                      Width="300"
+                      FontSize="{Binding AppSizeDisplay}"
+                      ItemsSource="{Binding UsersList}"
+                      SelectedItem="{Binding SelectedUser, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      DisplayMemberPath="UserName"/>
+                    </Grid>
+
+                    <!-- DataGrid pour éditer le planning, visible uniquement si le mode planning est activé -->
+                    <DataGrid x:Name="PlanningDataGrid"
+                  ItemsSource="{Binding Path=PlanningList, UpdateSourceTrigger=PropertyChanged}"
+                  AutoGenerateColumns="False"
+                  Grid.Row="2"
+                  FontSize="{Binding AppSizeDisplay}"
+                  Visibility="{Binding IsOn, ElementName=PlanningModeSwitch, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}"
+                  CanUserAddRows="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Jour"
+                                    Binding="{Binding Day}"
+                                    IsReadOnly="True" />
+                            <DataGridTextColumn Header="Début du créneau (HH:mm)"
+                                    Binding="{Binding StartTime}" />
+                            <DataGridTextColumn Header="Fin du créneau (HH:mm)"
+                                    Binding="{Binding EndTime}" />
+                            <DataGridTextColumn Header="Utilisateur"
+                                    Binding="{Binding User}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <!-- Bouton pour enregistrer les modifications du planning -->
+                    <Button Content="Enregistrer les modifications"
+                Click="SavePlanningChangesButton_Click"
+                Grid.Row="3"
+                Margin="0,10,0,0"
+                FontSize="{Binding AppSizeDisplay}"
+                Visibility="{Binding IsOn, ElementName=PlanningModeSwitch, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}"/>
+                </Grid>
+            </Expander>
+
+
+
+            <Expander>
+                <Expander.Header>
+                    <TextBlock Text="Fonctionalité" 
+                               FontSize="{Binding AppSizeDisplay}" 
+                               VerticalAlignment="Center" />
+                </Expander.Header>
+                <Expander.Content>
+                    <Grid Margin="10,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="300"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="{StaticResource SecretaryMode}" 
+                                       FontSize="{Binding AppSizeDisplay}"
+                                       Grid.Column="0" Grid.Row="0"/>
+                        <mah:ToggleSwitch OffContent="{StaticResource OffContent}" 
+                                              OnContent="{StaticResource OnContent}" 
+                                              FontSize="{Binding AppSizeDisplay}"
+                                              Grid.Column="1" Grid.Row="0"
+                                              IsOn= "{Binding SecretaryMode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBlock Text="{StaticResource DoctorMode}" 
+                                       FontSize="{Binding AppSizeDisplay}"
+                                       Grid.Column="0" Grid.Row="1"/>
+                        <mah:ToggleSwitch OffContent="{StaticResource OffContent}" 
+                                              OnContent="{StaticResource OnContent}" 
+                                              FontSize="{Binding AppSizeDisplay}" 
+                                              Grid.Column="1" Grid.Row="1"
+                                              IsOn= "{Binding DoctorMode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBlock Text="{StaticResource OrthoMode}" 
+                                   FontSize="{Binding AppSizeDisplay}"
+                                   Grid.Column="0" Grid.Row="2"/>
+                        <mah:ToggleSwitch OffContent="{StaticResource OffContent}" 
+                                          OnContent="{StaticResource OnContent}" 
+                                          FontSize="{Binding AppSizeDisplay}" 
+                                          Grid.Column="1" Grid.Row="2"
+                                          IsOn= "{Binding OrthoMode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBlock Text="{StaticResource AdvanvedMode}" 
+                                   FontSize="{Binding AppSizeDisplay}"
+                                   Grid.Column="0" Grid.Row="3"/>
+                        <mah:ToggleSwitch OffContent="{StaticResource OffContent}" 
+                                          OnContent="{StaticResource OnContent}" 
+                                          FontSize="{Binding AppSizeDisplay}" 
+                                          Grid.Column="1" Grid.Row="3"
+                                          IsOn= "{Binding AdvanvedMode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBlock Text="{StaticResource NFCMode}" 
+                                   FontSize="{Binding AppSizeDisplay}"
+                                   Grid.Column="0" Grid.Row="4"/>
+                        <mah:ToggleSwitch OffContent="{StaticResource OffContent}" 
+                                          OnContent="{StaticResource OnContent}" 
+                                          FontSize="{Binding AppSizeDisplay}" 
+                                          Grid.Column="1" Grid.Row="4"
+                                          IsOn= "{Binding NFCMode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBlock Text="{StaticResource AdminMode}" 
+                                   FontSize="{Binding AppSizeDisplay}"
+                                   Grid.Column="0" Grid.Row="5"/>
+                        <mah:ToggleSwitch OffContent="{StaticResource OffContent}" 
+                                          OnContent="{StaticResource OnContent}" 
+                                          FontSize="{Binding AppSizeDisplay}" 
+                                          Grid.Column="1" Grid.Row="5"
+                                          IsOn= "{Binding AdminMode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+
+                    </Grid>
+
+
+
+
+                </Expander.Content>
+            </Expander>
+            <Expander Visibility="{Binding RoomDisplayStr}">
+                <Expander.Header>
+                    <TextBlock Text="Débug" FontSize="{Binding AppSizeDisplay}" VerticalAlignment="Center" />
+                </Expander.Header>
+                <Expander.Content>
+                    <!-- Contenu collapsible -->
+                    <StackPanel>
+                        <ComboBox ItemsSource="{Binding DebugLevels}" SelectedItem="{Binding SelectedDebugLevel, Mode=TwoWay}" Margin="10,0" FontSize="{Binding AppSizeDisplay}"/>
+
+                    </StackPanel>
+
+
+                </Expander.Content>
+            </Expander>
+
+
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>
+

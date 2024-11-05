@@ -1,25 +1,32 @@
-﻿Imports System.Net.Sockets
+﻿Imports System.Net
+Imports System.Net.Sockets
 
 Namespace Networking
     Public Class NetworkingFileReceiver
         Public Sub ReceiveFile(savePath As String, port As Integer)
-            Dim listener As New TcpListener(System.Net.IPAddress.Any, port)
+            Dim listener As New TcpListener(IPAddress.Any, port)
             listener.Start()
-
-            Dim client As TcpClient = listener.AcceptTcpClient()
-            Dim data(client.ReceiveBufferSize) As Byte
-
-            Using stream As NetworkStream = client.GetStream()
-                Dim bytesRead As Integer = stream.Read(data, 0, data.Length)
-                Using fileStream As New System.IO.FileStream(savePath, System.IO.FileMode.Create)
-                    fileStream.Write(data, 0, bytesRead)
-                    fileStream.Close()
+            Try
+                Using client As TcpClient = listener.AcceptTcpClient()
+                    Using stream As NetworkStream = client.GetStream()
+                        Using fileStream As New System.IO.FileStream(savePath, System.IO.FileMode.Create)
+                            Dim buffer(4096) As Byte
+                            Dim bytesRead As Integer
+                            Do
+                                bytesRead = stream.Read(buffer, 0, buffer.Length)
+                                If bytesRead > 0 Then
+                                    fileStream.Write(buffer, 0, bytesRead)
+                                End If
+                            Loop While bytesRead > 0
+                        End Using
+                    End Using
                 End Using
-                stream.Close()
-            End Using
-
-            client.Close()
-            listener.Stop()
+            Catch ex As Exception
+                ' Ajoutez un journal ou affichez un message d'erreur
+                logger.Error("Erreur lors de la réception du fichier : " & ex.Message)
+            Finally
+                listener.Stop()
+            End Try
         End Sub
     End Class
 End Namespace

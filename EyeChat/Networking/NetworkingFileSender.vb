@@ -3,6 +3,7 @@ Imports System.Net
 Imports System.Net.NetworkInformation
 Imports System.Net.Sockets
 Imports EyeChat.Models
+Imports EyeChat.Utilities
 Imports log4net
 Imports log4net.Repository.Hierarchy
 
@@ -17,10 +18,10 @@ Namespace Networking
                 ' Vérifie si un utilisateur a été spécifié
                 If String.IsNullOrEmpty(user) Then
                     ' Aucun utilisateur spécifié, envoyez le message à tous les ordinateurs répertoriés
-                    For Each computer In ComputersList
+                    For Each computer In ComputersListGlobal
                         ' Assurez-vous de ne pas vous envoyer un message à vous-même
-                        If computer.ComputerID <> My.Settings.UniqueId Then
-                            Dim message As String = $"SYS20{computer.ComputerID}|{My.Settings.UniqueId}|{folder}|{fileToSend}"
+                        If computer.ComputerID <> AppConfig.UniqueId Then
+                            Dim message As String = $"SYS20{computer.ComputerID}|{AppConfig.UniqueId}|{folder}|{fileToSend}"
                             SendManager.SendMessage(message)
                             SendFile(fileToSend, computer.ComputerIp, 12345)
                             logger.Info($"Fichier envoyé à l'ordinateur {computer.ComputerID}")
@@ -28,9 +29,9 @@ Namespace Networking
                     Next
                 Else
                     ' Un utilisateur a été spécifié, envoyez le message uniquement à cet utilisateur
-                    Dim targetComputer As ComputerModels = ComputersList.FirstOrDefault(Function(comp) comp.ComputerUser = user)
+                    Dim targetComputer As ComputerModels = ComputersListGlobal.FirstOrDefault(Function(comp) comp.ComputerUser = user)
                     If targetComputer IsNot Nothing Then
-                        Dim message As String = $"SYS20{targetComputer.ComputerID}|{My.Settings.UniqueId}|{folder}|{fileToSend}"
+                        Dim message As String = $"SYS20{targetComputer.ComputerID}|{AppConfig.UniqueId}|{folder}|{fileToSend}"
                         SendManager.SendMessage(message)
                         SendFile(fileToSend, targetComputer.ComputerIp, 12345)
                         logger.Info($"Fichier envoyé à l'ordinateur {targetComputer.ComputerID}")
@@ -45,18 +46,39 @@ Namespace Networking
 
         ' Méthode pour envoyer un fichier à un ordinateur spécifique
         Public Shared Sub SendFile(filePath As String, ipAddress As String, port As Integer)
+            ' Vérification des paramètres d'entrée
+            If String.IsNullOrEmpty(ipAddress) OrElse port <= 0 Then
+                logger.Error("Adresse IP ou port invalide.")
+                Return
+            End If
+
+            If Not File.Exists(filePath) Then
+                logger.Error("Le fichier spécifié n'existe pas : " & filePath)
+                Return
+            End If
+
             Try
-                Dim client As New TcpClient(ipAddress, port)
-                Dim data As Byte() = File.ReadAllBytes(filePath)
+                logger.Info($"Tentative de connexion à {ipAddress}:{port} pour envoyer le fichier {filePath}")
 
-                Using stream As NetworkStream = client.GetStream()
-                stream.Write(data, 0, data.Length)
-                stream.Close()
-            End Using
+                Using client As New TcpClient(ipAddress, port)
+                    Dim data As Byte() = File.ReadAllBytes(filePath)
+                    Using stream As NetworkStream = client.GetStream()
+                        Dim totalBytesSent As Integer = 0
+                        Dim bufferSize As Integer = 4096
+                        Dim offset As Integer = 0
 
-            client.Close()
+                        While offset < data.Length
+                            Dim bytesToSend As Integer = Math.Min(bufferSize, data.Length - offset)
+                            stream.Write(data, offset, bytesToSend)
+                            totalBytesSent += bytesToSend
+                            offset += bytesToSend
+                        End While
+
+                        logger.Info($"Fichier {filePath} envoyé avec succès ({totalBytesSent} octets).")
+                    End Using
+                End Using
             Catch ex As Exception
-                logger.Error("Erreur lors de l'envoi du fichier : " & ex.Message)
+                logger.Error($"Erreur lors de l'envoi du fichier {filePath} à {ipAddress}:{port} : {ex.Message}")
             End Try
         End Sub
 
