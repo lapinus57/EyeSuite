@@ -191,6 +191,18 @@
     <Compile Include="Controls\SettingsWindows.xaml.vb">
       <DependentUpon>SettingsWindows.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Settings\GeneralSettingsControl.xaml.vb">
+      <DependentUpon>GeneralSettingsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Settings\HotkeyExamSettingsControl.xaml.vb">
+      <DependentUpon>HotkeyExamSettingsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Settings\HotkeySVSettingsControl.xaml.vb">
+      <DependentUpon>HotkeySVSettingsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Settings\UserSettingsControl.xaml.vb">
+      <DependentUpon>UserSettingsControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\UsersBubbleCtrl.xaml.vb">
       <DependentUpon>UsersBubbleCtrl.xaml</DependentUpon>
     </Compile>
@@ -203,9 +215,11 @@
     <Compile Include="Models\MessageModels.vb" />
     <Compile Include="Models\PatientModels.vb" />
     <Compile Include="Models\PlanningModels.vb" />
+    <Compile Include="Models\ShortcutKeySVModel.vb" />
     <Compile Include="Models\SpeedMessageModules.vb" />
     <Compile Include="Models\UserModels.vb" />
     <Compile Include="Models\UserSettingsModels.vb" />
+    <Compile Include="Models\WaitingRoomModels.vb" />
     <Compile Include="Networking\NetworkingFileReceiver.vb" />
     <Compile Include="Networking\NetworkingFileSender.vb" />
     <Compile Include="Networking\NetworkingUpdateChecker.vb" />
@@ -223,8 +237,14 @@
     <Compile Include="ViewModel\GitHubViewModel.vb" />
     <Compile Include="ViewModel\MainWindowsViewModels.vb" />
     <Compile Include="ViewModel\SettingsViewModel.vb" />
+    <Compile Include="Views\AddTimeSlotWindow.xaml.vb">
+      <DependentUpon>AddTimeSlotWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\InfoPatient.xaml.vb">
       <DependentUpon>InfoPatient.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\InputDefaulUserWindow.xaml.vb">
+      <DependentUpon>InputDefaulUserWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PostitEditor.xaml.vb">
       <DependentUpon>PostitEditor.xaml</DependentUpon>
@@ -249,6 +269,22 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\SettingsWindows.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Settings\GeneralSettingsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Settings\HotkeyExamSettingsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Settings\HotkeySVSettingsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Settings\UserSettingsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -281,7 +317,15 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\AddTimeSlotWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\InfoPatient.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\InputDefaulUserWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -365,7 +409,7 @@
     <None Include="Assets\Content\joy.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Assets\Content\secrétaria.png">
+    <None Include="Assets\Content\secrétariat.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Assets\Content\marvin.png">

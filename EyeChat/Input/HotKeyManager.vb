@@ -62,10 +62,12 @@ Namespace Input
             If GlobalConfig.UserSettingsList.CtrlF12Enabled Then RegisterHotKey(helper.Handle, HOTKEY_ID + 7, MOD_CTRL, VK_F12)
 
             ' Raccourci clavier pour coller le texte d'en-tête
-            If GlobalConfig.UserSettingsList.F5Enabled Then RegisterHotKey(helper.Handle, HOTKEY_ID + 8, 0, VK_F5)
-            If GlobalConfig.UserSettingsList.F6Enabled Then RegisterHotKey(helper.Handle, HOTKEY_ID + 9, 0, VK_F6)
-            If GlobalConfig.UserSettingsList.F7Enabled Then RegisterHotKey(helper.Handle, HOTKEY_ID10, 0, VK_F7)
-            If GlobalConfig.UserSettingsList.F8Enabled Then RegisterHotKey(helper.Handle, HOTKEY_ID10 + 1, 0, VK_F8)
+            If GlobalConfig.UserSettingsList.ShortcutKeys("F5").Enabled Then RegisterHotKey(helper.Handle, HOTKEY_ID + 8, 0, VK_F5)
+            If GlobalConfig.UserSettingsList.ShortcutKeys("F6").Enabled Then RegisterHotKey(helper.Handle, HOTKEY_ID + 9, 0, VK_F6)
+            If GlobalConfig.UserSettingsList.ShortcutKeys("F7").Enabled Then RegisterHotKey(helper.Handle, HOTKEY_ID10, 0, VK_F7)
+            If GlobalConfig.UserSettingsList.ShortcutKeys("F8").Enabled Then RegisterHotKey(helper.Handle, HOTKEY_ID10 + 1, 0, VK_F8)
+
+
         End Sub
 
         Public Sub UnregisterHotKeys(helper As WindowInteropHelper)

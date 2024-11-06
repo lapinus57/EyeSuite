@@ -1,0 +1,47 @@
+﻿<mah:MetroWindow x:Class="EyeChat.Views.AddTimeSlotWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        mc:Ignorable="d"
+        Title="Ajouter un créneau horaire" Height="400" Width="450">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Sélection du jour -->
+        <TextBlock Text="Jour :" VerticalAlignment="Center"/>
+        <ComboBox Grid.Row="0" Margin="5,0,0,10" 
+                  ItemsSource="{Binding AvailableDays}" 
+                  SelectedItem="{Binding SelectedDay, Mode=TwoWay}"/>
+
+        <!-- Sélection de l'heure de début -->
+        <TextBlock Grid.Row="1" Text="Heure de début :" VerticalAlignment="Center"/>
+        <ComboBox Grid.Row="1" Margin="5,0,0,10"
+                  ItemsSource="{Binding TimeOptions}"
+                  SelectedItem="{Binding StartTime, Mode=TwoWay}"/>
+
+        <!-- Sélection de l'heure de fin -->
+        <TextBlock Grid.Row="2" Text="Heure de fin :" VerticalAlignment="Center"/>
+        <ComboBox Grid.Row="2" Margin="5,0,0,10"
+                  ItemsSource="{Binding TimeOptions}"
+                  SelectedItem="{Binding EndTime, Mode=TwoWay}"/>
+
+        <!-- Sélection de l'utilisateur -->
+        <TextBlock Grid.Row="3" Text="Utilisateur :" VerticalAlignment="Center"/>
+        <ComboBox Grid.Row="3" Margin="5,0,0,10" 
+                  ItemsSource="{Binding UsersList}" 
+                  SelectedItem="{Binding SelectedUser, Mode=TwoWay}"/>
+
+        <!-- Bouton d'ajout -->
+        <Button Grid.Row="4" Content="Ajouter" 
+                Width="100" HorizontalAlignment="Right"/>
+    </Grid>
+</mah:MetroWindow>

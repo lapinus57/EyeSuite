@@ -1,0 +1,65 @@
+﻿<UserControl x:Class="Controls.Settings.GeneralSettingsControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:EyeChat"
+             mc:Ignorable="d"  d:DesignWidth="1000">
+    <Grid Margin="10,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <TextBlock Text="Identifiant du PC :" 
+                   VerticalAlignment="Center"
+                   FontSize="{Binding AppSizeDisplay}"
+                   Foreground="{DynamicResource MahApps.Brushes.IdealForeground}"
+                   Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"/>
+        <TextBox Text="{Binding ComputerName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+             Grid.Column="3" Grid.Row="0"
+             FontSize="{Binding AppSizeDisplay}"
+             IsReadOnly="True"/>
+        <TextBlock Text="Nom du PC :" 
+                   Grid.Column="0" Grid.Row="1" 
+                   VerticalAlignment="Center"
+                   Foreground="{DynamicResource MahApps.Brushes.IdealForeground}"
+                   FontSize="{Binding AppSizeDisplay}" Grid.ColumnSpan="2"/>
+        <TextBox Text="{Binding WindowsName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+             Grid.Column="3" Grid.Row="1"
+             FontSize="{Binding AppSizeDisplay}"
+             IsReadOnly="False"/>
+        <TextBlock Text="Niveau des Logs :" 
+                   Grid.Column="0" Grid.Row="2" 
+                   VerticalAlignment="Center"
+                   Foreground="{DynamicResource MahApps.Brushes.IdealForeground}"
+                   FontSize="{Binding AppSizeDisplay}" Grid.ColumnSpan="2"/>
+        <ComboBox ItemsSource="{Binding DebugLevels}"
+                  Grid.Column="3" Grid.Row="2"
+                  SelectedItem="{Binding SelectedDebugLevel, Mode=TwoWay}"  
+                  FontSize="{Binding AppSizeDisplay}"/>
+        <TextBlock Text="Fichier système :" 
+                   VerticalAlignment="Center"
+                   Foreground="{DynamicResource MahApps.Brushes.IdealForeground}"
+                  Grid.Column="0" Grid.Row="3"
+                  FontSize="{Binding AppSizeDisplay}" Grid.ColumnSpan="2"/>
+        <Button Content="Vérifier les fichiers"
+                Grid.Column="3" Grid.Row="3"/>
+        <TextBlock Text="Mise à jour :" 
+                   VerticalAlignment="Center"
+                   Foreground="{DynamicResource MahApps.Brushes.IdealForeground}"
+                   Grid.Column="0" Grid.Row="4"
+                   FontSize="{Binding AppSizeDisplay}" Grid.ColumnSpan="2"/>
+        <Button Content="Vérifier les mise à jours"
+                Grid.Column="3" Grid.Row="4"/>
+
+
+    </Grid>
+</UserControl>

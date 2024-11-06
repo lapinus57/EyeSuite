@@ -17,6 +17,9 @@ Namespace ViewModel
         Public Property ColorItems As New ObservableCollection(Of ColorItemViewModel)()
         Public Event PropertyChanged As PropertyChangedEventHandler Implements INotifyPropertyChanged.PropertyChanged
         Public Property DebugLevels As New ObservableCollection(Of String)() From {"DEBUG", "INFO", "WARN", "ERROR", "FATAL"}
+        Public Shared ReadOnly Property AvailableDays As List(Of String) = New List(Of String) From {
+            "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi"
+        }
         Protected Sub NotifyPropertyChanged(ByVal propertyName As String)
             RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(propertyName))
         End Sub
@@ -27,7 +30,7 @@ Namespace ViewModel
             Get
                 Try
                     logger.Debug("Lecture de la propriété F5Enabled")
-                    Return UserSettingsList.F5Enabled
+                    Return UserSettingsList.ShortcutKeys("F5").Enabled
                 Catch ex As Exception
                     logger.Error($"Erreur lors de la lecture de la propriété F5Enabled : {ex.Message}")
                     Return False
@@ -35,8 +38,8 @@ Namespace ViewModel
             End Get
             Set(ByVal value As Boolean)
                 Try
-                    If UserSettingsList.F5Enabled <> value Then
-                        UserSettingsList.F5Enabled = value
+                    If UserSettingsList.ShortcutKeys("F5").Enabled <> value Then
+                        UserSettingsList.ShortcutKeys("F5").Enabled = value
 
                         NotifyPropertyChanged("F5Enabled")
                         logger.Info($"La valeur de F5Enabled a été modifiée : {value}")
@@ -51,7 +54,7 @@ Namespace ViewModel
             Get
                 Try
                     logger.Debug("Lecture de la propriété F5Page1")
-                    Return UserSettingsList.F5Page1
+                    Return UserSettingsList.ShortcutKeys("F5").Pages(0)
                 Catch ex As Exception
                     logger.Error($"Erreur lors de la lecture de la propriété F5Page1 : {ex.Message}")
                     Return String.Empty
@@ -59,8 +62,8 @@ Namespace ViewModel
             End Get
             Set(ByVal value As String)
                 Try
-                    If UserSettingsList.F5Page1 <> value Then
-                        UserSettingsList.F5Page1 = value
+                    If UserSettingsList.ShortcutKeys("F5").Pages(0) <> value Then
+                        UserSettingsList.ShortcutKeys("F5").Pages(0) = value
 
                         NotifyPropertyChanged("F5Page1")
                         logger.Info($"La valeur de F5Page1 a été modifiée : {value}")
@@ -75,7 +78,7 @@ Namespace ViewModel
             Get
                 Try
                     logger.Debug("Lecture de la propriété F5Page2")
-                    Return UserSettingsList.F5Page2
+                    Return UserSettingsList.ShortcutKeys("F5").Pages(1)
                 Catch ex As Exception
                     logger.Error($"Erreur lors de la lecture de la propriété F5Page2 : {ex.Message}")
                     Return String.Empty
@@ -83,8 +86,8 @@ Namespace ViewModel
             End Get
             Set(ByVal value As String)
                 Try
-                    If UserSettingsList.F5Page2 <> value Then
-                        UserSettingsList.F5Page2 = value
+                    If UserSettingsList.ShortcutKeys("F5").Pages(1) <> value Then
+                        UserSettingsList.ShortcutKeys("F5").Pages(1) = value
 
                         NotifyPropertyChanged("F5Page2")
                         logger.Info($"La valeur de F5Page2 a été modifiée : {value}")
@@ -99,7 +102,7 @@ Namespace ViewModel
             Get
                 Try
                     logger.Debug("Lecture de la propriété F5Page3")
-                    Return UserSettingsList.F5Page3
+                    Return UserSettingsList.ShortcutKeys("F5").Pages(2)
                 Catch ex As Exception
                     logger.Error($"Erreur lors de la lecture de la propriété F5Page3 : {ex.Message}")
                     Return String.Empty
@@ -107,8 +110,8 @@ Namespace ViewModel
             End Get
             Set(ByVal value As String)
                 Try
-                    If UserSettingsList.F5Page3 <> value Then
-                        UserSettingsList.F5Page3 = value
+                    If UserSettingsList.ShortcutKeys("F5").Pages(2) <> value Then
+                        UserSettingsList.ShortcutKeys("F5").Pages(2) = value
 
                         NotifyPropertyChanged("F5Page3")
                         logger.Info($"La valeur de F5Page3 a été modifiée : {value}")
@@ -123,7 +126,7 @@ Namespace ViewModel
             Get
                 Try
                     logger.Debug("Lecture de la propriété F5Page4")
-                    Return UserSettingsList.F5Page4
+                    Return UserSettingsList.ShortcutKeys("F5").Pages(3)
                 Catch ex As Exception
                     logger.Error($"Erreur lors de la lecture de la propriété F5Page4 : {ex.Message}")
                     Return String.Empty
@@ -131,8 +134,8 @@ Namespace ViewModel
             End Get
             Set(ByVal value As String)
                 Try
-                    If UserSettingsList.F5Page4 <> value Then
-                        UserSettingsList.F5Page4 = value
+                    If UserSettingsList.ShortcutKeys("F5").Pages(3) <> value Then
+                        UserSettingsList.ShortcutKeys("F5").Pages(3) = value
 
                         NotifyPropertyChanged("F5Page4")
                         logger.Info($"La valeur de F5Page4 a été modifiée : {value}")
@@ -147,7 +150,7 @@ Namespace ViewModel
             Get
                 Try
                     logger.Debug("Lecture de la propriété F5Page5")
-                    Return UserSettingsList.F5Page5
+                    Return UserSettingsList.ShortcutKeys("F5").Pages(4)
                 Catch ex As Exception
                     logger.Error($"Erreur lors de la lecture de la propriété F5Page5 : {ex.Message}")
                     Return String.Empty
@@ -155,8 +158,8 @@ Namespace ViewModel
             End Get
             Set(ByVal value As String)
                 Try
-                    If UserSettingsList.F5Page5 <> value Then
-                        UserSettingsList.F5Page5 = value
+                    If UserSettingsList.ShortcutKeys("F5").Pages(4) <> value Then
+                        UserSettingsList.ShortcutKeys("F5").Pages(4) = value
 
                         NotifyPropertyChanged("F5Page5")
                         logger.Info($"La valeur de F5Page5 a été modifiée : {value}")
@@ -171,7 +174,7 @@ Namespace ViewModel
             Get
                 Try
                     logger.Debug("Lecture de la propriété F5Text1")
-                    Return UserSettingsList.F5Text1
+                    Return UserSettingsList.ShortcutKeys("F5").Texts(0)
                 Catch ex As Exception
                     logger.Error($"Erreur lors de la lecture de la propriété F5Text1 : {ex.Message}")
                     Return String.Empty
@@ -179,8 +182,8 @@ Namespace ViewModel
             End Get
             Set(ByVal value As String)
                 Try
-                    If UserSettingsList.F5Text1 <> value Then
-                        UserSettingsList.F5Text1 = value
+                    If UserSettingsList.ShortcutKeys("F5").Texts(0) <> value Then
+                        UserSettingsList.ShortcutKeys("F5").Texts(0) = value
 
                         NotifyPropertyChanged("F5Text1")
                         logger.Info($"La valeur de F5Text1 a été modifiée : {value}")
@@ -195,7 +198,7 @@ Namespace ViewModel
             Get
                 Try
                     logger.Debug("Lecture de la propriété F5Text2")
-                    Return UserSettingsList.F5Text2
+                    Return UserSettingsList.ShortcutKeys("F5").Texts(1)
                 Catch ex As Exception
                     logger.Error($"Erreur lors de la lecture de la propriété F5Text2 : {ex.Message}")
                     Return String.Empty
@@ -203,8 +206,8 @@ Namespace ViewModel
             End Get
             Set(ByVal value As String)
                 Try
-                    If UserSettingsList.F5Text2 <> value Then
-                        UserSettingsList.F5Text2 = value
+                    If UserSettingsList.ShortcutKeys("F5").Texts(1) <> value Then
+                        UserSettingsList.ShortcutKeys("F5").Texts(1) = value
 
                         NotifyPropertyChanged("F5Text2")
                         logger.Info($"La valeur de F5Text2 a été modifiée : {value}")
@@ -219,7 +222,7 @@ Namespace ViewModel
             Get
                 Try
                     logger.Debug("Lecture de la propriété F5Text3")
-                    Return UserSettingsList.F5Text3
+                    Return UserSettingsList.ShortcutKeys("F5").Texts(2)
                 Catch ex As Exception
                     logger.Error($"Erreur lors de la lecture de la propriété F5Text3 : {ex.Message}")
                     Return String.Empty
@@ -227,8 +230,8 @@ Namespace ViewModel
             End Get
             Set(ByVal value As String)
                 Try
-                    If UserSettingsList.F5Text3 <> value Then
-                        UserSettingsList.F5Text3 = value
+                    If UserSettingsList.ShortcutKeys("F5").Texts(2) <> value Then
+                        UserSettingsList.ShortcutKeys("F5").Texts(2) = value
 
                         NotifyPropertyChanged("F5Text3")
                         logger.Info($"La valeur de F5Text3 a été modifiée : {value}")
@@ -243,7 +246,7 @@ Namespace ViewModel
             Get
                 Try
                     logger.Debug("Lecture de la propriété F5Text4")
-                    Return UserSettingsList.F5Text4
+                    Return UserSettingsList.ShortcutKeys("F5").Texts(3)
                 Catch ex As Exception
                     logger.Error($"Erreur lors de la lecture de la propriété F5Text4 : {ex.Message}")
                     Return String.Empty
@@ -251,8 +254,8 @@ Namespace ViewModel
             End Get
             Set(ByVal value As String)
                 Try
-                    If UserSettingsList.F5Text4 <> value Then
-                        UserSettingsList.F5Text4 = value
+                    If UserSettingsList.ShortcutKeys("F5").Texts(3) <> value Then
+                        UserSettingsList.ShortcutKeys("F5").Texts(3) = value
 
                         NotifyPropertyChanged("F5Text4")
                         logger.Info($"La valeur de F5Text4 a été modifiée : {value}")
@@ -267,7 +270,7 @@ Namespace ViewModel
             Get
                 Try
                     logger.Debug("Lecture de la propriété F5Text5")
-                    Return UserSettingsList.F5Text5
+                    Return UserSettingsList.ShortcutKeys("F5").Texts(4)
                 Catch ex As Exception
                     logger.Error($"Erreur lors de la lecture de la propriété F5Text5 : {ex.Message}")
                     Return String.Empty
@@ -275,8 +278,8 @@ Namespace ViewModel
             End Get
             Set(ByVal value As String)
                 Try
-                    If UserSettingsList.F5Text5 <> value Then
-                        UserSettingsList.F5Text5 = value
+                    If UserSettingsList.ShortcutKeys("F5").Texts(4) <> value Then
+                        UserSettingsList.ShortcutKeys("F5").Texts(4) = value
 
                         NotifyPropertyChanged("F5Text5")
                         logger.Info($"La valeur de F5Text5 a été modifiée : {value}")
@@ -291,7 +294,7 @@ Namespace ViewModel
             Get
                 Try
                     logger.Debug("Lecture de la propriété F6Enabled")
-                    Return UserSettingsList.F6Enabled
+                    Return UserSettingsList.ShortcutKeys("F6").Enabled
                 Catch ex As Exception
                     logger.Error($"Erreur lors de la lecture de la propriété F6Enabled : {ex.Message}")
                     Return False
@@ -299,8 +302,8 @@ Namespace ViewModel
             End Get
             Set(ByVal value As Boolean)
                 Try
-                    If UserSettingsList.F6Enabled <> value Then
-                        UserSettingsList.F6Enabled = value
+                    If UserSettingsList.ShortcutKeys("F6").Enabled <> value Then
+                        UserSettingsList.ShortcutKeys("F6").Enabled = value
 
                         NotifyPropertyChanged("F6Enabled")
                         logger.Info($"La valeur de F6Enabled a été modifiée : {value}")
@@ -315,7 +318,7 @@ Namespace ViewModel
             Get
                 Try
                     logger.Debug("Lecture de la propriété F6Page1")
-                    Return UserSettingsList.F6Page1
+                    Return UserSettingsList.ShortcutKeys("F6").Pages(0)
                 Catch ex As Exception
                     logger.Error($"Erreur lors de la lecture de la propriété F6Page1 : {ex.Message}")
                     Return String.Empty
@@ -323,8 +326,8 @@ Namespace ViewModel
             End Get
             Set(ByVal value As String)
                 Try
-                    If UserSettingsList.F6Page1 <> value Then
-                        UserSettingsList.F6Page1 = value
+                    If UserSettingsList.ShortcutKeys("F6").Pages(0) <> value Then
+                        UserSettingsList.ShortcutKeys("F6").Pages(0) = value
 
                         NotifyPropertyChanged("F6Page1")
                         logger.Info($"La valeur de F6Page1 a été modifiée : {value}")
@@ -339,7 +342,7 @@ Namespace ViewModel
             Get
                 Try
                     logger.Debug("Lecture de la propriété F6Page2")
-                    Return UserSettingsList.F6Page2
+                    Return UserSettingsList.ShortcutKeys("F6").Pages(1)
                 Catch ex As Exception
                     logger.Error($"Erreur lors de la lecture de la propriété F6Page2 : {ex.Message}")
                     Return String.Empty
@@ -347,8 +350,8 @@ Namespace ViewModel
             End Get
             Set(ByVal value As String)
                 Try
-                    If UserSettingsList.F6Page2 <> value Then
-                        UserSettingsList.F6Page2 = value
+                    If UserSettingsList.ShortcutKeys("F6").Pages(1) <> value Then
+                        UserSettingsList.ShortcutKeys("F6").Pages(1) = value
 
                         NotifyPropertyChanged("F6Page2")
                         logger.Info($"La valeur de F6Page2 a été modifiée : {value}")
@@ -359,83 +362,11 @@ Namespace ViewModel
             End Set
         End Property
 
-        Public Property F6Page3 As String
-            Get
-                Try
-                    logger.Debug("Lecture de la propriété F6Page3")
-                    Return UserSettingsList.F6Page3
-                Catch ex As Exception
-                    logger.Error($"Erreur lors de la lecture de la propriété F6Page3 : {ex.Message}")
-                    Return String.Empty
-                End Try
-            End Get
-            Set(ByVal value As String)
-                Try
-                    If UserSettingsList.F6Page3 <> value Then
-                        UserSettingsList.F6Page3 = value
-
-                        NotifyPropertyChanged("F6Page3")
-                        logger.Info($"La valeur de F6Page3 a été modifiée : {value}")
-                    End If
-                Catch ex As Exception
-                    logger.Error($"Erreur lors de la modification de la propriété F6Page3 : {ex.Message}")
-                End Try
-            End Set
-        End Property
-
-        Public Property F6Page4 As String
-            Get
-                Try
-                    logger.Debug("Lecture de la propriété F6Page4")
-                    Return UserSettingsList.F6Page4
-                Catch ex As Exception
-                    logger.Error($"Erreur lors de la lecture de la propriété F6Page4 : {ex.Message}")
-                    Return String.Empty
-                End Try
-            End Get
-            Set(ByVal value As String)
-                Try
-                    If UserSettingsList.F6Page4 <> value Then
-                        UserSettingsList.F6Page4 = value
-
-                        NotifyPropertyChanged("F6Page4")
-                        logger.Info($"La valeur de F6Page4 a été modifiée : {value}")
-                    End If
-                Catch ex As Exception
-                    logger.Error($"Erreur lors de la modification de la propriété F6Page4 : {ex.Message}")
-                End Try
-            End Set
-        End Property
-
-        Public Property F6Page5 As String
-            Get
-                Try
-                    logger.Debug("Lecture de la propriété F6Page5")
-                    Return UserSettingsList.F6Page5
-                Catch ex As Exception
-                    logger.Error($"Erreur lors de la lecture de la propriété F6Page5 : {ex.Message}")
-                    Return String.Empty
-                End Try
-            End Get
-            Set(ByVal value As String)
-                Try
-                    If UserSettingsList.F6Page5 <> value Then
-                        UserSettingsList.F6Page5 = value
-
-                        NotifyPropertyChanged("F6Page5")
-                        logger.Info($"La valeur de F6Page5 a été modifiée : {value}")
-                    End If
-                Catch ex As Exception
-                    logger.Error($"Erreur lors de la modification de la propriété F6Page5 : {ex.Message}")
-                End Try
-            End Set
-        End Property
-
         Public Property F6Text1 As String
             Get
                 Try
                     logger.Debug("Lecture de la propriété F6Text1")
-                    Return UserSettingsList.F6Text1
+                    Return UserSettingsList.ShortcutKeys("F6").Texts(0)
                 Catch ex As Exception
                     logger.Error($"Erreur lors de la lecture de la propriété F6Text1 : {ex.Message}")
                     Return String.Empty
@@ -443,8 +374,8 @@ Namespace ViewModel
             End Get
             Set(ByVal value As String)
                 Try
-                    If UserSettingsList.F6Text1 <> value Then
-                        UserSettingsList.F6Text1 = value
+                    If UserSettingsList.ShortcutKeys("F6").Texts(0) <> value Then
+                        UserSettingsList.ShortcutKeys("F6").Texts(0) = value
 
                         NotifyPropertyChanged("F6Text1")
                         logger.Info($"La valeur de F6Text1 a été modifiée : {value}")
@@ -459,7 +390,7 @@ Namespace ViewModel
             Get
                 Try
                     logger.Debug("Lecture de la propriété F6Text2")
-                    Return UserSettingsList.F6Text2
+                    Return UserSettingsList.ShortcutKeys("F6").Texts(1)
                 Catch ex As Exception
                     logger.Error($"Erreur lors de la lecture de la propriété F6Text2 : {ex.Message}")
                     Return String.Empty
@@ -467,8 +398,8 @@ Namespace ViewModel
             End Get
             Set(ByVal value As String)
                 Try
-                    If UserSettingsList.F6Text2 <> value Then
-                        UserSettingsList.F6Text2 = value
+                    If UserSettingsList.ShortcutKeys("F6").Texts(1) <> value Then
+                        UserSettingsList.ShortcutKeys("F6").Texts(1) = value
 
                         NotifyPropertyChanged("F6Text2")
                         logger.Info($"La valeur de F6Text2 a été modifiée : {value}")
@@ -483,7 +414,7 @@ Namespace ViewModel
             Get
                 Try
                     logger.Debug("Lecture de la propriété F6Text3")
-                    Return UserSettingsList.F6Text3
+                    Return UserSettingsList.ShortcutKeys("F6").Texts(2)
                 Catch ex As Exception
                     logger.Error($"Erreur lors de la lecture de la propriété F6Text3 : {ex.Message}")
                     Return String.Empty
@@ -491,8 +422,8 @@ Namespace ViewModel
             End Get
             Set(ByVal value As String)
                 Try
-                    If UserSettingsList.F6Text3 <> value Then
-                        UserSettingsList.F6Text3 = value
+                    If UserSettingsList.ShortcutKeys("F6").Texts(2) <> value Then
+                        UserSettingsList.ShortcutKeys("F6").Texts(2) = value
 
                         NotifyPropertyChanged("F6Text3")
                         logger.Info($"La valeur de F6Text3 a été modifiée : {value}")
@@ -507,7 +438,7 @@ Namespace ViewModel
             Get
                 Try
                     logger.Debug("Lecture de la propriété F6Text4")
-                    Return UserSettingsList.F6Text4
+                    Return UserSettingsList.ShortcutKeys("F6").Texts(3)
                 Catch ex As Exception
                     logger.Error($"Erreur lors de la lecture de la propriété F6Text4 : {ex.Message}")
                     Return String.Empty
@@ -515,8 +446,8 @@ Namespace ViewModel
             End Get
             Set(ByVal value As String)
                 Try
-                    If UserSettingsList.F6Text4 <> value Then
-                        UserSettingsList.F6Text4 = value
+                    If UserSettingsList.ShortcutKeys("F6").Texts(3) <> value Then
+                        UserSettingsList.ShortcutKeys("F6").Texts(3) = value
 
                         NotifyPropertyChanged("F6Text4")
                         logger.Info($"La valeur de F6Text4 a été modifiée : {value}")
@@ -531,7 +462,7 @@ Namespace ViewModel
             Get
                 Try
                     logger.Debug("Lecture de la propriété F6Text5")
-                    Return UserSettingsList.F6Text5
+                    Return UserSettingsList.ShortcutKeys("F6").Texts(4)
                 Catch ex As Exception
                     logger.Error($"Erreur lors de la lecture de la propriété F6Text5 : {ex.Message}")
                     Return String.Empty
@@ -539,8 +470,8 @@ Namespace ViewModel
             End Get
             Set(ByVal value As String)
                 Try
-                    If UserSettingsList.F6Text5 <> value Then
-                        UserSettingsList.F6Text5 = value
+                    If UserSettingsList.ShortcutKeys("F6").Texts(4) <> value Then
+                        UserSettingsList.ShortcutKeys("F6").Texts(4) = value
 
                         NotifyPropertyChanged("F6Text5")
                         logger.Info($"La valeur de F6Text5 a été modifiée : {value}")
@@ -555,7 +486,7 @@ Namespace ViewModel
             Get
                 Try
                     logger.Debug("Lecture de la propriété F7Enabled")
-                    Return UserSettingsList.F7Enabled
+                    Return UserSettingsList.ShortcutKeys("F7").Enabled
                 Catch ex As Exception
                     logger.Error($"Erreur lors de la lecture de la propriété F7Enabled : {ex.Message}")
                     Return False
@@ -563,8 +494,8 @@ Namespace ViewModel
             End Get
             Set(ByVal value As Boolean)
                 Try
-                    If UserSettingsList.F7Enabled <> value Then
-                        UserSettingsList.F7Enabled = value
+                    If UserSettingsList.ShortcutKeys("F7").Enabled <> value Then
+                        UserSettingsList.ShortcutKeys("F7").Enabled = value
 
                         NotifyPropertyChanged("F7Enabled")
                         logger.Info($"La valeur de F7Enabled a été modifiée : {value}")
@@ -579,7 +510,7 @@ Namespace ViewModel
             Get
                 Try
                     logger.Debug("Lecture de la propriété F7Page1")
-                    Return UserSettingsList.F7Page1
+                    Return UserSettingsList.ShortcutKeys("F7").Pages(0)
                 Catch ex As Exception
                     logger.Error($"Erreur lors de la lecture de la propriété F7Page1 : {ex.Message}")
                     Return String.Empty
@@ -587,8 +518,8 @@ Namespace ViewModel
             End Get
             Set(ByVal value As String)
                 Try
-                    If UserSettingsList.F7Page1 <> value Then
-                        UserSettingsList.F7Page1 = value
+                    If UserSettingsList.ShortcutKeys("F7").Pages(0) <> value Then
+                        UserSettingsList.ShortcutKeys("F7").Pages(0) = value
 
                         NotifyPropertyChanged("F7Page1")
                         logger.Info($"La valeur de F7Page1 a été modifiée : {value}")
@@ -603,7 +534,7 @@ Namespace ViewModel
             Get
                 Try
                     logger.Debug("Lecture de la propriété F7Page2")
-                    Return UserSettingsList.F7Page2
+                    Return UserSettingsList.ShortcutKeys("F7").Pages(1)
                 Catch ex As Exception
                     logger.Error($"Erreur lors de la lecture de la propriété F7Page2 : {ex.Message}")
                     Return String.Empty
@@ -611,8 +542,8 @@ Namespace ViewModel
             End Get
             Set(ByVal value As String)
                 Try
-                    If UserSettingsList.F7Page2 <> value Then
-                        UserSettingsList.F7Page2 = value
+                    If UserSettingsList.ShortcutKeys("F7").Pages(1) <> value Then
+                        UserSettingsList.ShortcutKeys("F7").Pages(1) = value
 
                         NotifyPropertyChanged("F7Page2")
                         logger.Info($"La valeur de F7Page2 a été modifiée : {value}")
@@ -627,7 +558,7 @@ Namespace ViewModel
             Get
                 Try
                     logger.Debug("Lecture de la propriété F7Page3")
-                    Return UserSettingsList.F7Page3
+                    Return UserSettingsList.ShortcutKeys("F7").Pages(2)
                 Catch ex As Exception
                     logger.Error($"Erreur lors de la lecture de la propriété F7Page3 : {ex.Message}")
                     Return String.Empty
@@ -635,8 +566,8 @@ Namespace ViewModel
             End Get
             Set(ByVal value As String)
                 Try
-                    If UserSettingsList.F7Page3 <> value Then
-                        UserSettingsList.F7Page3 = value
+                    If UserSettingsList.ShortcutKeys("F7").Pages(2) <> value Then
+                        UserSettingsList.ShortcutKeys("F7").Pages(2) = value
 
                         NotifyPropertyChanged("F7Page3")
                         logger.Info($"La valeur de F7Page3 a été modifiée : {value}")
@@ -651,7 +582,7 @@ Namespace ViewModel
             Get
                 Try
                     logger.Debug("Lecture de la propriété F7Page4")
-                    Return UserSettingsList.F7Page4
+                    Return UserSettingsList.ShortcutKeys("F7").Pages(3)
                 Catch ex As Exception
                     logger.Error($"Erreur lors de la lecture de la propriété F7Page4 : {ex.Message}")
                     Return String.Empty
@@ -659,8 +590,8 @@ Namespace ViewModel
             End Get
             Set(ByVal value As String)
                 Try
-                    If UserSettingsList.F7Page4 <> value Then
-                        UserSettingsList.F7Page4 = value
+                    If UserSettingsList.ShortcutKeys("F7").Pages(3) <> value Then
+                        UserSettingsList.ShortcutKeys("F7").Pages(3) = value
 
                         NotifyPropertyChanged("F7Page4")
                         logger.Info($"La valeur de F7Page4 a été modifiée : {value}")
@@ -675,7 +606,7 @@ Namespace ViewModel
             Get
                 Try
                     logger.Debug("Lecture de la propriété F7Page5")
-                    Return UserSettingsList.F7Page5
+                    Return UserSettingsList.ShortcutKeys("F7").Pages(4)
                 Catch ex As Exception
                     logger.Error($"Erreur lors de la lecture de la propriété F7Page5 : {ex.Message}")
                     Return String.Empty
@@ -683,8 +614,8 @@ Namespace ViewModel
             End Get
             Set(ByVal value As String)
                 Try
-                    If UserSettingsList.F7Page5 <> value Then
-                        UserSettingsList.F7Page5 = value
+                    If UserSettingsList.ShortcutKeys("F7").Pages(4) <> value Then
+                        UserSettingsList.ShortcutKeys("F7").Pages(4) = value
 
                         NotifyPropertyChanged("F7Page5")
                         logger.Info($"La valeur de F7Page5 a été modifiée : {value}")
@@ -699,7 +630,7 @@ Namespace ViewModel
             Get
                 Try
                     logger.Debug("Lecture de la propriété F7Text1")
-                    Return UserSettingsList.F7Text1
+                    Return UserSettingsList.ShortcutKeys("F7").Texts(0)
                 Catch ex As Exception
                     logger.Error($"Erreur lors de la lecture de la propriété F7Text1 : {ex.Message}")
                     Return String.Empty
@@ -707,8 +638,8 @@ Namespace ViewModel
             End Get
             Set(ByVal value As String)
                 Try
-                    If UserSettingsList.F7Text1 <> value Then
-                        UserSettingsList.F7Text1 = value
+                    If UserSettingsList.ShortcutKeys("F7").Texts(0) <> value Then
+                        UserSettingsList.ShortcutKeys("F7").Texts(0) = value
 
                         NotifyPropertyChanged("F7Text1")
                         logger.Info($"La valeur de F7Text1 a été modifiée : {value}")
@@ -723,7 +654,7 @@ Namespace ViewModel
             Get
                 Try
                     logger.Debug("Lecture de la propriété F7Text2")
-                    Return UserSettingsList.F7Text2
+                    Return UserSettingsList.ShortcutKeys("F7").Texts(1)
                 Catch ex As Exception
                     logger.Error($"Erreur lors de la lecture de la propriété F7Text2 : {ex.Message}")
                     Return String.Empty
@@ -731,8 +662,8 @@ Namespace ViewModel
             End Get
             Set(ByVal value As String)
                 Try
-                    If UserSettingsList.F7Text2 <> value Then
-                        UserSettingsList.F7Text2 = value
+                    If UserSettingsList.ShortcutKeys("F7").Texts(1) <> value Then
+                        UserSettingsList.ShortcutKeys("F7").Texts(1) = value
 
                         NotifyPropertyChanged("F7Text2")
                         logger.Info($"La valeur de F7Text2 a été modifiée : {value}")
@@ -747,7 +678,7 @@ Namespace ViewModel
             Get
                 Try
                     logger.Debug("Lecture de la propriété F7Text3")
-                    Return UserSettingsList.F7Text3
+                    Return UserSettingsList.ShortcutKeys("F7").Texts(2)
                 Catch ex As Exception
                     logger.Error($"Erreur lors de la lecture de la propriété F7Text3 : {ex.Message}")
                     Return String.Empty
@@ -755,8 +686,8 @@ Namespace ViewModel
             End Get
             Set(ByVal value As String)
                 Try
-                    If UserSettingsList.F7Text3 <> value Then
-                        UserSettingsList.F7Text3 = value
+                    If UserSettingsList.ShortcutKeys("F7").Texts(2) <> value Then
+                        UserSettingsList.ShortcutKeys("F7").Texts(2) = value
 
                         NotifyPropertyChanged("F7Text3")
                         logger.Info($"La valeur de F7Text3 a été modifiée : {value}")
@@ -771,7 +702,7 @@ Namespace ViewModel
             Get
                 Try
                     logger.Debug("Lecture de la propriété F7Text4")
-                    Return UserSettingsList.F7Text4
+                    Return UserSettingsList.ShortcutKeys("F7").Texts(3)
                 Catch ex As Exception
                     logger.Error($"Erreur lors de la lecture de la propriété F7Text4 : {ex.Message}")
                     Return String.Empty
@@ -779,8 +710,8 @@ Namespace ViewModel
             End Get
             Set(ByVal value As String)
                 Try
-                    If UserSettingsList.F7Text4 <> value Then
-                        UserSettingsList.F7Text4 = value
+                    If UserSettingsList.ShortcutKeys("F7").Texts(3) <> value Then
+                        UserSettingsList.ShortcutKeys("F7").Texts(3) = value
 
                         NotifyPropertyChanged("F7Text4")
                         logger.Info($"La valeur de F7Text4 a été modifiée : {value}")
@@ -795,7 +726,7 @@ Namespace ViewModel
             Get
                 Try
                     logger.Debug("Lecture de la propriété F7Text5")
-                    Return UserSettingsList.F7Text5
+                    Return UserSettingsList.ShortcutKeys("F7").Texts(4)
                 Catch ex As Exception
                     logger.Error($"Erreur lors de la lecture de la propriété F7Text5 : {ex.Message}")
                     Return String.Empty
@@ -803,8 +734,8 @@ Namespace ViewModel
             End Get
             Set(ByVal value As String)
                 Try
-                    If UserSettingsList.F7Text5 <> value Then
-                        UserSettingsList.F7Text5 = value
+                    If UserSettingsList.ShortcutKeys("F7").Texts(4) <> value Then
+                        UserSettingsList.ShortcutKeys("F7").Texts(4) = value
 
                         NotifyPropertyChanged("F7Text5")
                         logger.Info($"La valeur de F7Text5 a été modifiée : {value}")
@@ -815,11 +746,13 @@ Namespace ViewModel
             End Set
         End Property
 
+
+
         Public Property F8Enabled As Boolean
             Get
                 Try
                     logger.Debug("Lecture de la propriété F8Enabled")
-                    Return UserSettingsList.F8Enabled
+                    Return UserSettingsList.ShortcutKeys("F8").Enabled
                 Catch ex As Exception
                     logger.Error($"Erreur lors de la lecture de la propriété F8Enabled : {ex.Message}")
                     Return False
@@ -827,8 +760,8 @@ Namespace ViewModel
             End Get
             Set(ByVal value As Boolean)
                 Try
-                    If UserSettingsList.F8Enabled <> value Then
-                        UserSettingsList.F8Enabled = value
+                    If UserSettingsList.ShortcutKeys("F8").Enabled <> value Then
+                        UserSettingsList.ShortcutKeys("F8").Enabled = value
 
                         NotifyPropertyChanged("F8Enabled")
                         logger.Info($"La valeur de F8Enabled a été modifiée : {value}")
@@ -843,7 +776,7 @@ Namespace ViewModel
             Get
                 Try
                     logger.Debug("Lecture de la propriété F8Page1")
-                    Return UserSettingsList.F8Page1
+                    Return UserSettingsList.ShortcutKeys("F8").Pages(0)
                 Catch ex As Exception
                     logger.Error($"Erreur lors de la lecture de la propriété F8Page1 : {ex.Message}")
                     Return String.Empty
@@ -851,8 +784,8 @@ Namespace ViewModel
             End Get
             Set(ByVal value As String)
                 Try
-                    If UserSettingsList.F8Page1 <> value Then
-                        UserSettingsList.F8Page1 = value
+                    If UserSettingsList.ShortcutKeys("F8").Pages(0) <> value Then
+                        UserSettingsList.ShortcutKeys("F8").Pages(0) = value
 
                         NotifyPropertyChanged("F8Page1")
                         logger.Info($"La valeur de F8Page1 a été modifiée : {value}")
@@ -867,7 +800,7 @@ Namespace ViewModel
             Get
                 Try
                     logger.Debug("Lecture de la propriété F8Page2")
-                    Return UserSettingsList.F8Page2
+                    Return UserSettingsList.ShortcutKeys("F8").Pages(1)
                 Catch ex As Exception
                     logger.Error($"Erreur lors de la lecture de la propriété F8Page2 : {ex.Message}")
                     Return String.Empty
@@ -875,8 +808,8 @@ Namespace ViewModel
             End Get
             Set(ByVal value As String)
                 Try
-                    If UserSettingsList.F8Page2 <> value Then
-                        UserSettingsList.F8Page2 = value
+                    If UserSettingsList.ShortcutKeys("F8").Pages(1) <> value Then
+                        UserSettingsList.ShortcutKeys("F8").Pages(1) = value
 
                         NotifyPropertyChanged("F8Page2")
                         logger.Info($"La valeur de F8Page2 a été modifiée : {value}")
@@ -891,7 +824,7 @@ Namespace ViewModel
             Get
                 Try
                     logger.Debug("Lecture de la propriété F8Page3")
-                    Return UserSettingsList.F8Page3
+                    Return UserSettingsList.ShortcutKeys("F8").Pages(2)
                 Catch ex As Exception
                     logger.Error($"Erreur lors de la lecture de la propriété F8Page3 : {ex.Message}")
                     Return String.Empty
@@ -899,8 +832,8 @@ Namespace ViewModel
             End Get
             Set(ByVal value As String)
                 Try
-                    If UserSettingsList.F8Page3 <> value Then
-                        UserSettingsList.F8Page3 = value
+                    If UserSettingsList.ShortcutKeys("F8").Pages(2) <> value Then
+                        UserSettingsList.ShortcutKeys("F8").Pages(2) = value
 
                         NotifyPropertyChanged("F8Page3")
                         logger.Info($"La valeur de F8Page3 a été modifiée : {value}")
@@ -915,7 +848,7 @@ Namespace ViewModel
             Get
                 Try
                     logger.Debug("Lecture de la propriété F8Page4")
-                    Return UserSettingsList.F8Page4
+                    Return UserSettingsList.ShortcutKeys("F8").Pages(3)
                 Catch ex As Exception
                     logger.Error($"Erreur lors de la lecture de la propriété F8Page4 : {ex.Message}")
                     Return String.Empty
@@ -923,8 +856,8 @@ Namespace ViewModel
             End Get
             Set(ByVal value As String)
                 Try
-                    If UserSettingsList.F8Page4 <> value Then
-                        UserSettingsList.F8Page4 = value
+                    If UserSettingsList.ShortcutKeys("F8").Pages(3) <> value Then
+                        UserSettingsList.ShortcutKeys("F8").Pages(3) = value
 
                         NotifyPropertyChanged("F8Page4")
                         logger.Info($"La valeur de F8Page4 a été modifiée : {value}")
@@ -939,7 +872,7 @@ Namespace ViewModel
             Get
                 Try
                     logger.Debug("Lecture de la propriété F8Page5")
-                    Return UserSettingsList.F8Page5
+                    Return UserSettingsList.ShortcutKeys("F8").Pages(4)
                 Catch ex As Exception
                     logger.Error($"Erreur lors de la lecture de la propriété F8Page5 : {ex.Message}")
                     Return String.Empty
@@ -947,8 +880,8 @@ Namespace ViewModel
             End Get
             Set(ByVal value As String)
                 Try
-                    If UserSettingsList.F8Page5 <> value Then
-                        UserSettingsList.F8Page5 = value
+                    If UserSettingsList.ShortcutKeys("F8").Pages(4) <> value Then
+                        UserSettingsList.ShortcutKeys("F8").Pages(4) = value
 
                         NotifyPropertyChanged("F8Page5")
                         logger.Info($"La valeur de F8Page5 a été modifiée : {value}")
@@ -963,7 +896,7 @@ Namespace ViewModel
             Get
                 Try
                     logger.Debug("Lecture de la propriété F8Text1")
-                    Return UserSettingsList.F8Text1
+                    Return UserSettingsList.ShortcutKeys("F8").Texts(0)
                 Catch ex As Exception
                     logger.Error($"Erreur lors de la lecture de la propriété F8Text1 : {ex.Message}")
                     Return String.Empty
@@ -971,8 +904,8 @@ Namespace ViewModel
             End Get
             Set(ByVal value As String)
                 Try
-                    If UserSettingsList.F8Text1 <> value Then
-                        UserSettingsList.F8Text1 = value
+                    If UserSettingsList.ShortcutKeys("F8").Texts(0) <> value Then
+                        UserSettingsList.ShortcutKeys("F8").Texts(0) = value
 
                         NotifyPropertyChanged("F8Text1")
                         logger.Info($"La valeur de F8Text1 a été modifiée : {value}")
@@ -987,7 +920,7 @@ Namespace ViewModel
             Get
                 Try
                     logger.Debug("Lecture de la propriété F8Text2")
-                    Return UserSettingsList.F8Text2
+                    Return UserSettingsList.ShortcutKeys("F8").Texts(1)
                 Catch ex As Exception
                     logger.Error($"Erreur lors de la lecture de la propriété F8Text2 : {ex.Message}")
                     Return String.Empty
@@ -995,8 +928,8 @@ Namespace ViewModel
             End Get
             Set(ByVal value As String)
                 Try
-                    If UserSettingsList.F8Text2 <> value Then
-                        UserSettingsList.F8Text2 = value
+                    If UserSettingsList.ShortcutKeys("F8").Texts(1) <> value Then
+                        UserSettingsList.ShortcutKeys("F8").Texts(1) = value
 
                         NotifyPropertyChanged("F8Text2")
                         logger.Info($"La valeur de F8Text2 a été modifiée : {value}")
@@ -1011,7 +944,7 @@ Namespace ViewModel
             Get
                 Try
                     logger.Debug("Lecture de la propriété F8Text3")
-                    Return UserSettingsList.F8Text3
+                    Return UserSettingsList.ShortcutKeys("F8").Texts(2)
                 Catch ex As Exception
                     logger.Error($"Erreur lors de la lecture de la propriété F8Text3 : {ex.Message}")
                     Return String.Empty
@@ -1019,8 +952,8 @@ Namespace ViewModel
             End Get
             Set(ByVal value As String)
                 Try
-                    If UserSettingsList.F8Text3 <> value Then
-                        UserSettingsList.F8Text3 = value
+                    If UserSettingsList.ShortcutKeys("F8").Texts(2) <> value Then
+                        UserSettingsList.ShortcutKeys("F8").Texts(2) = value
 
                         NotifyPropertyChanged("F8Text3")
                         logger.Info($"La valeur de F8Text3 a été modifiée : {value}")
@@ -1035,7 +968,7 @@ Namespace ViewModel
             Get
                 Try
                     logger.Debug("Lecture de la propriété F8Text4")
-                    Return UserSettingsList.F8Text4
+                    Return UserSettingsList.ShortcutKeys("F8").Texts(3)
                 Catch ex As Exception
                     logger.Error($"Erreur lors de la lecture de la propriété F8Text4 : {ex.Message}")
                     Return String.Empty
@@ -1043,8 +976,8 @@ Namespace ViewModel
             End Get
             Set(ByVal value As String)
                 Try
-                    If UserSettingsList.F8Text4 <> value Then
-                        UserSettingsList.F8Text4 = value
+                    If UserSettingsList.ShortcutKeys("F8").Texts(3) <> value Then
+                        UserSettingsList.ShortcutKeys("F8").Texts(3) = value
 
                         NotifyPropertyChanged("F8Text4")
                         logger.Info($"La valeur de F8Text4 a été modifiée : {value}")
@@ -1059,7 +992,7 @@ Namespace ViewModel
             Get
                 Try
                     logger.Debug("Lecture de la propriété F8Text5")
-                    Return UserSettingsList.F8Text5
+                    Return UserSettingsList.ShortcutKeys("F8").Texts(4)
                 Catch ex As Exception
                     logger.Error($"Erreur lors de la lecture de la propriété F8Text5 : {ex.Message}")
                     Return String.Empty
@@ -1067,8 +1000,8 @@ Namespace ViewModel
             End Get
             Set(ByVal value As String)
                 Try
-                    If UserSettingsList.F8Text5 <> value Then
-                        UserSettingsList.F8Text5 = value
+                    If UserSettingsList.ShortcutKeys("F8").Texts(4) <> value Then
+                        UserSettingsList.ShortcutKeys("F8").Texts(4) = value
 
                         NotifyPropertyChanged("F8Text5")
                         logger.Info($"La valeur de F8Text5 a été modifiée : {value}")
@@ -1078,6 +1011,7 @@ Namespace ViewModel
                 End Try
             End Set
         End Property
+
 #End Region
 
 #Region "Non utilisé ici"
@@ -1612,12 +1546,6 @@ Namespace ViewModel
             End Set
         End Property
 
-
-
-
-
-
-
         Public Property AppColorString As String
             Get
                 Try
@@ -1732,6 +1660,88 @@ Namespace ViewModel
 #End Region
 
 
+
+#Region "GénéralSettings"
+        Public Property SelectedDebugLevel As String
+            Get
+                Try
+                    logger.Debug("Lecture de la propriété SelectedDebugLevel")
+                    Return AppConfig.LogLevel
+                Catch ex As Exception
+                    logger.Error($"Erreur lors de la lecture de la propriété SelectedDebugLevel : {ex.Message}")
+                    Return "DEBUG"
+                End Try
+
+            End Get
+            Set(ByVal value As String)
+                ' Mise à jour des paramètres uniquement si la valeur change
+                If AppConfig.LogLevel <> value Then
+                    AppConfig.LogLevel = value
+                    NotifyPropertyChanged("SelectedDebugLevel")
+                    logger.Info($"Le niveau de débogage a été modifié : {value}")
+                    ' Vérifier le niveau de débogage sélectionné
+                    Select Case value
+                        Case "DEBUG"
+                            logger.Logger.Repository.Threshold = log4net.Core.Level.Debug
+                        Case "INFO"
+                            logger.Logger.Repository.Threshold = log4net.Core.Level.Info
+                        Case "WARN"
+                            logger.Logger.Repository.Threshold = log4net.Core.Level.Warn
+                        Case "ERROR"
+                            logger.Logger.Repository.Threshold = log4net.Core.Level.Error
+                        Case "FATAL"
+                            logger.Logger.Repository.Threshold = log4net.Core.Level.Fatal
+                    End Select
+                End If
+                NotifyPropertyChanged("SelectedDebugLevel")
+            End Set
+        End Property
+        Public Property ComputerName As String
+            Get
+                Try
+                    Return AppConfig.ComputerName
+
+                Catch ex As Exception
+                    logger.Error($"Erreur lors de la lecture de la propriété ComputerName : {ex.Message}")
+                    Return "NoName"
+                End Try
+
+            End Get
+            Set(ByVal value As String)
+                Try
+                    AppConfig.ComputerName = value
+                    NotifyPropertyChanged("ComputerName")
+                Catch ex As Exception
+                    ' Gérer l'exception ici (par exemple, enregistrer l'erreur dans les journaux)
+                    logger.Error($"Erreur lors de la modification de la propriété ComputerName : {ex.Message}")
+                End Try
+            End Set
+        End Property
+
+        Public Property WindowsName As String
+            Get
+                Try
+                    Return AppConfig.WindowsUser
+
+                Catch ex As Exception
+                    logger.Error($"Erreur lors de la lecture de la propriété WindowsName : {ex.Message}")
+                    Return "Bender"
+                End Try
+
+            End Get
+            Set(ByVal value As String)
+                Try
+                    AppConfig.WindowsUser = value
+                    NotifyPropertyChanged("WindowsName")
+                Catch ex As Exception
+                    ' Gérer l'exception ici (par exemple, enregistrer l'erreur dans les journaux)
+                    logger.Error($"Erreur lors de la modification de la propriété WindowsName : {ex.Message}")
+                End Try
+            End Set
+        End Property
+#End Region
+
+
         Public Property SpeedMessage As ObservableCollection(Of SpeedMessageModels)
             Get
                 Return New ObservableCollection(Of SpeedMessageModels)(SpeedMessagesListGlobal)
@@ -1797,85 +1807,9 @@ Namespace ViewModel
         End Property
 
 
-        Public Property SelectedDebugLevel As String
-            Get
-                Try
-                    logger.Debug("Lecture de la propriété SelectedDebugLevel")
-                    Return AppConfig.LogLevel
-                Catch ex As Exception
-                    logger.Error($"Erreur lors de la lecture de la propriété SelectedDebugLevel : {ex.Message}")
-                    Return "DEBUG"
-                End Try
 
-            End Get
-            Set(ByVal value As String)
-                ' Mise à jour des paramètres uniquement si la valeur change
-                If AppConfig.LogLevel <> value Then
-                    AppConfig.LogLevel = value
-                    NotifyPropertyChanged("SelectedDebugLevel")
-                    logger.Info($"Le niveau de débogage a été modifié : {value}")
-                    ' Vérifier le niveau de débogage sélectionné
-                    Select Case value
-                        Case "DEBUG"
-                            logger.Logger.Repository.Threshold = log4net.Core.Level.Debug
-                        Case "INFO"
-                            logger.Logger.Repository.Threshold = log4net.Core.Level.Info
-                        Case "WARN"
-                            logger.Logger.Repository.Threshold = log4net.Core.Level.Warn
-                        Case "ERROR"
-                            logger.Logger.Repository.Threshold = log4net.Core.Level.Error
-                        Case "FATAL"
-                            logger.Logger.Repository.Threshold = log4net.Core.Level.Fatal
-                    End Select
-                End If
-                NotifyPropertyChanged("SelectedDebugLevel")
-            End Set
-        End Property
 
 #Region "GeneralSettings"
-        Public Property ComputerName As String
-            Get
-                Try
-                    Return AppConfig.ComputerName
-
-                Catch ex As Exception
-                    logger.Error($"Erreur lors de la lecture de la propriété ComputerName : {ex.Message}")
-                    Return "NoName"
-                End Try
-
-            End Get
-            Set(ByVal value As String)
-                Try
-                    AppConfig.ComputerName = value
-                    NotifyPropertyChanged("ComputerName")
-                Catch ex As Exception
-                    ' Gérer l'exception ici (par exemple, enregistrer l'erreur dans les journaux)
-                    logger.Error($"Erreur lors de la modification de la propriété ComputerName : {ex.Message}")
-                End Try
-            End Set
-        End Property
-
-        Public Property WindowsName As String
-            Get
-                Try
-                    Return AppConfig.WindowsUser
-
-                Catch ex As Exception
-                    logger.Error($"Erreur lors de la lecture de la propriété WindowsName : {ex.Message}")
-                    Return "Bender"
-                End Try
-
-            End Get
-            Set(ByVal value As String)
-                Try
-                    AppConfig.WindowsUser = value
-                    NotifyPropertyChanged("WindowsName")
-                Catch ex As Exception
-                    ' Gérer l'exception ici (par exemple, enregistrer l'erreur dans les journaux)
-                    logger.Error($"Erreur lors de la modification de la propriété WindowsName : {ex.Message}")
-                End Try
-            End Set
-        End Property
 
         Public Property UserName As String
             Get
@@ -1902,72 +1836,18 @@ Namespace ViewModel
 
 
 
+
+
         Public Sub New()
             ' Charger les configurations initiales
             AppConfig.LoadConfig()
             ' Récupérer les paramètres utilisateur
-            UserSettingsList = UserSettingsModels.LoadUserSettingsFronJson("Benoti")
+            UserSettingsList = UserSettingsModels.LoadUserSettingsFronJson(UserConnected)
+
 
         End Sub
 
 
-        Public Shared Sub SetTheme()
-            Try
-                ' Récupérer le nom du thème (clair ou sombre)
-                Dim themeName As String = If(UserSettingsList IsNot Nothing AndAlso UserSettingsList.AppTheme = "Clair", "Light", "Dark")
 
-
-                ' Récupérer la couleur sélectionnée à partir de My.Settings.AppColor
-                Dim mediaColor As System.Windows.Media.Color = System.Windows.Media.Color.FromArgb(
-            UserSettingsList.AppColor.A,
-            UserSettingsList.AppColor.R,
-            UserSettingsList.AppColor.G,
-            UserSettingsList.AppColor.B)
-
-                ' Détecter l'application actuelle
-                Dim application = System.Windows.Application.Current
-
-                ' Vérifier si l'application et ses dictionnaires de ressources existent
-                If application IsNot Nothing AndAlso application.Resources IsNot Nothing Then
-                    ' Nettoyer les thèmes existants en double
-                    CleanExistingThemes()
-
-                    ' Regénérer un nouveau thème si nécessaire
-                    Dim newTheme As Theme = RuntimeThemeGenerator.Current.GenerateRuntimeTheme(themeName, mediaColor)
-                    ' Changer le thème de l'application en utilisant le nouvel objet Theme
-                    ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, newTheme)
-
-                    ' Rechercher si un dictionnaire de ressources existe déjà avec ce thème
-                    Dim existingResourceDictionary = application.Resources.MergedDictionaries.FirstOrDefault(Function(rd) rd.Source IsNot Nothing AndAlso rd.Source.ToString().Contains("AppTheme"))
-
-                    ' Si un dictionnaire de ressources existe avec le même thème, ne pas ajouter
-                    If existingResourceDictionary IsNot Nothing Then
-                        logger.Info("Le thème existe déjà, aucun besoin de le regénérer.")
-                    Else
-                        ' Ajouter le nouveau thème
-                        application.Resources.MergedDictionaries.Add(newTheme.Resources)
-                        ThemeManager.Current.ChangeTheme(application, newTheme)
-                    End If
-                End If
-
-            Catch ex As Exception
-                ' Gérer l'erreur
-                logger.Error($"Erreur lors de la modification du thème : {ex.Message}")
-            End Try
-        End Sub
-
-        ' Méthode pour nettoyer les thèmes en double dans le ResourceDictionary
-        Private Shared Sub CleanExistingThemes()
-            Dim application = System.Windows.Application.Current
-
-            If application IsNot Nothing AndAlso application.Resources.MergedDictionaries IsNot Nothing Then
-                ' Supprimer les dictionnaires de ressources en double qui contiennent "AppTheme"
-                Dim themesToRemove = application.Resources.MergedDictionaries.Where(Function(rd) rd.Source IsNot Nothing AndAlso rd.Source.ToString().Contains("AppTheme")).ToList()
-
-                For Each theme In themesToRemove
-                    application.Resources.MergedDictionaries.Remove(theme)
-                Next
-            End If
-        End Sub
     End Class
 End Namespace

@@ -1,6 +1,7 @@
 ﻿Imports EyeChat.Utilities
 Imports Newtonsoft.Json
 Imports NuGet
+Imports System.Collections.ObjectModel
 Imports System.ComponentModel
 Imports System.IO
 
@@ -8,6 +9,8 @@ Imports System.IO
 Namespace Models
     Public Class UserSettingsModels
         Implements INotifyPropertyChanged
+
+        Public Property ShortcutKeys As Dictionary(Of String, ShortcutKeySVModel) = New Dictionary(Of String, ShortcutKeySVModel)()
 
         Private _userName As String
         <JsonProperty("UserName")>
@@ -289,622 +292,6 @@ Namespace Models
             End Set
         End Property
 
-        Private _f5Enabled As Boolean = False
-        <JsonProperty("F5Enabled")>
-        Public Property F5Enabled As Boolean
-            Get
-                Return _f5Enabled
-            End Get
-            Set(value As Boolean)
-                If _f5Enabled <> value Then
-                    _f5Enabled = value
-                    NotifyPropertyChanged(NameOf(F5Enabled))
-                End If
-            End Set
-        End Property
-
-        Private _f5Page1 As String = ""
-        <JsonProperty("F5Page1")>
-        Public Property F5Page1 As String
-            Get
-                Return _f5Page1
-            End Get
-            Set(value As String)
-                If _f5Page1 <> value Then
-                    _f5Page1 = value
-                    NotifyPropertyChanged(NameOf(F5Page1))
-                End If
-            End Set
-        End Property
-
-        Private _f5Text1 As String = ""
-        <JsonProperty("F5Text1")>
-        Public Property F5Text1 As String
-            Get
-                Return _f5Text1
-            End Get
-            Set(value As String)
-                If _f5Text1 <> value Then
-                    _f5Text1 = value
-                    NotifyPropertyChanged(NameOf(F5Text1))
-                End If
-            End Set
-        End Property
-
-        Private _f5Page2 As String = ""
-        <JsonProperty("F5Page2")>
-        Public Property F5Page2 As String
-            Get
-                Return _f5Page2
-            End Get
-            Set(value As String)
-                If _f5Page2 <> value Then
-                    _f5Page2 = value
-                    NotifyPropertyChanged(NameOf(F5Page2))
-                End If
-            End Set
-        End Property
-
-        Private _f5Text2 As String = ""
-        <JsonProperty("F5Text2")>
-        Public Property F5Text2 As String
-            Get
-                Return _f5Text2
-            End Get
-            Set(value As String)
-                If _f5Text2 <> value Then
-                    _f5Text2 = value
-                    NotifyPropertyChanged(NameOf(F5Text2))
-                End If
-            End Set
-        End Property
-
-        Private _f5Page3 As String = ""
-        <JsonProperty("F5Page3")>
-        Public Property F5Page3 As String
-            Get
-                Return _f5Page3
-            End Get
-            Set(value As String)
-                If _f5Page3 <> value Then
-                    _f5Page3 = value
-                    NotifyPropertyChanged(NameOf(F5Page3))
-                End If
-            End Set
-        End Property
-
-        Private _f5Text3 As String = ""
-        <JsonProperty("F5Text3")>
-        Public Property F5Text3 As String
-            Get
-                Return _f5Text3
-            End Get
-            Set(value As String)
-                If _f5Text3 <> value Then
-                    _f5Text3 = value
-                    NotifyPropertyChanged(NameOf(F5Text3))
-                End If
-            End Set
-        End Property
-
-        Private _f5Page4 As String = ""
-        <JsonProperty("F5Page4")>
-        Public Property F5Page4 As String
-            Get
-                Return _f5Page4
-            End Get
-            Set(value As String)
-                If _f5Page4 <> value Then
-                    _f5Page4 = value
-                    NotifyPropertyChanged(NameOf(F5Page4))
-                End If
-            End Set
-        End Property
-
-        Private _f5Text4 As String = ""
-        <JsonProperty("F5Text4")>
-        Public Property F5Text4 As String
-            Get
-                Return _f5Text4
-            End Get
-            Set(value As String)
-                If _f5Text4 <> value Then
-                    _f5Text4 = value
-                    NotifyPropertyChanged(NameOf(F5Text4))
-                End If
-            End Set
-        End Property
-
-        Private _f5Page5 As String = ""
-        <JsonProperty("F5Page5")>
-        Public Property F5Page5 As String
-            Get
-                Return _f5Page5
-            End Get
-            Set(value As String)
-                If _f5Page5 <> value Then
-                    _f5Page5 = value
-                    NotifyPropertyChanged(NameOf(F5Page5))
-                End If
-            End Set
-        End Property
-
-        Private _f5Text5 As String = ""
-        <JsonProperty("F5Text5")>
-        Public Property F5Text5 As String
-            Get
-                Return _f5Text5
-            End Get
-            Set(value As String)
-                If _f5Text5 <> value Then
-                    _f5Text5 = value
-                    NotifyPropertyChanged(NameOf(F5Text5))
-                End If
-            End Set
-        End Property
-
-        Private _f6Enabled As Boolean = False
-        <JsonProperty("F6Enabled")>
-        Public Property F6Enabled As Boolean
-            Get
-                Return _f6Enabled
-            End Get
-            Set(value As Boolean)
-                If _f6Enabled <> value Then
-                    _f6Enabled = value
-                    NotifyPropertyChanged(NameOf(F6Enabled))
-                End If
-            End Set
-        End Property
-
-        Private _f6Page1 As String = ""
-        <JsonProperty("F6Page1")>
-        Public Property F6Page1 As String
-            Get
-                Return _f6Page1
-            End Get
-            Set(value As String)
-                If _f6Page1 <> value Then
-                    _f6Page1 = value
-                    NotifyPropertyChanged(NameOf(F6Page1))
-                End If
-            End Set
-        End Property
-
-        Private _f6Text1 As String = ""
-        <JsonProperty("F6Text1")>
-        Public Property F6Text1 As String
-            Get
-                Return _f6Text1
-            End Get
-            Set(value As String)
-                If _f6Text1 <> value Then
-                    _f6Text1 = value
-                    NotifyPropertyChanged(NameOf(F6Text1))
-                End If
-            End Set
-        End Property
-
-        Private _f6Page2 As String = ""
-        <JsonProperty("F6Page2")>
-        Public Property F6Page2 As String
-            Get
-                Return _f6Page2
-            End Get
-            Set(value As String)
-                If _f6Page2 <> value Then
-                    _f6Page2 = value
-                    NotifyPropertyChanged(NameOf(F6Page2))
-                End If
-            End Set
-        End Property
-
-        Private _f6Text2 As String = ""
-        <JsonProperty("F6Text2")>
-        Public Property F6Text2 As String
-            Get
-                Return _f6Text2
-            End Get
-            Set(value As String)
-                If _f6Text2 <> value Then
-                    _f6Text2 = value
-                    NotifyPropertyChanged(NameOf(F6Text2))
-                End If
-            End Set
-        End Property
-
-        Private _f6Page3 As String = ""
-        <JsonProperty("F6Page3")>
-        Public Property F6Page3 As String
-            Get
-                Return _f6Page3
-            End Get
-            Set(value As String)
-                If _f6Page3 <> value Then
-                    _f6Page3 = value
-                    NotifyPropertyChanged(NameOf(F6Page3))
-                End If
-            End Set
-        End Property
-
-        Private _f6Text3 As String = ""
-        <JsonProperty("F6Text3")>
-        Public Property F6Text3 As String
-            Get
-                Return _f6Text3
-            End Get
-            Set(value As String)
-                If _f6Text3 <> value Then
-                    _f6Text3 = value
-                    NotifyPropertyChanged(NameOf(F6Text3))
-                End If
-            End Set
-        End Property
-
-        Private _f6Page4 As String = ""
-        <JsonProperty("F6Page4")>
-        Public Property F6Page4 As String
-            Get
-                Return _f6Page4
-            End Get
-            Set(value As String)
-                If _f6Page4 <> value Then
-                    _f6Page4 = value
-                    NotifyPropertyChanged(NameOf(F6Page4))
-                End If
-            End Set
-        End Property
-
-        Private _f6Text4 As String = ""
-        <JsonProperty("F6Text4")>
-        Public Property F6Text4 As String
-            Get
-                Return _f6Text4
-            End Get
-            Set(value As String)
-                If _f6Text4 <> value Then
-                    _f6Text4 = value
-                    NotifyPropertyChanged(NameOf(F6Text4))
-                End If
-            End Set
-        End Property
-
-        Private _f6Page5 As String = ""
-        <JsonProperty("F6Page5")>
-        Public Property F6Page5 As String
-            Get
-                Return _f6Page5
-            End Get
-            Set(value As String)
-                If _f6Page5 <> value Then
-                    _f6Page5 = value
-                    NotifyPropertyChanged(NameOf(F6Page5))
-                End If
-            End Set
-        End Property
-
-        Private _f6Text5 As String = ""
-        <JsonProperty("F6Text5")>
-        Public Property F6Text5 As String
-            Get
-                Return _f6Text5
-            End Get
-            Set(value As String)
-                If _f6Text5 <> value Then
-                    _f6Text5 = value
-                    NotifyPropertyChanged(NameOf(F6Text5))
-                End If
-            End Set
-        End Property
-
-        Private _f7Enabled As Boolean = False
-        <JsonProperty("F7Enabled")>
-        Public Property F7Enabled As Boolean
-            Get
-                Return _f7Enabled
-            End Get
-            Set(value As Boolean)
-                If _f7Enabled <> value Then
-                    _f7Enabled = value
-                    NotifyPropertyChanged(NameOf(F7Enabled))
-                End If
-            End Set
-        End Property
-
-        Private _f7Page1 As String = ""
-        <JsonProperty("F7Page1")>
-        Public Property F7Page1 As String
-            Get
-                Return _f7Page1
-            End Get
-            Set(value As String)
-                If _f7Page1 <> value Then
-                    _f7Page1 = value
-                    NotifyPropertyChanged(NameOf(F7Page1))
-                End If
-            End Set
-        End Property
-
-        Private _f7Text1 As String = ""
-        <JsonProperty("F7Text1")>
-        Public Property F7Text1 As String
-            Get
-                Return _f7Text1
-            End Get
-            Set(value As String)
-                If _f7Text1 <> value Then
-                    _f7Text1 = value
-                    NotifyPropertyChanged(NameOf(F7Text1))
-                End If
-            End Set
-        End Property
-
-        Private _f7Page2 As String = ""
-        <JsonProperty("F7Page2")>
-        Public Property F7Page2 As String
-            Get
-                Return _f7Page2
-            End Get
-            Set(value As String)
-                If _f7Page2 <> value Then
-                    _f7Page2 = value
-                    NotifyPropertyChanged(NameOf(F7Page2))
-                End If
-            End Set
-        End Property
-
-        Private _f7Text2 As String = ""
-        <JsonProperty("F7Text2")>
-        Public Property F7Text2 As String
-            Get
-                Return _f7Text2
-            End Get
-            Set(value As String)
-                If _f7Text2 <> value Then
-                    _f7Text2 = value
-                    NotifyPropertyChanged(NameOf(F7Text2))
-                End If
-            End Set
-        End Property
-
-        Private _f7Page3 As String = ""
-        <JsonProperty("F7Page3")>
-        Public Property F7Page3 As String
-            Get
-                Return _f7Page3
-            End Get
-            Set(value As String)
-                If _f7Page3 <> value Then
-                    _f7Page3 = value
-                    NotifyPropertyChanged(NameOf(F7Page3))
-                End If
-            End Set
-        End Property
-
-        Private _f7Text3 As String = ""
-        <JsonProperty("F7Text3")>
-        Public Property F7Text3 As String
-            Get
-                Return _f7Text3
-            End Get
-            Set(value As String)
-                If _f7Text3 <> value Then
-                    _f7Text3 = value
-                    NotifyPropertyChanged(NameOf(F7Text3))
-                End If
-            End Set
-        End Property
-
-        Private _f7Page4 As String = ""
-        <JsonProperty("F7Page4")>
-        Public Property F7Page4 As String
-            Get
-                Return _f7Page4
-            End Get
-            Set(value As String)
-                If _f7Page4 <> value Then
-                    _f7Page4 = value
-                    NotifyPropertyChanged(NameOf(F7Page4))
-                End If
-            End Set
-        End Property
-
-        Private _f7Text4 As String = ""
-        <JsonProperty("F7Text4")>
-        Public Property F7Text4 As String
-            Get
-                Return _f7Text4
-            End Get
-            Set(value As String)
-                If _f7Text4 <> value Then
-                    _f7Text4 = value
-                    NotifyPropertyChanged(NameOf(F7Text4))
-                End If
-            End Set
-        End Property
-
-        Private _f7Page5 As String = ""
-        <JsonProperty("F7Page5")>
-        Public Property F7Page5 As String
-            Get
-                Return _f7Page5
-            End Get
-            Set(value As String)
-                If _f7Page5 <> value Then
-                    _f7Page5 = value
-                    NotifyPropertyChanged(NameOf(F7Page5))
-                End If
-            End Set
-        End Property
-
-        Private _f7Text5 As String = ""
-        <JsonProperty("F7Text5")>
-        Public Property F7Text5 As String
-            Get
-                Return _f7Text5
-            End Get
-            Set(value As String)
-                If _f7Text5 <> value Then
-                    _f7Text5 = value
-                    NotifyPropertyChanged(NameOf(F7Text5))
-                End If
-            End Set
-        End Property
-
-        Private _f8Enabled As Boolean = False
-        <JsonProperty("F8Enabled")>
-        Public Property F8Enabled As Boolean
-            Get
-                Return _f8Enabled
-            End Get
-            Set(value As Boolean)
-                If _f8Enabled <> value Then
-                    _f8Enabled = value
-                    NotifyPropertyChanged(NameOf(F8Enabled))
-                End If
-            End Set
-        End Property
-
-        Private _f8Page1 As String = ""
-        <JsonProperty("F8Page1")>
-        Public Property F8Page1 As String
-            Get
-                Return _f8Page1
-            End Get
-            Set(value As String)
-                If _f8Page1 <> value Then
-                    _f8Page1 = value
-                    NotifyPropertyChanged(NameOf(F8Page1))
-                End If
-            End Set
-        End Property
-
-        Private _f8Text1 As String = ""
-        <JsonProperty("F8Text1")>
-        Public Property F8Text1 As String
-            Get
-                Return _f8Text1
-            End Get
-            Set(value As String)
-                If _f8Text1 <> value Then
-                    _f8Text1 = value
-                    NotifyPropertyChanged(NameOf(F8Text1))
-                End If
-            End Set
-        End Property
-
-        Private _f8Page2 As String = ""
-        <JsonProperty("F8Page2")>
-        Public Property F8Page2 As String
-            Get
-                Return _f8Page2
-            End Get
-            Set(value As String)
-                If _f8Page2 <> value Then
-                    _f8Page2 = value
-                    NotifyPropertyChanged(NameOf(F8Page2))
-                End If
-            End Set
-        End Property
-
-        Private _f8Text2 As String = ""
-        <JsonProperty("F8Text2")>
-        Public Property F8Text2 As String
-            Get
-                Return _f8Text2
-            End Get
-            Set(value As String)
-                If _f8Text2 <> value Then
-                    _f8Text2 = value
-                    NotifyPropertyChanged(NameOf(F8Text2))
-                End If
-            End Set
-        End Property
-
-        Private _f8Page3 As String = ""
-        <JsonProperty("F8Page3")>
-        Public Property F8Page3 As String
-            Get
-                Return _f8Page3
-            End Get
-            Set(value As String)
-                If _f8Page3 <> value Then
-                    _f8Page3 = value
-                    NotifyPropertyChanged(NameOf(F8Page3))
-                End If
-            End Set
-        End Property
-
-        Private _f8Text3 As String = ""
-        <JsonProperty("F8Text3")>
-        Public Property F8Text3 As String
-            Get
-                Return _f8Text3
-            End Get
-            Set(value As String)
-                If _f8Text3 <> value Then
-                    _f8Text3 = value
-                    NotifyPropertyChanged(NameOf(F8Text3))
-                End If
-            End Set
-        End Property
-
-        Private _f8Page4 As String = ""
-        <JsonProperty("F8Page4")>
-        Public Property F8Page4 As String
-            Get
-                Return _f8Page4
-            End Get
-            Set(value As String)
-                If _f8Page4 <> value Then
-                    _f8Page4 = value
-                    NotifyPropertyChanged(NameOf(F8Page4))
-                End If
-            End Set
-        End Property
-
-        Private _f8Text4 As String = ""
-        <JsonProperty("F8Text4")>
-        Public Property F8Text4 As String
-            Get
-                Return _f8Text4
-            End Get
-            Set(value As String)
-                If _f8Text4 <> value Then
-                    _f8Text4 = value
-                    NotifyPropertyChanged(NameOf(F8Text4))
-                End If
-            End Set
-        End Property
-
-        Private _f8Page5 As String = ""
-        <JsonProperty("F8Page5")>
-        Public Property F8Page5 As String
-            Get
-                Return _f8Page5
-            End Get
-            Set(value As String)
-                If _f8Page5 <> value Then
-                    _f8Page5 = value
-                    NotifyPropertyChanged(NameOf(F8Page5))
-                End If
-            End Set
-        End Property
-
-        Private _f8Text5 As String = ""
-        <JsonProperty("F8Text5")>
-        Public Property F8Text5 As String
-            Get
-                Return _f8Text5
-            End Get
-            Set(value As String)
-                If _f8Text5 <> value Then
-                    _f8Text5 = value
-                    NotifyPropertyChanged(NameOf(F8Text5))
-                End If
-            End Set
-        End Property
-
         Private _secretaryMode As Boolean = False
         <JsonProperty("SecretaryMode")>
         Public Property SecretaryMode As Boolean
@@ -1019,12 +406,6 @@ Namespace Models
                 End If
             End Set
         End Property
-        Public ReadOnly Property ComputerName As String
-            Get
-                Return Environment.MachineName
-            End Get
-        End Property
-
 
         Public Event PropertyChanged As PropertyChangedEventHandler Implements INotifyPropertyChanged.PropertyChanged
 
@@ -1033,20 +414,35 @@ Namespace Models
             SaveUserSettingsToJson(UserName)
         End Sub
 
-        ' Charger les paramètres pour un utilisateur spécifique
         Public Shared Function LoadUserSettingsFronJson(userName As String) As UserSettingsModels
             Dim filePath As String = Path.Combine(AppConfig.UserSettingsBasePath, $"{userName}_UserSettings.json")
 
             If Not File.Exists(filePath) Then
                 ' Crée une instance par défaut si le fichier n'existe pas
                 Dim settings As New UserSettingsModels() With {.UserName = userName}
+                settings.InitializeDefaultShortcuts()
                 settings.SaveUserSettingsToJson(userName)
                 Return settings
             Else
                 Dim json = File.ReadAllText(filePath)
-                Return JsonConvert.DeserializeObject(Of UserSettingsModels)(json)
+                Dim settings = JsonConvert.DeserializeObject(Of UserSettingsModels)(json)
+
+                ' Réinitialise les raccourcis avec la référence parent
+                Dim keys = settings.ShortcutKeys.Keys.ToList()
+
+                For Each key In keys
+                    settings.ShortcutKeys(key) = New ShortcutKeySVModel(settings) With {
+        .Enabled = settings.ShortcutKeys(key).Enabled,
+        .Pages = New ObservableCollection(Of String)(settings.ShortcutKeys(key).Pages),
+        .Texts = New ObservableCollection(Of String)(settings.ShortcutKeys(key).Texts)
+    }
+                Next
+
+                settings.InitializeDefaultShortcutsIfMissing()
+                Return settings
             End If
         End Function
+
 
         ' Sauvegarder les paramètres dans un fichier spécifique à l'utilisateur
         Public Sub SaveUserSettingsToJson(userName As String)
@@ -1059,5 +455,37 @@ Namespace Models
             Dim json = JsonConvert.SerializeObject(Me, Formatting.Indented)
             File.WriteAllText(filePath, json)
         End Sub
+        Private Function CreateDefaultShortcut() As ShortcutKeySVModel
+            Return New ShortcutKeySVModel(Me) With {
+        .Enabled = False,
+        .Pages = New ObservableCollection(Of String)(Enumerable.Repeat("", 5)),
+        .Texts = New ObservableCollection(Of String)(Enumerable.Repeat("", 5))
+    }
+        End Function
+
+        Public Sub InitializeDefaultShortcuts()
+            ShortcutKeys = New Dictionary(Of String, ShortcutKeySVModel) From {
+        {"F5", CreateDefaultShortcut()},
+        {"F6", CreateDefaultShortcut()},
+        {"F7", CreateDefaultShortcut()},
+        {"F8", CreateDefaultShortcut()}
+    }
+        End Sub
+
+
+
+        Private Sub InitializeDefaultShortcutsIfMissing()
+            Dim keys As String() = {"F5", "F6", "F7", "F8"}
+            For Each key In keys
+                If Not ShortcutKeys.ContainsKey(key) Then
+                    ShortcutKeys(key) = New ShortcutKeySVModel(Me) With {
+                        .Enabled = False,
+                        .Pages = New ObservableCollection(Of String)(Enumerable.Repeat("", 5)),
+                        .Texts = New ObservableCollection(Of String)(Enumerable.Repeat("", 5))
+                    }
+                End If
+            Next
+        End Sub
+
     End Class
 End Namespace

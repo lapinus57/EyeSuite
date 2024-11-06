@@ -9,9 +9,30 @@ Namespace Models
     Public Class PlanningModels
         Implements INotifyPropertyChanged
 
-        Private Shared ReadOnly logger As ILog = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType)
+        ' Liste des jours disponibles (non partagée)
+        Public ReadOnly Property AvailableDays As List(Of String)
+            Get
+                Return New List(Of String) From {
+                "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"
+            }
+            End Get
+        End Property
+
 
         ' Propriétés
+        Private _Index As Integer
+        Public Property Index As Integer
+            Get
+                Return _Index
+            End Get
+            Set(value As Integer)
+                If _Index <> value Then
+                    _Index = value
+                    NotifyPropertyChanged("Index")
+                End If
+            End Set
+        End Property
+
         Private _Day As String
         Public Property Day As String
             Get
@@ -56,7 +77,7 @@ Namespace Models
             Public Property User As String
         End Class
 
-        ' Charge le Planning à partir d'un fichier JSON
+        ' Charger le Planning à partir d'un fichier JSON
         Public Shared Function LoadPlanningFromJson() As ObservableCollection(Of PlanningModels)
             Dim PlanningsList As ObservableCollection(Of PlanningModels) = Nothing
             Try
@@ -115,5 +136,15 @@ Namespace Models
             Dim [end] = DateTime.Parse(endTime)
             Return current >= start AndAlso current < [end]
         End Function
+
+        ' Méthode pour ajouter un créneau
+        Public Sub AddTimeSlot(startTime As String, endTime As String, user As String)
+            DaySlots.Add(New TimeSlot() With {
+                .StartTime = startTime,
+                .EndTime = endTime,
+                .User = user
+            })
+            NotifyPropertyChanged("DaySlots")
+        End Sub
     End Class
 End Namespace

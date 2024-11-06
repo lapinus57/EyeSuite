@@ -216,9 +216,9 @@ Dialog:DialogParticipation.Register="{Binding}">
                      x:Name="ListUseres" HorizontalAlignment="Left" Width="268">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <local:UsersBubbleCtrl x:Name="ListUsersBubble">
+                            <MyControls:UsersBubbleCtrl x:Name="ListUsersBubble">
 
-                            </local:UsersBubbleCtrl>
+                            </MyControls:UsersBubbleCtrl>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>

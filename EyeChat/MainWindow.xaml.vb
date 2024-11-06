@@ -17,7 +17,7 @@ Namespace EyeChat
         Public Sub New()
             ' Charger les paramètres utilisateur si UserSettingsList n'est pas encore initialisé
             If UserSettingsList Is Nothing Then
-                UserSettingsList = UserSettingsModels.LoadUserSettingsFronJson("Benoti")
+                UserSettingsList = UserSettingsModels.LoadUserSettingsFronJson(UserConnected)
             End If
             ' Cet appel est requis par le concepteur.
             InitializeComponent()

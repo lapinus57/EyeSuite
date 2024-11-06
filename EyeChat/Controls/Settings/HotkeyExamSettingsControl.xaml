@@ -1,0 +1,212 @@
+﻿<UserControl x:Class="Controls.Settings.HotkeyExamSettingsControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:EyeChat"
+             mc:Ignorable="d" d:DesignWidth="1000">
+    <Grid Margin="10,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Ctrl + F9" 
+                FontSize="{Binding AppSizeDisplay}" 
+                Grid.Column="0" Grid.Row="0"
+                VerticalAlignment="Center"
+                Foreground="{DynamicResource MahApps.Brushes.IdealForeground}">
+            <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsOn, ElementName=CtrlF9Switch}" Value="False">
+                            <Setter Property="TextDecorations" Value="Strikethrough"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+        <mah:ToggleSwitch Grid.Column="1" Grid.Row="0" 
+                       FontSize="{Binding AppSizeDisplay}" 
+                       OffContent="Désactivé" 
+                       OnContent="Activé" 
+                       x:Name="CtrlF9Switch" 
+                       IsOn= "{Binding CtrlF9Enabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <ComboBox Grid.Column="2" Grid.Row="0"
+               ItemsSource="{Binding ExamOptions}" 
+               DisplayMemberPath="Name" 
+               SelectedValuePath="Name"
+               SelectedValue="{Binding CtrlF9, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+               IsEnabled="{Binding IsOn, ElementName=CtrlF9Switch}"
+               FontSize="{Binding AppSizeDisplay}" />
+
+
+        <TextBlock Text="Ctrl + F10"  
+                FontSize="{Binding AppSizeDisplay}" 
+                Grid.Column="0" Grid.Row="1" 
+                VerticalAlignment="Center"
+                Foreground="{DynamicResource MahApps.Brushes.IdealForeground}">
+            <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsOn, ElementName=CtrlF10Switch}" Value="False">
+                            <Setter Property="TextDecorations" Value="Strikethrough"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+        <mah:ToggleSwitch Grid.Column="1" Grid.Row="1" 
+                       FontSize="{Binding AppSizeDisplay}" 
+                       OffContent="Désactivé" 
+                       OnContent="Activé" 
+                       x:Name="CtrlF10Switch" 
+                       IsOn= "{Binding CtrlF10Enabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <ComboBox Grid.Column="2" Grid.Row="1"
+               ItemsSource="{Binding ExamOptions}" 
+               DisplayMemberPath="Name" 
+               SelectedValuePath="Name"
+               SelectedValue="{Binding CtrlF10, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+               IsEnabled="{Binding IsOn, ElementName=CtrlF10Switch}"
+               FontSize="{Binding AppSizeDisplay}"/>
+
+
+        <TextBlock Text="Ctrl + F11" 
+                FontSize="{Binding AppSizeDisplay}" 
+                Grid.Column="0" Grid.Row="2"
+                Foreground="{DynamicResource MahApps.Brushes.IdealForeground}"
+                VerticalAlignment="Center">
+            <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsOn, ElementName=CtrlF11Switch}" Value="False">
+                            <Setter Property="TextDecorations" Value="Strikethrough"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+        <mah:ToggleSwitch Grid.Column="1" Grid.Row="2" 
+                       FontSize="{Binding AppSizeDisplay}" 
+                       OffContent="Désactivé" 
+                       OnContent="Activé" 
+                       x:Name="CtrlF11Switch" 
+                       IsOn= "{Binding CtrlF11Enabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <ComboBox Grid.Column="2" Grid.Row="2"
+               ItemsSource="{Binding ExamOptions}" 
+               DisplayMemberPath="Name" 
+               SelectedValuePath="Name"
+               SelectedValue="{Binding CtrlF11, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+               IsEnabled="{Binding IsOn, ElementName=CtrlF11Switch}"
+               FontSize="{Binding AppSizeDisplay}"/>
+
+
+
+
+
+        <TextBlock Text="Shift + F9"
+                FontSize="{Binding AppSizeDisplay}" 
+                Grid.Column="0" Grid.Row="3" 
+                   Foreground="{DynamicResource MahApps.Brushes.IdealForeground}"
+                VerticalAlignment="Center">
+            <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsOn, ElementName=ShiftF9Switch}" Value="False">
+                            <Setter Property="TextDecorations" Value="Strikethrough"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+        <mah:ToggleSwitch Grid.Column="1" Grid.Row="3" 
+                       FontSize="{Binding AppSizeDisplay}" 
+                       OffContent="Désactivé" 
+                       OnContent="Activé" 
+                       x:Name="ShiftF9Switch" 
+                       IsOn= "{Binding ShiftF9Enabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <ComboBox Grid.Column="2" Grid.Row="3"
+               ItemsSource="{Binding ExamOptions}" 
+               DisplayMemberPath="Name" 
+               SelectedValuePath="Name"
+               SelectedValue="{Binding ShiftF9, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+               IsEnabled="{Binding IsOn, ElementName=ShiftF9Switch}"
+               FontSize="{Binding AppSizeDisplay}"/>
+
+
+        <TextBlock Text="Shift + F10" 
+                FontSize="{Binding AppSizeDisplay}" 
+                Grid.Column="0" Grid.Row="4"
+                Foreground="{DynamicResource MahApps.Brushes.IdealForeground}"
+                VerticalAlignment="Center">
+            <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsOn, ElementName=ShiftF10Switch}" Value="False">
+                            <Setter Property="TextDecorations" Value="Strikethrough"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+        <mah:ToggleSwitch Grid.Column="1" Grid.Row="4" 
+                       FontSize="{Binding AppSizeDisplay}" 
+                       OffContent="Désactivé" 
+                       OnContent="Activé" 
+                       x:Name="ShiftF10Switch" 
+                       IsOn= "{Binding ShiftF10Enabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <ComboBox Grid.Column="2" Grid.Row="4"
+               ItemsSource="{Binding ExamOptions}" 
+               DisplayMemberPath="Name" 
+               SelectedValuePath="Name"
+               SelectedValue="{Binding ShiftF10, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+               IsEnabled="{Binding IsOn, ElementName=ShiftF10Switch}"
+               FontSize="{Binding AppSizeDisplay}"/>
+
+
+        <TextBlock Text="Shift + F11" 
+                FontSize="{Binding AppSizeDisplay}" 
+                Grid.Column="0" Grid.Row="5"
+                 Foreground="{DynamicResource MahApps.Brushes.IdealForeground}"
+                VerticalAlignment="Center">
+            <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsOn, ElementName=ShiftF11Switch}" Value="False">
+                            <Setter Property="TextDecorations" Value="Strikethrough"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+        <mah:ToggleSwitch Grid.Column="1" Grid.Row="5" 
+                       FontSize="{Binding AppSizeDisplay}" 
+                       OffContent="Désactivé" 
+                       OnContent="Activé" 
+                       x:Name="ShiftF11Switch" 
+                       IsOn= "{Binding ShiftF11Enabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <ComboBox Grid.Column="2" Grid.Row="5"
+               ItemsSource="{Binding ExamOptions}" 
+               DisplayMemberPath="Name" 
+               SelectedValuePath="Name"
+               SelectedValue="{Binding ShiftF11, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+               IsEnabled="{Binding IsOn, ElementName=ShiftF11Switch}"
+               FontSize="{Binding AppSizeDisplay}"/>
+
+
+
+    </Grid>
+</UserControl>

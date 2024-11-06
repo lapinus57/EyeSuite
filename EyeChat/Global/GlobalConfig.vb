@@ -39,6 +39,8 @@ Module GlobalConfig
     Public Property UsersListGlobal As ObservableCollection(Of UserModels)
     Public Property PlanningListGlobal As ObservableCollection(Of PlanningModels)
 
+    Public UserConnected As String
+
     ' Déclare la collection de phrases d'oeuf en tant que propriété statique partagée
     Public EggPhrasesList As EggPhrasesModels
 
